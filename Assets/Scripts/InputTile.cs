@@ -5,19 +5,11 @@ using UnityEngine;
 public class InputTile : MonoBehaviour
 {
 
-    [SerializeField] InputTile[] top;
-    [SerializeField] InputTile[] bottom;
-    [SerializeField] InputTile[] left;
-    [SerializeField] InputTile[] right;
+    public InputTile[] compatibleTop;
+    public InputTile[] compatibleBottom;
+    public InputTile[] compatibleLeft;
+    public InputTile[] compatibleRight;
 
-    void Start()
-    {
-        
-    }
+   
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -11,7 +11,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     private int[,] wave;
     private bool[,] consistent;
     private int tileSize;
-    // Start is called before the first frame update
+    
     void Start()
     {
         tileSize = tilemap.cellBounds.size.x;
@@ -113,7 +113,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     int GetRandomCompatibleTile(int x, int y)
     {
-        List<int> compatibleTiles = new List<int>();
+        List<int> compatibleTiles = new();
         for (int i = 0; i < tileset.Count; i++)
         {
             if (IsTileCompatible(i, x, y))

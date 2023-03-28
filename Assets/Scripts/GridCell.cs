@@ -12,7 +12,7 @@ public class GridCell : MonoBehaviour
     void Start()
     {
         tileGrid = GetComponentInParent<TileGrid>();
-        Debug.Log(tileGrid + " " + entropy);
+        //Debug.Log(tileGrid + " " + entropy);
         entropy = tileGrid.inputTiles.Length;
         inputTiles = tileGrid.inputTiles;
     }

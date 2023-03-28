@@ -5,33 +5,36 @@ using UnityEngine;
 
 public class TileGrid : MonoBehaviour
 {
-    public GameObject cell;
+    public GameObject gridCellObject;
     [SerializeField] private GameObject[,] _gridCell;
-    [SerializeField] private int size;
-    [SerializeField] private float tileSize;
-    [SerializeField] public GameObject[] inputTiles;
+    [SerializeField] private int _size;
+    [SerializeField] private float _tileSize;
+    public GameObject[] inputTiles;
 
-    [SerializeField] List<GameObject> lowestEntropyTile;
+    [SerializeField] List<GameObject> lowestEntropyCellsSelected;
+
+    GameObject[] _lowestEntropyCells;
+    GameObject _selectedRandomCell;
 
     void Start()
     {
-        _gridCell = new GameObject[size, size];
+        _gridCell = new GameObject[_size, _size];
         InitializeWave();
-        
     }
 
     void InitializeWave()
     {
-        for (int i = 0; i < size; i++)
+        Vector3 pos;
+        for (int i = 0; i < _size; i++)
         {
-            for (int j = 0; j < size; j++)
+            for (int j = 0; j < _size; j++)
             {
-                Vector3 pos = new((tileSize * i) - (size * tileSize/2), (tileSize * j) - (size * tileSize / 2));
+                pos = new((_tileSize * i) - ((_size * _tileSize / 2) - .5f), (_tileSize * j) - ((_size * _tileSize / 2) - .5f));
 
-                _gridCell[i,j] = Instantiate(cell, pos, Quaternion.identity, this.transform);
-                _gridCell[i,j].transform.parent = this.transform;
+                _gridCell[i,j] = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
+                _gridCell[i,j].transform.parent = transform;
 
-                //Debug.Log("Spawn " + i + " " + j);
+                //Debug.Log("Initialized Cell at [ " + i + " , " + j + " ]");
             }
         }
         //StartCoroutine(CollapseAllRandom());
@@ -40,55 +43,69 @@ public class TileGrid : MonoBehaviour
 
     IEnumerator CollapseWave()
     {
-        yield return null;
-        while (!IsCellCollapsed())
+        yield return new WaitForSeconds(1f);
+        while (!IsWaveCollapsed())
         {
-            GameObject[] lowestEntropyCells = GetLowestEntropy();
-            GameObject selectRandomTile = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Length)];
+            _lowestEntropyCells = GetLowestEntropyCells();
+            _selectedRandomCell = _lowestEntropyCells[UnityEngine.Random.Range(0, _lowestEntropyCells.Length - 1)];
+            _selectedRandomCell.GetComponent<GridCell>().SelectTile();
 
-            selectRandomTile.GetComponent<GridCell>().SelectTile();
-            
-            yield return null;
+            yield return new WaitForSeconds(1f);
         }
+        
     }
 
-    bool IsCellCollapsed()
+    bool IsWaveCollapsed()
     {
-        for (int i = 0; i < size; i++)
+        foreach(var cell in _gridCell)
         {
-            for (int j = 0; j < size; j++)
+            if (!cell.GetComponent<GridCell>().isDefinite)
             {
-                if (!_gridCell[i, j].GetComponent<GridCell>().isDefinite)
-                {
-                    Debug.Log("False");
-                    return false;
-                }
+                Debug.Log("Wave not Fully Collapsed");
+                return false;
             }
         }
-        Debug.Log("True");
+        Debug.Log("Wave Fully Collapsed");
         return true;
     }
 
-    private GameObject[] GetLowestEntropy()
+    private GameObject[] GetLowestEntropyCells()
     {
+        //TODO:
+        //Change to get index number of cell with lowest entropy
+
+        lowestEntropyCellsSelected.Clear();
         int lowestEntropy = int.MaxValue;
         int entropy;
-        for (int i = 0; i < size; i++)
+
+        //Check all items
+        foreach(var cell in _gridCell)
         {
-            for (int j = 0; j < size; j++)
+            if (cell.GetComponent<GridCell>().isDefinite == false)
             {
-                if (_gridCell[i, j].GetComponent<GridCell>().isDefinite == true) continue;
+                entropy = cell.GetComponent<GridCell>().entropy;
 
-                entropy = _gridCell[i, j].GetComponent<GridCell>().entropy;
-
-                if (entropy < lowestEntropy)
+                if (entropy <= lowestEntropy)
                 {
                     lowestEntropy = entropy;
-                    lowestEntropyTile.Add(_gridCell[i, j]);
+                    lowestEntropyCellsSelected.Add(cell);
                 }
             }
+            else continue;            
         }
-        return lowestEntropyTile.ToArray();
+
+        //Double check selected items
+        foreach(var item in lowestEntropyCellsSelected)
+        {
+            entropy = item.GetComponent<GridCell>().entropy;
+
+            if (entropy > lowestEntropy)
+            {
+                lowestEntropyCellsSelected.Remove(item);
+            }
+        }
+
+        return lowestEntropyCellsSelected.ToArray();
     }
 }
 
