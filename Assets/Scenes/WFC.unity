@@ -494,11 +494,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5993696990408966596, guid: 344879d31563fda4d91f56e9b9032baa, type: 3}
       propertyPath: _setSpeed
-      value: 0.001
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5993696990408966596, guid: 344879d31563fda4d91f56e9b9032baa, type: 3}
       propertyPath: _startDelay
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5993696990408966597, guid: 344879d31563fda4d91f56e9b9032baa, type: 3}
       propertyPath: m_Name

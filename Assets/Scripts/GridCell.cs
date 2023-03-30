@@ -14,6 +14,7 @@ public class GridCell : MonoBehaviour
     public bool isDefinite = false;
 
     public List<GameObject> inputTiles;
+    private List<GameObject> propagatedCells = new();
 
     private TileGrid tileGrid;
 
@@ -44,8 +45,17 @@ public class GridCell : MonoBehaviour
 
     public void Propagate(List<GameObject> compatibleTop)
     {
+        //inputTiles.Clear();
+        propagatedCells.Clear();
+        foreach(var item in compatibleTop)
+        {
+            if(inputTiles.Contains(item))
+            {
+                propagatedCells.Add(item);
+            }
+        }
         inputTiles.Clear();
-        inputTiles.AddRange(compatibleTop);
+        inputTiles.AddRange(propagatedCells);
         entropy = inputTiles.Count;
     }
 }
