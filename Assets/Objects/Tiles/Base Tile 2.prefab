@@ -100,7 +100,10 @@ MonoBehaviour:
   id: 113300001
   compatibleTop:
   - {fileID: 200094413327123030, guid: 961dfad77dea168458d73b9c096d3945, type: 3}
+  - {fileID: 200094413327123030, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
   compatibleBottom:
+  - {fileID: 200094413327123030, guid: 18d2a4e4cb0d3864ab43680465d8240f, type: 3}
+  - {fileID: 200094413327123030, guid: 5eff1729cc904d14db851c394e66b1b8, type: 3}
   - {fileID: 200094413327123030, guid: c1bfc7c2ba176e449aec66e42711d045, type: 3}
   compatibleLeft:
   - {fileID: 200094413327123030}

@@ -78,7 +78,8 @@ public class TileGrid : MonoBehaviour
             cell.GetComponent<GridCell>().yIndex + " ID: " +
             cell.GetComponent<GridCell>().selectedTileID);
 
-        //Todo: Check before propagate
+        //Todo: Check overwrite constraints
+        //compare similar before erase
 
         int x = cell.GetComponent<GridCell>().xIndex;
         int y = cell.GetComponent<GridCell>().yIndex;
@@ -103,8 +104,6 @@ public class TileGrid : MonoBehaviour
 
     public void PropagateToCell(int x, int y, GameObject item, LookDirection direction)
     {
-        //wag mag clear kung definite na
-        //naikalat sa buong grid ayusin
         switch (direction)
         {
             case LookDirection.UP:
