@@ -97,15 +97,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522256ec29808114babd9b6579a76182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  top:
-  - {fileID: 3301856061342512365}
-  - {fileID: 3301856061342512365, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
-  bottom:
-  - {fileID: 3301856061342512365}
-  - {fileID: 3301856061342512365, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
-  left:
-  - {fileID: 3301856061342512365}
-  - {fileID: 3301856061342512365, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
-  right:
-  - {fileID: 3301856061342512365}
-  - {fileID: 3301856061342512365, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
+  id: 112000000
+  compatibleTop:
+  - {fileID: 200094413327123030, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
+  compatibleBottom:
+  - {fileID: 200094413327123030, guid: 569d208ccf73106488c0d7d7962eef5d, type: 3}
+  compatibleLeft:
+  - {fileID: 200094413327123030, guid: c8c95d8c295cd2a4083c9f67c22802e5, type: 3}
+  compatibleRight:
+  - {fileID: 200094413327123030, guid: c6523def1c333464cb2e55fcd90c3428, type: 3}

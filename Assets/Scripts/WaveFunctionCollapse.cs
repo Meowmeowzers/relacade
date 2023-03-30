@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 public class WaveFunctionCollapse : MonoBehaviour
 {
 
-    public Tilemap tilemap;
+    public Tilemap tilemap; 
     public List<TileBase> tileset;
 
     private int[,] wave;
