@@ -53,11 +53,24 @@ public class TileGrid : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
         while (!IsWaveCollapsed())
         {
+
             //Observation Phase
             //Observe lowest entropy cells
             lowestEntropyCells = GetLowestEntropyCells();
             _selectedRandomCell = lowestEntropyCells[Random.Range(0, lowestEntropyCells.Count - 1)];
-            _selectedRandomCell.GetComponent<GridCell>().SelectTile();
+
+            //Collapse Tile
+            if(_selectedRandomCell.GetComponent<GridCell>().CheckEntropy() == 0)
+            {
+                Debug.LogWarning("Conflict on cell " +
+                _selectedRandomCell.GetComponent<GridCell>().xIndex + " " +
+                _selectedRandomCell.GetComponent<GridCell>().yIndex);
+                ResetWave();
+            }
+            else
+            {
+                _selectedRandomCell.GetComponent<GridCell>().SelectTile();
+            }
 
             //Propagation Phase
             PropagateConstraints(_selectedRandomCell);
@@ -189,5 +202,16 @@ public class TileGrid : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    public void ResetWave()
+    {
+        Debug.Log("Resetting Wave...");
+        StopAllCoroutines();
+        foreach(var item in _gridCell)
+        {
+            item.GetComponent<GridCell>().ResetCell();
+        }
+        InitializeWave();
     }
 }

@@ -51,4 +51,20 @@ public class GridCell : MonoBehaviour
         inputTiles.AddRange(propagatedCells);
         entropy = inputTiles.Count;
     }
+
+    public int CheckEntropy()
+    {
+        return inputTiles.Count;
+    }
+
+    public void ResetCell()
+    {
+        entropy = tileGrid.inputTiles.Count;
+        inputTiles.Clear();
+        propagatedCells.Clear();
+        inputTiles.AddRange(tileGrid.inputTiles);
+        isDefinite = false;
+        Destroy(GetComponentInChildren<Transform>().gameObject);
+        
+    }
 }
