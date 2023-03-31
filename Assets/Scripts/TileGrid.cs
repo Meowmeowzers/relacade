@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,10 +58,10 @@ public class TileGrid : MonoBehaviour
             //Observation Phase
             //Observe lowest entropy cells
             lowestEntropyCells = GetLowestEntropyCells();
-            _selectedRandomCell = lowestEntropyCells[Random.Range(0, lowestEntropyCells.Count - 1)];
+            _selectedRandomCell = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Count - 1)];
 
             //Collapse Tile
-            if(_selectedRandomCell.GetComponent<GridCell>().CheckEntropy() == 0)
+            if (_selectedRandomCell.GetComponent<GridCell>().CheckEntropy() == 0)
             {
                 Debug.LogWarning("Conflict on cell " +
                 _selectedRandomCell.GetComponent<GridCell>().xIndex + " " +
@@ -208,10 +209,19 @@ public class TileGrid : MonoBehaviour
     {
         Debug.Log("Resetting Wave...");
         StopAllCoroutines();
-        foreach(var item in _gridCell)
+        foreach (var item in _gridCell)
         {
             item.GetComponent<GridCell>().ResetCell();
         }
         InitializeWave();
+    }
+
+    public void SetDelaySet(float value)
+    {
+        setDelay = value;
+    }
+    public void SetGridSize(float value)
+    {
+        //TODO
     }
 }
