@@ -4,15 +4,14 @@ using UnityEngine.Tilemaps;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
-
-    public Tilemap tilemap; 
+    public Tilemap tilemap;
     public List<TileBase> tileset;
 
     private int[,] wave;
     private bool[,] consistent;
     private int tileSize;
-    
-    void Start()
+
+    private void Start()
     {
         tileSize = tilemap.cellBounds.size.x;
         wave = new int[tileSize, tileSize];
@@ -22,7 +21,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         RenderWave();
     }
 
-    void InitializeWave()
+    private void InitializeWave()
     {
         for (int y = 0; y < tileSize; y++)
         {
@@ -34,7 +33,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    void CollapseWave()
+    private void CollapseWave()
     {
         while (!IsWaveCollapsed())
         {
@@ -63,7 +62,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    bool IsWaveCollapsed()
+    private bool IsWaveCollapsed()
     {
         for (int y = 0; y < tileSize; y++)
         {
@@ -75,7 +74,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         return true;
     }
 
-    int[] GetLowestEntropyTile()
+    private int[] GetLowestEntropyTile()
     {
         int lowestEntropy = int.MaxValue;
         int[] lowestEntropyTile = new int[2];
@@ -98,7 +97,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         return lowestEntropyTile;
     }
 
-    int GetTileEntropy(int x, int y)
+    private int GetTileEntropy(int x, int y)
     {
         int entropy = 0;
         for (int i = 0; i < tileset.Count; i++)
@@ -111,7 +110,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         return entropy;
     }
 
-    int GetRandomCompatibleTile(int x, int y)
+    private int GetRandomCompatibleTile(int x, int y)
     {
         List<int> compatibleTiles = new();
         for (int i = 0; i < tileset.Count; i++)
@@ -125,7 +124,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         return compatibleTiles[Random.Range(0, compatibleTiles.Count)];
     }
 
-    bool IsTileCompatible(int tileIndex, int x, int y)
+    private bool IsTileCompatible(int tileIndex, int x, int y)
     {
         TileBase tile = tileset[tileIndex];
         if (!tilemap.HasTile(new Vector3Int(x, y, 0))) return false;
@@ -140,7 +139,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         return true;
     }
 
-    void RenderWave()
+    private void RenderWave()
     {
         for (int y = 0; y < tileSize; y++)
         {
