@@ -106,9 +106,11 @@ MonoBehaviour:
   compatibleBottom:
   - {fileID: 200094413327123030, guid: c6523def1c333464cb2e55fcd90c3428, type: 3}
   - {fileID: 200094413327123030, guid: 640f29f388e82504797c7a625b72d4fd, type: 3}
+  - {fileID: 200094413327123030, guid: 34990431c43554a45901eaa9c8540d15, type: 3}
   compatibleLeft:
   - {fileID: 200094413327123030, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
   - {fileID: 200094413327123030, guid: 18d2a4e4cb0d3864ab43680465d8240f, type: 3}
+  - {fileID: 200094413327123030, guid: 34990431c43554a45901eaa9c8540d15, type: 3}
   compatibleRight:
   - {fileID: 200094413327123030, guid: c8c95d8c295cd2a4083c9f67c22802e5, type: 3}
   - {fileID: 200094413327123030, guid: 18d2a4e4cb0d3864ab43680465d8240f, type: 3}
