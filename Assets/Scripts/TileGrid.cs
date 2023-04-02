@@ -20,10 +20,13 @@ public class TileGrid : MonoBehaviour
     private GameObject _selectedRandomCell;
 
     public enum LookDirection { UP, DOWN, LEFT, RIGHT };
+    private WaitForSeconds wSetTileDelay;
+    //private WaitForSeconds w;
 
     private void Awake()
     {
         _gridCell = new GameObject[_size, _size];
+        wSetTileDelay = new(setDelay);
     }
 
     private void Start()
@@ -54,7 +57,6 @@ public class TileGrid : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
         while (!IsWaveCollapsed())
         {
-
             //Observation Phase
             //Observe lowest entropy cells
             lowestEntropyCells = GetLowestEntropyCells();
@@ -75,7 +77,7 @@ public class TileGrid : MonoBehaviour
 
             //Propagation Phase
             PropagateConstraints(_selectedRandomCell);
-            yield return new WaitForSeconds(setDelay);
+            yield return wSetTileDelay;
         }
     }
 
@@ -218,10 +220,18 @@ public class TileGrid : MonoBehaviour
 
     public void SetDelaySet(float value)
     {
-        setDelay = value;
+        wSetTileDelay = new(value);
     }
     public void SetGridSize(float value)
     {
         //TODO
+        StopAllCoroutines();
+        foreach (var item in _gridCell)
+        {
+            item.GetComponent<GridCell>().ResetCell();
+        }
+        _size = Convert.ToInt32(value);
+        _gridCell = new GameObject[_size, _size];
+        InitializeWave();
     }
 }
