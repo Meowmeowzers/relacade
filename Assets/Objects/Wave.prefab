@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridCellObject: {fileID: 7375977999617206148, guid: 33db6ba8668502e4a8f00e539960c508, type: 3}
-  _size: 3
-  _tileSize: 1
-  _setSpeed: 0.5
-  _startDelay: 1
+  size: 8
+  tileSize: 1
+  setDelay: 0
+  startDelay: 1
   inputTiles:
   - {fileID: 200094413327123030, guid: 961dfad77dea168458d73b9c096d3945, type: 3}
   - {fileID: 200094413327123030, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
@@ -60,4 +60,9 @@ MonoBehaviour:
   - {fileID: 200094413327123030, guid: de0006535f2830e488fe49a68de05e82, type: 3}
   - {fileID: 200094413327123030, guid: 640f29f388e82504797c7a625b72d4fd, type: 3}
   - {fileID: 200094413327123030, guid: c1bfc7c2ba176e449aec66e42711d045, type: 3}
-  lowestEntropyCellsSelected: []
+  - {fileID: 200094413327123030, guid: 50e819555b266cf43aac70b8e22206a1, type: 3}
+  - {fileID: 200094413327123030, guid: 62c5690bf350b1648b9c6874e3598957, type: 3}
+  - {fileID: 200094413327123030, guid: 34990431c43554a45901eaa9c8540d15, type: 3}
+  - {fileID: 200094413327123030, guid: 86f22e1313302c642be2145ce1f413ea, type: 3}
+  - {fileID: 200094413327123030, guid: 7c56ecb66fdabbb4897d9515cecd12e1, type: 3}
+  lowestEntropyCells: []

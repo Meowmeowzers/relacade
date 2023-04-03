@@ -26,7 +26,7 @@ public class GridCell : MonoBehaviour
     {
         //int select = inputTiles[Random.Range(0, inputTiles.Count)].GetComponent<InputTile>().id;
         select = Instantiate(inputTiles[Random.Range(0, inputTiles.Count)], transform);
- 
+
         inputTiles.Clear();
         inputTiles.Add(select);
         selectedTileID = select.GetComponent<InputTile>().id;
@@ -52,9 +52,12 @@ public class GridCell : MonoBehaviour
         entropy = inputTiles.Count;
     }
 
-    public int CheckEntropy()
+    public bool IsCellNotConflict()
     {
-        return inputTiles.Count;
+        if (inputTiles.Count > 0)
+            return true;
+        else
+            return false;
     }
 
     public void ResetCell()
@@ -65,6 +68,5 @@ public class GridCell : MonoBehaviour
         inputTiles.AddRange(tileGrid.inputTiles);
         isDefinite = false;
         Destroy(GetComponentInChildren<Transform>().gameObject);
-        
     }
 }

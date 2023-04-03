@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -4630903353068065438}
   - component: {fileID: 3301856061342512365}
   m_Layer: 0
-  m_Name: Base Tile 9
+  m_Name: Base Tile 14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1871230407, guid: 9b9ab7b65a7de10408813a661994c632, type: 3}
+  m_Sprite: {fileID: -2065537582, guid: 9b9ab7b65a7de10408813a661994c632, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,28 +97,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522256ec29808114babd9b6579a76182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 111000000
+  id: 214748333
   compatibleTop:
   - {fileID: 200094413327123030, guid: 569d208ccf73106488c0d7d7962eef5d, type: 3}
   - {fileID: 200094413327123030, guid: de0006535f2830e488fe49a68de05e82, type: 3}
   - {fileID: 200094413327123030, guid: 640f29f388e82504797c7a625b72d4fd, type: 3}
+  - {fileID: 200094413327123030, guid: c1bfc7c2ba176e449aec66e42711d045, type: 3}
   - {fileID: 200094413327123030}
-  - {fileID: 200094413327123030, guid: 7c56ecb66fdabbb4897d9515cecd12e1, type: 3}
   compatibleBottom:
   - {fileID: 200094413327123030, guid: 3c67baf6a320ea244892ff84f600b05d, type: 3}
   - {fileID: 200094413327123030, guid: 18d2a4e4cb0d3864ab43680465d8240f, type: 3}
   - {fileID: 200094413327123030, guid: 5eff1729cc904d14db851c394e66b1b8, type: 3}
+  - {fileID: 200094413327123030, guid: c1bfc7c2ba176e449aec66e42711d045, type: 3}
   - {fileID: 200094413327123030}
-  - {fileID: 200094413327123030, guid: 7c56ecb66fdabbb4897d9515cecd12e1, type: 3}
   compatibleLeft:
   - {fileID: 200094413327123030, guid: c6523def1c333464cb2e55fcd90c3428, type: 3}
   - {fileID: 200094413327123030, guid: 5eff1729cc904d14db851c394e66b1b8, type: 3}
   - {fileID: 200094413327123030, guid: 640f29f388e82504797c7a625b72d4fd, type: 3}
+  - {fileID: 200094413327123030, guid: c1bfc7c2ba176e449aec66e42711d045, type: 3}
   - {fileID: 200094413327123030}
-  - {fileID: 200094413327123030, guid: 7c56ecb66fdabbb4897d9515cecd12e1, type: 3}
   compatibleRight:
   - {fileID: 200094413327123030, guid: c8c95d8c295cd2a4083c9f67c22802e5, type: 3}
   - {fileID: 200094413327123030, guid: 18d2a4e4cb0d3864ab43680465d8240f, type: 3}
   - {fileID: 200094413327123030, guid: de0006535f2830e488fe49a68de05e82, type: 3}
+  - {fileID: 200094413327123030, guid: c1bfc7c2ba176e449aec66e42711d045, type: 3}
   - {fileID: 200094413327123030}
-  - {fileID: 200094413327123030, guid: 7c56ecb66fdabbb4897d9515cecd12e1, type: 3}
