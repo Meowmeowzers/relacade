@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Genesis
+namespace HelloWorld
 {
     public class CameraControl : MonoBehaviour
     {

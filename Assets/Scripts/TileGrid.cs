@@ -4,221 +4,275 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //WFC tile grid
-
-public class TileGrid : MonoBehaviour
+namespace HelloWorld
 {
-    public GameObject gridCellObject;
-    public int size = 8;
-    public float tileSize = 1;
-    public float setDelay = .5f;
-    public float startDelay = 1f;
-    public List<GameObject> inputTiles;
-    public List<GameObject> lowestEntropyCells = new();
-
-    private GameObject[,] gridCell;
-    private GameObject selectedRandomCell;
-
-    public enum LookDirection
-    { UP, DOWN, LEFT, RIGHT };
-
-    private WaitForSeconds wSetTileDelay;
-
-    private void Awake()
+    public class TileGrid : MonoBehaviour
     {
-        gridCell = new GameObject[size, size];
-        wSetTileDelay = new(setDelay);
-    }
+        public GameObject gridCellObject;
+        public int size = 8;
+        public float tileSize = 1;
+        public float setDelay = .5f;
+        public float startDelay = 1f;
+        public List<GameObject> inputTiles;
+        public List<GameObject> lowestEntropyCells = new();
 
-    private void Start()
-    {
-        InitializeWave();
-    }
+        public GameObject[,] gridCell;
+        private GameObject selectedRandomCell;
 
-    private void InitializeWave()
-    {
-        Vector3 pos;
+        public enum LookDirection
+        { UP, DOWN, LEFT, RIGHT };
 
-        for (int y = 0; y < size; y++)
+        private WaitForSeconds wSetTileDelay;
+
+        private void Awake()
         {
-            for (int x = 0; x < size; x++)
-            {
-                pos = new((tileSize * x) - ((size * tileSize / 2) - .5f) + transform.position.x, (tileSize * y) - ((size * tileSize / 2) - .5f) + transform.position.y);
-
-                gridCell[x, y] = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
-                gridCell[x, y].GetComponent<GridCell>().xIndex = x;
-                gridCell[x, y].GetComponent<GridCell>().yIndex = y;
-            }
+            gridCell = new GameObject[size, size];
+            wSetTileDelay = new(setDelay);
         }
 
-        StartCoroutine(CollapseWave());
-    }
-
-    private IEnumerator CollapseWave()
-    {
-        yield return new WaitForSeconds(startDelay);
-
-        while (!IsWaveCollapsed())
+        private void Start()
         {
-            //Observation Phase
-            lowestEntropyCells = GetLowestEntropyCells();
-            selectedRandomCell = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Count - 1)];
-
-            //Collapse Tile
-            if (selectedRandomCell.GetComponent<GridCell>().IsCellNotConflict())
-            {
-                selectedRandomCell.GetComponent<GridCell>().SelectTile();
-            }
-            else
-            {
-                var x = selectedRandomCell.GetComponent<GridCell>().xIndex;
-                var y = selectedRandomCell.GetComponent<GridCell>().yIndex;
-                Debug.LogWarning("Conflict on cell " + x + " " + y);
-                ResetWave();
-            }
-
-            //Propagation Phase
-            PropagateConstraints(selectedRandomCell);
-            yield return wSetTileDelay;
+            InitializeWave();
         }
-    }
 
-    public void PropagateConstraints(GameObject cell)
-    {
-        int x = cell.GetComponent<GridCell>().xIndex;
-        int y = cell.GetComponent<GridCell>().yIndex;
-
-        foreach (var item in inputTiles)
+        private void InitializeWave()
         {
-            if (cell.GetComponent<GridCell>().selectedTileID == item.GetComponent<InputTile>().id)
+            Vector3 pos;
+
+            for (int y = 0; y < size; y++)
             {
-                if (y + 1 > -1 && y + 1 < size)
-                    PropagateToCell(x, y, item, LookDirection.UP);
-                if (y - 1 > -1 && y - 1 < size)
-                    PropagateToCell(x, y, item, LookDirection.DOWN);
-                if (x + 1 > -1 && x + 1 < size)
-                    PropagateToCell(x, y, item, LookDirection.RIGHT);
-                if (x - 1 > -1 && x - 1 < size)
-                    PropagateToCell(x, y, item, LookDirection.LEFT);
-                break;
-            }
-        }
-    }
-
-    public void PropagateToCell(int x, int y, GameObject item, LookDirection direction)
-    {
-        switch (direction)
-        {
-            case LookDirection.UP:
-                y++;
-                if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
+                for (int x = 0; x < size; x++)
                 {
-                    gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleTop);
+                    pos = new(tileSize * x - (size * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (size * tileSize / 2 - .5f) + transform.position.y);
+
+                    gridCell[x, y] = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
+                    gridCell[x, y].GetComponent<GridCell>().xIndex = x;
+                    gridCell[x, y].GetComponent<GridCell>().yIndex = y;
                 }
-                break;
+            }
 
-            case LookDirection.DOWN:
-                y--;
-                if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
-                {
-                    gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleBottom);
-                }
-                break;
-
-            case LookDirection.RIGHT:
-                x++;
-                if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
-                {
-                    gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleRight);
-                }
-                break;
-
-            case LookDirection.LEFT:
-                x--;
-                if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
-                {
-                    gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleLeft);
-                }
-                break;
+            StartCoroutine(CollapseWave());
         }
-    }
 
-    private bool IsWaveCollapsed()
-    {
-        foreach (var cell in gridCell)
+        private IEnumerator CollapseWave()
         {
-            if (!cell.GetComponent<GridCell>().isDefinite)
+            yield return new WaitForSeconds(startDelay);
+
+            while (!IsWaveCollapsed())
             {
-                Debug.Log("Wave not Fully Collapsed...");
-                return false;
+                //Observation Phase
+                lowestEntropyCells = GetLowestEntropyCells();
+                selectedRandomCell = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Count - 1)];
+
+                //Collapse Tile
+                if (selectedRandomCell.GetComponent<GridCell>().IsCellNotConflict())
+                {
+                    selectedRandomCell.GetComponent<GridCell>().SelectTile();
+                }
+                else
+                {
+                    var x = selectedRandomCell.GetComponent<GridCell>().xIndex;
+                    var y = selectedRandomCell.GetComponent<GridCell>().yIndex;
+                    Debug.LogWarning("Conflict on cell " + x + " " + y);
+                    ResetWave();
+                }
+
+                //Propagation Phase
+                PropagateConstraints(selectedRandomCell);
+                yield return wSetTileDelay;
             }
         }
-        Debug.Log("Wave Fully Collapsed...");
-        return true;
-    }
 
-    private List<GameObject> GetLowestEntropyCells()
-    {
-        //Get lowest entropy cells to collapse
-        List<GameObject> lowestEntropyCellsSelected = new();
-        int lowestEntropy = int.MaxValue;
-        int entropy;
-
-        //Check all cells
-        //If new lowest clear then add
-        //If same just add
-        for (int y = 0; y < size; y++)
+        public void PropagateConstraints(GameObject cell)
         {
-            for (int x = 0; x < size; x++)
-            {
-                if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
-                {
-                    entropy = gridCell[x, y].GetComponent<GridCell>().entropy;
+            int x = cell.GetComponent<GridCell>().xIndex;
+            int y = cell.GetComponent<GridCell>().yIndex;
 
-                    if (entropy < lowestEntropy)
+            foreach (var item in inputTiles)
+            {
+                if (cell.GetComponent<GridCell>().selectedTileID == item.GetComponent<InputTile>().id)
+                {
+                    if (y + 1 > -1 && y + 1 < size)
+                        PropagateToCell(x, y, item, LookDirection.UP);
+                    if (y - 1 > -1 && y - 1 < size)
+                        PropagateToCell(x, y, item, LookDirection.DOWN);
+                    if (x + 1 > -1 && x + 1 < size)
+                        PropagateToCell(x, y, item, LookDirection.RIGHT);
+                    if (x - 1 > -1 && x - 1 < size)
+                        PropagateToCell(x, y, item, LookDirection.LEFT);
+                    break;
+                }
+            }
+        }
+
+        public void PropagateToCell(int x, int y, GameObject item, LookDirection direction)
+        {
+            switch (direction)
+            {
+                case LookDirection.UP:
+                    y++;
+                    if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
                     {
-                        lowestEntropy = entropy;
-                        lowestEntropyCellsSelected.Clear();
-                        lowestEntropyCellsSelected.Add(gridCell[x, y]);
+                        gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleTop);
                     }
-                    else if (entropy == lowestEntropy)
+                    break;
+
+                case LookDirection.DOWN:
+                    y--;
+                    if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
                     {
-                        lowestEntropyCellsSelected.Add(gridCell[x, y]);
+                        gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleBottom);
+                    }
+                    break;
+
+                case LookDirection.RIGHT:
+                    x++;
+                    if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
+                    {
+                        gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleRight);
+                    }
+                    break;
+
+                case LookDirection.LEFT:
+                    x--;
+                    if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
+                    {
+                        gridCell[x, y].GetComponent<GridCell>().Propagate(item.GetComponent<InputTile>().compatibleLeft);
+                    }
+                    break;
+            }
+        }
+
+        private bool IsWaveCollapsed()
+        {
+            foreach (var cell in gridCell)
+            {
+                if (!cell.GetComponent<GridCell>().isDefinite)
+                {
+                    Debug.Log("Wave not Fully Collapsed...");
+                    return false;
+                }
+            }
+            Debug.Log("Wave Fully Collapsed...");
+            return true;
+        }
+
+        private List<GameObject> GetLowestEntropyCells()
+        {
+            //Get lowest entropy cells to collapse
+            List<GameObject> lowestEntropyCellsSelected = new();
+            int lowestEntropy = int.MaxValue;
+            int entropy;
+
+            //Check all cells
+            //If new lowest clear then add
+            //If same just add
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    if (!gridCell[x, y].GetComponent<GridCell>().isDefinite)
+                    {
+                        entropy = gridCell[x, y].GetComponent<GridCell>().entropy;
+
+                        if (entropy < lowestEntropy)
+                        {
+                            lowestEntropy = entropy;
+                            lowestEntropyCellsSelected.Clear();
+                            lowestEntropyCellsSelected.Add(gridCell[x, y]);
+                        }
+                        else if (entropy == lowestEntropy)
+                        {
+                            lowestEntropyCellsSelected.Add(gridCell[x, y]);
+                        }
                     }
                 }
             }
+            Debug.Log("# of lowest entropy cells: " + lowestEntropyCells.Count.ToString());
+            return lowestEntropyCellsSelected;
         }
-        Debug.Log("# of lowest entropy cells: " + lowestEntropyCells.Count.ToString());
-        return lowestEntropyCellsSelected;
-    }
 
-    public void ResetWave()
-    {
-        Debug.Log("Resetting Wave...");
-        StopAllCoroutines();
-        ResetAllCells();
-        InitializeWave();
-    }
-
-    public void SetDelaySet(float value)
-    {
-        wSetTileDelay = new(value);
-    }
-
-    public void SetGridSize(float value)
-    {
-        //TODO
-        StopAllCoroutines();
-        ResetAllCells();
-        size = Convert.ToInt32(value);
-        gridCell = new GameObject[size, size];
-        InitializeWave();
-    }
-
-    private void ResetAllCells()
-    {
-        foreach (var item in gridCell)
+        public void ResetWave()
         {
-            item.GetComponent<GridCell>().ResetCell();
+            Debug.Log("Resetting Wave...");
+            StopAllCoroutines();
+            ResetAllCells();
+            InitializeWave();
+        }
+
+        public void ResetWave(int newSize, float newTileSize, List<CellData> newCellData)
+        {
+            Debug.Log("Resetting Wave...");
+            StopAllCoroutines();
+            this.size = newSize;
+            this.tileSize = newTileSize;
+
+            ResetAllCells();
+            gridCell = new GameObject[size, size];
+
+            Vector3 pos;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    pos = new(tileSize * x - (size * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (size * tileSize / 2 - .5f) + transform.position.y);
+
+                    gridCell[x, y] = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
+                    gridCell[x, y].GetComponent<GridCell>().xIndex = x;
+                    gridCell[x, y].GetComponent<GridCell>().yIndex = y;
+                }
+            }
+
+            //int xMax = size;
+            int yMax = size;
+            int xIndex = 0;
+            int yIndex = 0;
+
+            GameObject selectObject;
+
+            foreach (var item in newCellData)
+            {
+                if (yIndex >= yMax)
+                {
+                    xIndex++;
+                    yIndex = 0;
+                }
+                foreach (var tile in inputTiles)
+                {
+                    if (item.selectedTileID == tile.GetComponent<InputTile>().id)
+                    {
+                        Debug.Log(tile.GetComponent<InputTile>().id);
+                        selectObject = tile;
+                        gridCell[xIndex, yIndex].GetComponent<GridCell>().SelectTile(tile);
+                    }
+                }
+                Debug.Log(item + " " + xIndex + " " + yIndex);
+                yIndex++;
+            }
+        }
+
+        public void SetDelaySet(float value)
+        {
+            wSetTileDelay = new(value);
+        }
+
+        public void SetGridSize(float value)
+        {
+            //TODO
+            StopAllCoroutines();
+            ResetAllCells();
+            size = Convert.ToInt32(value);
+            gridCell = new GameObject[size, size];
+            InitializeWave();
+        }
+
+        private void ResetAllCells()
+        {
+            foreach (var item in gridCell)
+            {
+                item.GetComponent<GridCell>().ResetCell();
+            }
         }
     }
 }
