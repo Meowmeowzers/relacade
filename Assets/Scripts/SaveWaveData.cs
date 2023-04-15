@@ -26,6 +26,8 @@ namespace HelloWorld
 
             using StreamWriter writer = new(filestream);
             writer.Write(data);
+
+            Debug.Log("Grid data saved...");
         }
 
         public void GetTileGridData()

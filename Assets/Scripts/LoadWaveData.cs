@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace HelloWorld
@@ -19,7 +18,6 @@ namespace HelloWorld
         public void LoadWaveDataFromFile()
         {
             //AssetDatabase.Refresh();
-
             string path = Application.dataPath + "/" + fileName;
             Debug.Log(path);
 
@@ -65,13 +63,6 @@ namespace HelloWorld
                 y++;
                 count++;
             }
-            /*
-            GridCell cell = tileGrid.gridCell[x, y].GetComponent<GridCell>();
-            int newXIndex = cell.xIndex;
-            int newYIndex = cell.yIndex;
-            int newSelectedTileID = cell.selectedTileID;
-            cells.Add(new(newXIndex, newYIndex, newSelectedTileID));
-            */
         }
     }
 }

@@ -159,14 +159,10 @@ namespace HelloWorld
 
         private List<GameObject> GetLowestEntropyCells()
         {
-            //Get lowest entropy cells to collapse
             List<GameObject> lowestEntropyCellsSelected = new();
             int lowestEntropy = int.MaxValue;
             int entropy;
 
-            //Check all cells
-            //If new lowest clear then add
-            //If same just add
             for (int y = 0; y < size; y++)
             {
                 for (int x = 0; x < size; x++)
@@ -242,12 +238,12 @@ namespace HelloWorld
                 {
                     if (item.selectedTileID == tile.GetComponent<InputTile>().id)
                     {
-                        Debug.Log(tile.GetComponent<InputTile>().id);
+                        //Debug.Log(tile.GetComponent<InputTile>().id);
                         selectObject = tile;
                         gridCell[xIndex, yIndex].GetComponent<GridCell>().SelectTile(tile);
                     }
                 }
-                Debug.Log(item + " " + xIndex + " " + yIndex);
+                //Debug.Log(item + " " + xIndex + " " + yIndex);
                 yIndex++;
             }
         }
