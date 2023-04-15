@@ -1,27 +1,41 @@
 using HelloWorld;
 using UnityEditor;
-using UnityEditor.UIElements;
+using UnityEditor.Rendering;
 using UnityEngine;
 
-[CustomEditor(typeof(TileGrid))]
+[CustomEditor(typeof(EditorTileGrid))]
 public class TileGridEditor : Editor
 {
+    private EditorTileGrid tileGrid;
+    private bool showDefaultInspector = false;
+    private bool enableDefaultInspector = false;
+    
     public override void OnInspectorGUI()
     {
-        //base.OnInspectorGUI();
-        
-        TileGrid tileGrid = (TileGrid)target;
+        tileGrid = (EditorTileGrid) target;
+        tileGrid.gridCellObject = (GameObject) EditorGUILayout.ObjectField("Cell Object", tileGrid.gridCellObject, typeof(GameObject), true);
+        tileGrid.size = EditorGUILayout.IntSlider("Grid size", tileGrid.size, 2, 50);
+        tileGrid.tileSize = EditorGUILayout.FloatField("Cell Size", tileGrid.tileSize);
+        //tileGrid.inputTiles = EditorGUILayout.ObjectField(tileGrid.inputTiles, typeof(GameObject), false);
+        GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Generate"))
+            {
+                tileGrid.ClearCells();
+                tileGrid.gridCell = new GameObject[tileGrid.size, tileGrid.size];
+                tileGrid.InitializeWave();
+            }
+            if (GUILayout.Button("Clear"))
+            {
+                tileGrid.ClearCells();
+            }
+        GUILayout.EndHorizontal();
 
-        tileGrid.gridCellObject = (GameObject) EditorGUILayout.ObjectField(tileGrid.gridCellObject, typeof(GameObject), false);
-        tileGrid.size = EditorGUILayout.IntField("Grid Size", 2);
-        tileGrid.tileSize = EditorGUILayout.FloatField("Cell Size", 1f);
-        tileGrid.startDelay = EditorGUILayout.FloatField("Start Delay", 1f);
-        tileGrid.setDelay = EditorGUILayout.FloatField("Set Delay", 0f);
-        if (GUILayout.Button("Generate"))
+        if(showDefaultInspector = EditorGUILayout.Foldout(showDefaultInspector, "Show default Inspector"))
         {
-            Debug.Log("Button Pressed...");
-            tileGrid.InitializeWave();
-        }
+        enableDefaultInspector = EditorGUILayout.BeginToggleGroup("Enable", enableDefaultInspector);
+        base.OnInspectorGUI();
+        EditorGUILayout.EndToggleGroup();
 
+        }
     }
 }

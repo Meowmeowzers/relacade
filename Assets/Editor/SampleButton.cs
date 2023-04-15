@@ -2,9 +2,10 @@ using HelloWorld;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(TileGrid))]
+
 public class MyWindow : EditorWindow
 {
+    /*
     string myString = "Hello World";
     bool groupEnabled;
     bool myBool = true;
@@ -34,4 +35,6 @@ public class MyWindow : EditorWindow
         myFloat = EditorGUILayout.Slider("Slider", myFloat, -3, 3);
         EditorGUILayout.EndToggleGroup();
     }
+    */
 }
+
