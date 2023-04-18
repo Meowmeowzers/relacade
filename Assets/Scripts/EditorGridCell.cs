@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Future: make entropy 1 the definite state
 namespace HelloWorld
 {
+
+    //Future: make entropy 1 the definite state
+
     public class EditorGridCell : MonoBehaviour
     {
         public int xIndex;
@@ -17,12 +19,14 @@ namespace HelloWorld
         private List<GameObject> propagatedCells = new();
         private GameObject select;
 
-
         public void Initialize()
         {
             tileGrid = GetComponentInParent<EditorTileGrid>();
             entropy = tileGrid.inputTiles.Count;
+            inputTiles.Clear();
             inputTiles.AddRange(tileGrid.inputTiles);
+            propagatedCells.Clear();
+            isDefinite = false;
         }
 
         public void SelectTile()
@@ -76,12 +80,16 @@ namespace HelloWorld
 
         public void ResetCell()
         {
-            entropy = tileGrid.inputTiles.Count;
-            inputTiles.Clear();
-            propagatedCells.Clear();
-            inputTiles.AddRange(tileGrid.inputTiles);
-            isDefinite = false;
+            Initialize();
             DestroyImmediate(GetComponentInChildren<Transform>().gameObject);
+        }
+
+        public bool IsDefiniteState()
+        {
+            if (entropy == 1)
+                return true;
+            else
+                return false;
         }
     }
 }

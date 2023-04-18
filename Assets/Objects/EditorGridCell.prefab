@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7375977999617206145}
   - component: {fileID: 7375977999617206150}
-  - component: {fileID: 6215593588292488478}
+  - component: {fileID: 7292841734120228996}
   m_Layer: 0
   m_Name: EditorGridCell
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6215593588292488478
+--- !u!114 &7292841734120228996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

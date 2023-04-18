@@ -1,7 +1,4 @@
-using HelloWorld;
 using UnityEditor;
-using UnityEngine;
-
 
 public class MyWindow : EditorWindow
 {
@@ -24,7 +21,6 @@ public class MyWindow : EditorWindow
         GUILayout.Label("Base Settings", EditorStyles.boldLabel);
         myString = EditorGUILayout.TextField("Text Field", myString);
 
-
         if (GUILayout.Button("My button", GUILayout.Height(20)))
         {
             Debug.Log("asdf");
@@ -37,4 +33,3 @@ public class MyWindow : EditorWindow
     }
     */
 }
-

@@ -45,13 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridCellObject: {fileID: 7375977999617206148, guid: 86bf27f6680673740bc6a02b4aa6c51d, type: 3}
-  size: 2
+  size: 8
   tileSize: 1
-  setDelay: 0
-  startDelay: 1
   inputTiles: []
-  lowestEntropyCells:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  lowestEntropyCells: []

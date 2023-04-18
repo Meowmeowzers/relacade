@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.EditorCoroutines.Editor;
 using UnityEngine;
+using Unity.EditorCoroutines.Editor;
+using System.Collections;
 
-//WFC tile grid
-/* Notes:
- * Removed Coroutines, Editor Coroutines doesnt even work too
- */
+//Editor WFC tile grid
 namespace HelloWorld
 {
     public class EditorTileGrid : MonoBehaviour
@@ -16,14 +13,13 @@ namespace HelloWorld
         public GameObject gridCellObject;
         public int size = 8;
         public float tileSize = 1;
-        //public float setDelay = .5f;
-        //public float startDelay = 1f;
         public List<GameObject> inputTiles;
         public List<GameObject> lowestEntropyCells = new();
 
         public GameObject[,] gridCell;
         private GameObject selectedRandomCell;
 
+        public EditorWaitForSeconds editorWait = new(0f);
         public enum LookDirection
         { UP, DOWN, LEFT, RIGHT };
 
@@ -36,7 +32,7 @@ namespace HelloWorld
                 for (int x = 0; x < size; x++)
                 {
                     pos = new(tileSize * x - (size * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (size * tileSize / 2 - .5f) + transform.position.y);
-                
+
                     gridCell[x, y] = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
                     gridCell[x, y].GetComponent<EditorGridCell>().xIndex = x;
                     gridCell[x, y].GetComponent<EditorGridCell>().yIndex = y;
@@ -44,13 +40,11 @@ namespace HelloWorld
                 }
             }
 
-            CollapseWave();
+            EditorCoroutineUtility.StartCoroutineOwnerless(CollapseWave());
         }
 
-        private void CollapseWave()
-        {            
-            //yield return new EditorWaitForSeconds(startDelay);
-
+        private IEnumerator CollapseWave()
+        {
             while (!IsWaveCollapsed())
             {
                 //Observation Phase
@@ -72,7 +66,7 @@ namespace HelloWorld
 
                 //Propagation Phase
                 PropagateConstraints(selectedRandomCell);
-                //yield return wSetTileDelay;
+                yield return editorWait;
             }
         }
 
@@ -193,8 +187,8 @@ namespace HelloWorld
         {
             Debug.Log("Resetting Wave...");
             StopAllCoroutines();
-            this.size = newSize;
-            this.tileSize = newTileSize;
+            size = newSize;
+            tileSize = newTileSize;
 
             ResetAllCells();
             gridCell = new GameObject[size, size];
@@ -213,7 +207,6 @@ namespace HelloWorld
                 }
             }
 
-            //int xMax = size;
             int yMax = size;
             int xIndex = 0;
             int yIndex = 0;
@@ -231,7 +224,6 @@ namespace HelloWorld
                 {
                     if (item.selectedTileID == tile.GetComponent<InputTile>().id)
                     {
-                        //Debug.Log(tile.GetComponent<InputTile>().id);
                         selectObject = tile;
                         gridCell[xIndex, yIndex].GetComponent<EditorGridCell>().SelectTile(tile);
                     }
@@ -248,7 +240,6 @@ namespace HelloWorld
 
         public void SetGridSize(float value)
         {
-            //TODO
             StopAllCoroutines();
             ResetAllCells();
             size = Convert.ToInt32(value);
@@ -266,6 +257,7 @@ namespace HelloWorld
 
         public void ClearCells()
         {
+            StopAllCoroutines();
             List<EditorGridCell> child = GetComponentsInChildren<EditorGridCell>().ToList();
             foreach (var item in child)
             {
@@ -277,20 +269,23 @@ namespace HelloWorld
         {
             StopAllCoroutines();
         }
+
+        public void InitializeWaveNoStart()
+        {
+            Vector3 pos;
+            gridCell = new GameObject[size, size];
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    pos = new(tileSize * x - (size * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (size * tileSize / 2 - .5f) + transform.position.y);
+
+                    gridCell[x, y] = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
+                    gridCell[x, y].GetComponent<EditorGridCell>().xIndex = x;
+                    gridCell[x, y].GetComponent<EditorGridCell>().yIndex = y;
+                    gridCell[x, y].GetComponent<EditorGridCell>().Initialize();
+                }
+            }
+        }
     }
 }
-
-//private IEnumerator CollapseAllRandom()
-//{
-//    //Old random collapse
-//    yield return new WaitForSeconds(1);
-//    for (int i = 0; i < size; i++)
-//    {
-//        for (int j = 0; j < size; j++)
-//        {
-//            gridCell[i, j].GetComponent<GridCell>().SelectTile();
-//            yield return null;
-//        }
-//        yield return null;
-//    }
-//}
