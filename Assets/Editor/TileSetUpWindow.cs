@@ -21,6 +21,9 @@ namespace HelloWorld
         private SerializedProperty compatibleLeftList;
         private SerializedProperty compatibleRightList;
 
+        private string assetName = "NewScriptableObject";
+        private string savePath = "Assets/";
+
         private enum DirectionToSet { FourDirection, Top, Bottom, Left, Right, TopLeft, TopRight, BottomLeft, BottomRight, IFourDirection, ITopLeft, ITopRight, IBottomLeft, IBottomRight };
 
         #region Window Variables
@@ -47,12 +50,24 @@ namespace HelloWorld
 
         #endregion
 
-        [MenuItem("Custom/Tile Setup")]
+        [MenuItem("Relacade/Tile Set Configuration Setup")]
         private static void StartWindow()
         {
             TileSetUpWindow window = (TileSetUpWindow)GetWindow(typeof(TileSetUpWindow));
             window.minSize = new(windowMinWidth, windowMinHeight);
             window.Show();
+        }
+
+        [MenuItem("Relacade/Create/Tile Set Configuration")]
+        private static void CreateTileSetConfiguration()
+        {
+            Debug.Log("TODO");
+        }
+
+        [MenuItem("Relacade/Create/Input Tile")]
+        private static void CreateInputTile()
+        {
+            Debug.Log("TODO");
         }
 
         private void OnEnable()
@@ -116,7 +131,7 @@ namespace HelloWorld
             GUILayout.BeginArea(headerSection);
             EditorGUILayout.Space(3);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Enter Tile Set", GUILayout.Height(30), GUILayout.Width(100));
+            EditorGUILayout.LabelField("Load Tile Set Configuration", GUILayout.Height(30), GUILayout.Width(170));
             selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.Height(30));
 
             if (GUILayout.Button("Auto Generate", GUILayout.Height(30)))
@@ -709,12 +724,14 @@ namespace HelloWorld
                 //GUIContent elementLabel = new($"Element {i + 1}");
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField($"Item {i + 1}", GUILayout.Width(60));
-                //EditorGUI.PropertyField(EditorGUILayout.GetControlRect(true), elementProperty, true);
                 EditorGUILayout.PropertyField(elementProperty, GUIContent.none);
                 if (GUILayout.Button(">", GUILayout.Width(30)))
                 {
-                    Object elementReference = elementProperty.objectReferenceValue;
-                    selectedTileConstraints = new(elementReference);
+                    if (elementProperty.objectReferenceValue != null)
+                    {
+                        Object elementReference = elementProperty.objectReferenceValue;
+                        selectedTileConstraints = new(elementReference);
+                    }
                 }
                 EditorGUILayout.EndHorizontal();
             }
@@ -722,11 +739,14 @@ namespace HelloWorld
 
         private void SetCurrentTileToConfig(string property)
         {
-            serializedTileSetObject = new(selectedInputTileSet);
-            selectedInputTileSetProperty = property;
-            serializedTileSetObject.Update();
-            selectedDirectionInputTileList = serializedTileSetObject.FindProperty(property);
-            selectedDirectionInputTileList.isExpanded = true;
+            if (selectedInputTileSet != null)
+            {
+                serializedTileSetObject = new(selectedInputTileSet);
+                selectedInputTileSetProperty = property;
+                serializedTileSetObject.Update();
+                selectedDirectionInputTileList = serializedTileSetObject.FindProperty(property);
+                selectedDirectionInputTileList.isExpanded = true;
+            }
         }
 
         private void DrawRight()
@@ -736,19 +756,43 @@ namespace HelloWorld
 
             if(selectedInputTileSet == null)
             {
-                GUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
+                EditorGUILayout.BeginVertical(GUILayout.Width(100));
+                EditorGUILayout.LabelField("Load a tile set configuration");
+                selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.Height(30));
+                GUILayout.Space(10);
+                EditorGUILayout.LabelField("or");
+                GUILayout.Space(10);
+                EditorGUILayout.LabelField("Create a tile set configuration");
+                //EditorGUILayout.LabelField("Create Tile Set Data", GUILayout.Width(60));
+                assetName = EditorGUILayout.TextField(assetName, GUILayout.Width(250));
 
-                GUILayout.BeginVertical();
-                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("Create Tile Set Configuration", GUILayout.Height(30)))
+                {
+                    ScriptableObject scriptableObject = ScriptableObject.CreateInstance<TileInputSet>();
+                    savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", assetName, "asset", "Choose a location to save the ScriptableObject.");
+                    if (string.IsNullOrEmpty(savePath)) return;
+                    AssetDatabase.CreateAsset(scriptableObject, savePath);
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                    selectedInputTileSet = scriptableObject as TileInputSet;
+                    GUILayout.EndArea();
+                }
 
-                EditorGUILayout.LabelField("Load a tile set");
-
-                GUILayout.FlexibleSpace();
-                GUILayout.EndVertical();
-
-                GUILayout.FlexibleSpace();
-                GUILayout.EndHorizontal();
+                EditorGUILayout.EndVertical();
+            }
+            else if(selectedDirectionInputTileList == null)
+            {
+                EditorGUILayout.LabelField("Select an input tile direction on the right panel");
+            }
+            else if(selectedDirectionInputTileList.arraySize == 0)
+            {
+                EditorGUILayout.LabelField("Press the plus button on the right panel to add an input tile on selected tile direction");
+            }
+            else if(selectedTileConstraints == null)
+            {
+                EditorGUILayout.LabelField("- Select an item from the tile list by pressing the > button");
+                EditorGUILayout.LabelField("- Make sure to fill the item with an input tile then press the > button");
+                EditorGUILayout.LabelField("- Dont have input tiles? you should plan, create and setup input tiles first");
             }
             else
             {
