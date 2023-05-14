@@ -734,29 +734,49 @@ namespace HelloWorld
             GUILayout.BeginArea(tileConstraintSetupSection);
             scrollPositionRight = EditorGUILayout.BeginScrollView(scrollPositionRight);
 
-            if (selectedTileConstraints != null)
+            if(selectedInputTileSet == null)
             {
-                selectedTileConstraints.Update();
+                GUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
 
-                EditorGUILayout.Space(5);
+                GUILayout.BeginVertical();
+                GUILayout.FlexibleSpace();
 
-                id = selectedTileConstraints.FindProperty("id");
-                gameObject = selectedTileConstraints.FindProperty("gameObject");
-                compatibleTopList = selectedTileConstraints.FindProperty("compatibleTop");
-                compatibleBottomList = selectedTileConstraints.FindProperty("compatibleBottom");
-                compatibleLeftList = selectedTileConstraints.FindProperty("compatibleLeft");
-                compatibleRightList = selectedTileConstraints.FindProperty("compatibleRight");
+                EditorGUILayout.LabelField("Load a tile set");
 
-                EditorGUILayout.PropertyField(id);
-                EditorGUILayout.PropertyField(gameObject);
-                EditorGUILayout.PropertyField(compatibleTopList, true);
-                EditorGUILayout.PropertyField(compatibleBottomList, true);
-                EditorGUILayout.PropertyField(compatibleLeftList, true);
-                EditorGUILayout.PropertyField(compatibleRightList, true);
+                GUILayout.FlexibleSpace();
+                GUILayout.EndVertical();
 
-                selectedTileConstraints.ApplyModifiedProperties();
-                
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
             }
+            else
+            {
+                if (selectedTileConstraints != null)
+                {
+                    selectedTileConstraints.Update();
+
+                    EditorGUILayout.Space(5);
+
+                    id = selectedTileConstraints.FindProperty("id");
+                    gameObject = selectedTileConstraints.FindProperty("gameObject");
+                    compatibleTopList = selectedTileConstraints.FindProperty("compatibleTop");
+                    compatibleBottomList = selectedTileConstraints.FindProperty("compatibleBottom");
+                    compatibleLeftList = selectedTileConstraints.FindProperty("compatibleLeft");
+                    compatibleRightList = selectedTileConstraints.FindProperty("compatibleRight");
+
+                    EditorGUILayout.PropertyField(id);
+                    EditorGUILayout.PropertyField(gameObject);
+                    EditorGUILayout.PropertyField(compatibleTopList, true);
+                    EditorGUILayout.PropertyField(compatibleBottomList, true);
+                    EditorGUILayout.PropertyField(compatibleLeftList, true);
+                    EditorGUILayout.PropertyField(compatibleRightList, true);
+
+                    selectedTileConstraints.ApplyModifiedProperties();
+
+                }
+            }
+            
             EditorGUILayout.EndScrollView();
             EditorGUILayout.Space(20);
             GUILayout.EndArea();

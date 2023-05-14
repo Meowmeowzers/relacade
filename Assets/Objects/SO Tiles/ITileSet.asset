@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1bd19df3282604ba22a455d47b2068, type: 3}
   m_Name: ITileSet
   m_EditorClassIdentifier: 
+  FourDirectionTiles:
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
   TopTiles:
   - {fileID: 11400000, guid: 285b18e0be212394d96f063b41d4d004, type: 2}
   TopLeftTiles:
   - {fileID: 11400000, guid: 2081985cf28d4404b9f9b39ad3ea119d, type: 2}
   TopRightTiles:
   - {fileID: 11400000, guid: eac3a1e2012ba224b9639ac34477be3e, type: 2}
-  FourDirectionTiles:
-  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
   LeftTiles:
   - {fileID: 11400000, guid: 3a2557d50e4a20145b09e8a39f4f805f, type: 2}
   RightTiles:
@@ -30,6 +33,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 596b1a160b4bca341b9b07208bedeca3, type: 2}
   BottomRightTiles:
   - {fileID: 11400000, guid: c86016582a055bf4f8436903480ccec0, type: 2}
+  IFourDirectionTiles:
+  - {fileID: 11400000, guid: 8db366e5946649a4b8a8e805aae833cf, type: 2}
   ITopLeftTiles:
   - {fileID: 11400000, guid: 66245670a18d07a4b8c4792a308e06c5, type: 2}
   ITopRightTiles:
