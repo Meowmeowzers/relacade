@@ -12,7 +12,7 @@ namespace HelloWorld
         public GameObject gameObject;
         public int id;
         
-        [SerializeField] public List<TileInput> compatibleTop = new();
+        public List<TileInput> compatibleTop = new();
         public List<TileInput> compatibleBottom = new();
         public List<TileInput> compatibleLeft = new();
         public List<TileInput> compatibleRight = new();

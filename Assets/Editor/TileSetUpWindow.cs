@@ -21,7 +21,7 @@ namespace HelloWorld
         private SerializedProperty compatibleLeftList;
         private SerializedProperty compatibleRightList;
 
-        private enum DirectionToSet { FourDirection, Top, Bottom, Left, Right, TopLeft, TopRight, BottomLeft, BottomRight, ITopLeft, ITopRight, IBottomLeft, IBottomRight };
+        private enum DirectionToSet { FourDirection, Top, Bottom, Left, Right, TopLeft, TopRight, BottomLeft, BottomRight, IFourDirection, ITopLeft, ITopRight, IBottomLeft, IBottomRight };
 
         #region Window Variables
         Texture2D headerBackgroundTexture;
@@ -150,8 +150,7 @@ namespace HelloWorld
             for (int i = 0; i < selectedInputTileSet.RightTiles.Count; i++)
             {
                 selectedInputTileSet.RightTiles[i] = MainCombine(selectedInputTileSet.RightTiles[i], selectedInputTileSet, DirectionToSet.Right);
-            }
-            /*
+            }    
             for (int i = 0; i < selectedInputTileSet.TopLeftTiles.Count; i++)
             {
                 selectedInputTileSet.TopLeftTiles[i] = MainCombine(selectedInputTileSet.TopLeftTiles[i], selectedInputTileSet, DirectionToSet.TopLeft);
@@ -168,28 +167,62 @@ namespace HelloWorld
             {
                 selectedInputTileSet.BottomRightTiles[i] = MainCombine(selectedInputTileSet.BottomRightTiles[i], selectedInputTileSet, DirectionToSet.BottomRight);
             }
-            */
+
+            for (int i = 0; i < selectedInputTileSet.IFourDirectionTiles.Count; i++)
+            {
+                selectedInputTileSet.IFourDirectionTiles[i] = MainCombine(selectedInputTileSet.IFourDirectionTiles[i], selectedInputTileSet, DirectionToSet.IFourDirection);
+            }
+            for (int i = 0; i < selectedInputTileSet.ITopRightTiles.Count; i++)
+            {
+                selectedInputTileSet.ITopRightTiles[i] = MainCombine(selectedInputTileSet.ITopRightTiles[i], selectedInputTileSet, DirectionToSet.ITopRight);
+            }
+            for (int i = 0; i < selectedInputTileSet.ITopLeftTiles.Count; i++)
+            {
+                selectedInputTileSet.ITopLeftTiles[i] = MainCombine(selectedInputTileSet.ITopLeftTiles[i], selectedInputTileSet, DirectionToSet.ITopLeft);
+            }
+            for (int i = 0; i < selectedInputTileSet.IBottomLeftTiles.Count; i++)
+            {
+                selectedInputTileSet.IBottomLeftTiles[i] = MainCombine(selectedInputTileSet.IBottomLeftTiles[i], selectedInputTileSet, DirectionToSet.IBottomLeft);
+            }
+            for (int i = 0; i < selectedInputTileSet.IBottomRightTiles.Count; i++)
+            {
+                selectedInputTileSet.IBottomRightTiles[i] = MainCombine(selectedInputTileSet.IBottomRightTiles[i], selectedInputTileSet, DirectionToSet.IBottomRight);
+            }
         }
 
         private TileInput MainCombine(TileInput tileInput, TileInputSet set, DirectionToSet direction)
         {
             switch (direction)
             {
-                //add own
-                //add other/invert 4 dir
                 case DirectionToSet.FourDirection:
                     #region FourDirection
+                    if (!tileInput.compatibleTop.Contains(tileInput))
+                    {
+                        tileInput.compatibleTop.Add(tileInput);
+                    }
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopTiles);
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopLeftTiles);
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopRightTiles);
+                    if (!tileInput.compatibleBottom.Contains(tileInput))
+                    {
+                        tileInput.compatibleBottom.Add(tileInput);
+                    }
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomLeftTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomRightTiles);
+                    if (!tileInput.compatibleLeft.Contains(tileInput))
+                    {
+                        tileInput.compatibleLeft.Add(tileInput);
+                    }
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.LeftTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopLeftTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomLeftTiles);
+                    if (!tileInput.compatibleRight.Contains(tileInput))
+                    {
+                        tileInput.compatibleRight.Add(tileInput);
+                    }
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.RightTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopRightTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomRightTiles);
                     break;
                     #endregion
@@ -198,12 +231,21 @@ namespace HelloWorld
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomTiles);
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopLeftTiles);
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopRightTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IFourDirectionTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourDirectionTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomLeftTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomRightTiles);
+                    if (!tileInput.compatibleLeft.Contains(tileInput))
+                    {
+                        tileInput.compatibleLeft.Add(tileInput);
+                    }
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopLeftTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomRightTiles);
+                    if (!tileInput.compatibleRight.Contains(tileInput))
+                    {
+                        tileInput.compatibleRight.Add(tileInput);
+                    }
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopRightTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomLeftTiles);
                     break;
@@ -215,24 +257,41 @@ namespace HelloWorld
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopLeftTiles);
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopRightTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomLeftTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IFourDirectionTiles);
+                    if (!tileInput.compatibleLeft.Contains(tileInput))
+                    {
+                        tileInput.compatibleLeft.Add(tileInput);
+                    }
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomLeftTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomRightTiles);
+                    if (!tileInput.compatibleRight.Contains(tileInput))
+                    {
+                        tileInput.compatibleRight.Add(tileInput);
+                    }
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomRightTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomLeftTiles);
                     #endregion
                     break;
                 case DirectionToSet.Left:
                     #region Left
+                    if (!tileInput.compatibleTop.Contains(tileInput))
+                    {
+                        tileInput.compatibleTop.Add(tileInput);
+                    }
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomLeftTiles);
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IBottomRightTiles);
+                    if (!tileInput.compatibleBottom.Contains(tileInput))
+                    {
+                        tileInput.compatibleBottom.Add(tileInput);
+                    }
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomLeftTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ITopRightTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.RightTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ITopLeftTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IFourDirectionTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourDirectionTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.RightTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomRightTiles);
@@ -241,8 +300,16 @@ namespace HelloWorld
                     break;
                 case DirectionToSet.Right:
                     #region Right
+                    if (!tileInput.compatibleTop.Contains(tileInput))
+                    {
+                        tileInput.compatibleTop.Add(tileInput);
+                    }
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomRightTiles);
                     tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IBottomLeftTiles);
+                    if (!tileInput.compatibleBottom.Contains(tileInput))
+                    {
+                        tileInput.compatibleBottom.Add(tileInput);
+                    }
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopRightTiles);
                     tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ITopLeftTiles);
                     tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourDirectionTiles);
@@ -252,46 +319,183 @@ namespace HelloWorld
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.LeftTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomLeftTiles);
                     tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ITopLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IFourDirectionTiles);
                     #endregion
                     break;
                 case DirectionToSet.TopLeft:
                     #region TopLeft
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.LeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomLeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IBottomRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourDirectionTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopRightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourDirectionTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.RightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopRightTiles);
                     #endregion
                     break;
                 case DirectionToSet.TopRight:
                     #region TopRight
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.LeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomRightTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IBottomLeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourDirectionTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourDirectionTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.LeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomLeftTiles);
                     #endregion
                     break;
                 case DirectionToSet.BottomLeft:
                     #region BottomLeft
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourDirectionTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopLeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.LeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopLeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ITopRightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomRightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ITopRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourDirectionTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.RightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopRightTiles);
                     #endregion
                     break;
                 case DirectionToSet.BottomRight:
                     #region BottomRight
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourDirectionTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopLeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TopRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.RightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourDirectionTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.LeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ITopLeftTiles);
+                    #endregion
+                    break;
+                case DirectionToSet.IFourDirection:
+                    #region IFourDirection
+                    if (!tileInput.compatibleTop.Contains(tileInput))
+                    {
+                        tileInput.compatibleTop.Add(tileInput);
+                    }
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopLeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopRightTiles);
+                    if (!tileInput.compatibleBottom.Contains(tileInput))
+                    {
+                        tileInput.compatibleBottom.Add(tileInput);
+                    }
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomLeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomRightTiles);
+                    if (!tileInput.compatibleLeft.Contains(tileInput))
+                    {
+                        tileInput.compatibleLeft.Add(tileInput);
+                    }
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.RightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ITopLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomLeftTiles);
+                    if (!tileInput.compatibleRight.Contains(tileInput))
+                    {
+                        tileInput.compatibleRight.Add(tileInput);
+                    }
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.LeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ITopRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomRightTiles);
                     #endregion
                     break;
                 case DirectionToSet.ITopLeft:
                     #region ITopLeft
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.RightTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomRightTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IBottomLeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomLeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IFourDirectionTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BottomRightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ITopRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.LeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ITopRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IFourDirectionTiles);
                     #endregion
                     break;
                 case DirectionToSet.ITopRight:
                     #region ITopRight
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.LeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomLeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IBottomRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomLeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IBottomRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.IFourDirectionTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.RightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ITopLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IFourDirectionTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ITopLeftTiles);
                     #endregion
                     break;
                 case DirectionToSet.IBottomLeft:
                     #region IBottomLeft
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopLeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopRightTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IFourDirectionTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.RightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ITopLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TopRightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.LeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ITopRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IFourDirectionTiles);
                     #endregion
                     break;
                 case DirectionToSet.IBottomRight:
                     #region IBottomRight
-
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BottomTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopLeftTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ITopRightTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.IFourDirectionTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.LeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TopLeftTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ITopRightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.RightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IBottomLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ITopLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.IFourDirectionTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TopTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BottomLeftTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.IBottomLeftTiles);
                     #endregion
                     break;
                 default:
@@ -299,6 +503,7 @@ namespace HelloWorld
             }
             return tileInput;
         }
+        
         private List<TileInput> SubCombine(List<TileInput> tileConstraintsList, List<TileInput> tilesToAdd)
         {
             foreach(var item in tilesToAdd)
@@ -313,6 +518,7 @@ namespace HelloWorld
 
         private void AutoGenerateSerialized()
         {
+            //TODO: Use serialized objects and properties to enable undo functionality in editor
             /*
             string[] directions = { "TopLeftTiles", "TopTiles", "TopRightTiles", "LeftTiles", "FourDirectionTiles",
             "RightTiles", "BottomLeftTiles", "BottomTiles", "BottomRightTiles"};
@@ -361,54 +567,90 @@ namespace HelloWorld
         {
             GUILayout.BeginArea(tileSetupSection);
             scrollPositionLeft = EditorGUILayout.BeginScrollView(scrollPositionLeft, false, false);
-            
+
             #region Buttons
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("TopLeft", GUILayout.Height(40), GUILayout.Width(96)))
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("TopLeft", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("TopLeftTiles");
             }
-            if (GUILayout.Button("Top", GUILayout.Height(40), GUILayout.Width(96)))
+            if (GUILayout.Button("Top", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("TopTiles");
             }
-            if (GUILayout.Button("TopRight", GUILayout.Height(40), GUILayout.Width(96)))
+            if (GUILayout.Button("TopRight", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("TopRightTiles");
             }
+            GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Left", GUILayout.Height(40), GUILayout.Width(96)))
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Left", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("LeftTiles");
             }
-            if (GUILayout.Button("4 Direction", GUILayout.Height(40), GUILayout.Width(96)))
+            if (GUILayout.Button("4 Direction", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("FourDirectionTiles");
             }
-            if (GUILayout.Button("Right", GUILayout.Height(40), GUILayout.Width(96)))
+            if (GUILayout.Button("Right", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("RightTiles");
             }
+            GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("BottomLeft", GUILayout.Height(40), GUILayout.Width(96)))
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("BottomLeft", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("BottomLeftTiles");
             }
-            if (GUILayout.Button("Bottom", GUILayout.Height(40), GUILayout.Width(96)))
+            if (GUILayout.Button("Bottom", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("BottomTiles");
             }
-            if (GUILayout.Button("BottomRight", GUILayout.Height(40), GUILayout.Width(96)))
+            if (GUILayout.Button("BottomRight", GUILayout.Height(30), GUILayout.Width(96)))
             {
                 SetCurrentTileToConfig("BottomRightTiles");
             }
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("ITopLeft", GUILayout.Height(30), GUILayout.Width(96)))
+            {
+                SetCurrentTileToConfig("ITopLeftTiles");
+            }
+            if (GUILayout.Button("IFourDirection", GUILayout.Height(30), GUILayout.Width(96)))
+            {
+                SetCurrentTileToConfig("IFourDirectionTiles");
+            }
+            if (GUILayout.Button("ITopRight", GUILayout.Height(30), GUILayout.Width(96)))
+            {
+                SetCurrentTileToConfig("ITopRightTiles");
+            }
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("IBottomLeft", GUILayout.Height(30), GUILayout.Width(96)))
+            {
+                SetCurrentTileToConfig("IBottomLeftTiles");
+            }
+            if (GUILayout.Button("IBottomRight", GUILayout.Height(30), GUILayout.Width(96)))
+            {
+                SetCurrentTileToConfig("IBottomRightTiles");
+            }
+            GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
             #endregion
-
+            
             if (selectedInputTileSet != null && selectedInputTileSetProperty != "")
             {
                 //EditorGUILayout.PropertyField(selectedDirectionInputTileList, true);
@@ -428,10 +670,27 @@ namespace HelloWorld
             EditorGUILayout.BeginHorizontal();
             selectedDirectionInputTileList.isExpanded = EditorGUILayout.Foldout(selectedDirectionInputTileList.isExpanded, selectedInputTileSetProperty);
             
+            GUILayout.FlexibleSpace();
+
+            // Plus button
+            if (GUILayout.Button("+", GUILayout.Width(20)))
+            {
+                selectedDirectionInputTileList.arraySize++;
+            }
+
+            // Minus button
+            if (GUILayout.Button("-", GUILayout.Width(20)))
+            {
+                if (selectedDirectionInputTileList.arraySize > 0)
+                {
+                    selectedDirectionInputTileList.arraySize--;
+                }
+            }
+
             EditorGUILayout.EndHorizontal();
             if (selectedDirectionInputTileList.isExpanded)
             {
-                EditorGUI.indentLevel++;
+                //EditorGUI.indentLevel++;
 
                 for (int i = 0; i < selectedDirectionInputTileList.arraySize; i++)
                 {
@@ -450,7 +709,7 @@ namespace HelloWorld
                     EditorGUILayout.EndHorizontal();
                 }
             }
-            EditorGUI.indentLevel++;
+            //EditorGUI.indentLevel--;
         }
 
         private void SetCurrentTileToConfig(string property)
