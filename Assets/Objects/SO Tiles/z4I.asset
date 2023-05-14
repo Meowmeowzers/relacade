@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1960bd12f2473454e8d8e36099712b1e, type: 3}
   m_Name: z4I
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 0}
+  gameObject: {fileID: 200094413327123030, guid: 961dfad77dea168458d73b9c096d3945, type: 3}
   id: 0
   compatibleTop:
   - {fileID: 11400000}

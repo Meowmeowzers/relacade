@@ -5,7 +5,7 @@ namespace HelloWorld
 {
 
     //Future: make entropy 1 the definite state
-
+    //TODO: Dont use tilegrid variable. Pass values from parent instead. IDK to reduce coupling??
     public class EditorGridCell : MonoBehaviour
     {
         public int xIndex;
@@ -14,6 +14,10 @@ namespace HelloWorld
         public int selectedTileID;
         public bool isDefinite = false;
         public List<GameObject> inputTiles;
+
+        public List<TileInput> tileInputs;
+        public List<TileInput> propagatedTileInputs;
+        private TileInput selectedTileInput;
 
         [SerializeField] private EditorTileGrid tileGrid;
         private List<GameObject> propagatedCells = new();
@@ -28,6 +32,65 @@ namespace HelloWorld
             propagatedCells.Clear();
             isDefinite = false;
         }
+        //New script
+        public void Initialize(int tileCount, List<TileInput> value)
+        {
+            entropy = tileCount;
+            tileInputs.Clear();
+            tileInputs.AddRange(value);
+            propagatedTileInputs.Clear();
+            isDefinite = false;
+        }
+
+        public void SelectTile(int removeNextTime)
+        {
+            //int select = inputTiles[Random.Range(0, inputTiles.Count)].GetComponent<InputTile>().id;
+            selectedTileInput = Instantiate(tileInputs[Random.Range(0, tileInputs.Count)], transform);
+
+            tileInputs.Clear();
+            tileInputs.Add(selectedTileInput);
+
+            selectedTileID = selectedTileInput.id;
+            isDefinite = true;
+            entropy = 1;
+
+            Debug.Log("Selected Cell: " + xIndex + " " + yIndex
+                + ", Selected Tile: " + select + ", ID: " + selectedTileInput.id);
+        }
+        public void NewSelectTile(TileInput tileInput)
+        {
+            selectedTileID = tileInput.id;
+            selectedTileInput = tileInput;
+            Instantiate(tileInput.gameObject, transform);
+            tileInputs.Clear();
+            tileInputs.Add(selectedTileInput);
+            isDefinite = true;
+            entropy = 1;
+        }
+
+        public void NewPropagate(List<TileInput> compatibleTiles)
+        {
+            propagatedTileInputs.Clear();
+            foreach (var item in compatibleTiles)
+            {
+                if (tileInputs.Contains(item))
+                {
+                    propagatedTileInputs.Add(item);
+                }
+            }
+            tileInputs.Clear();
+            tileInputs.AddRange(propagatedTileInputs);
+            entropy = tileInputs.Count;
+        }
+
+        public bool NewIsCellNotConflict()
+        {
+            if (tileInputs.Count > 0)
+                return true;
+            else
+                return false;
+        }
+        //NewScript end
 
         public void SelectTile()
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEditor;
 using Unity.EditorCoroutines.Editor;
 using System.Collections;
 
@@ -10,6 +11,7 @@ namespace HelloWorld
 {
     public class EditorTileGrid : MonoBehaviour
     {
+        public TileInputSet tileInputSet;
         public GameObject gridCellObject;
         public int size = 8;
         public float tileSize = 1;

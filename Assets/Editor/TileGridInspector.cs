@@ -17,8 +17,12 @@ public class TileGridInspector : Editor
 
     public List<CellData> cells = new();
     private DataTileGrid tileGridData;
+
     public int size;
     public float tilesize;
+
+    public TileInputSet tileInputSet;
+    public SerializedObject serializedTileInputSet;
 
     private void OnEnable()
     {
@@ -27,10 +31,18 @@ public class TileGridInspector : Editor
 
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+
         tileGrid.gridCellObject = (GameObject)EditorGUILayout.ObjectField("Cell Object", tileGrid.gridCellObject, typeof(GameObject), false);
-        EditorGUILayout.ObjectField("TileGrid", tileGrid, typeof(TileGridInspector), false);
+        //EditorGUILayout.ObjectField("TileGrid", tileGrid, typeof(TileGridInspector), false);
         tileGrid.size = EditorGUILayout.IntSlider("Grid size", tileGrid.size, 2, 50);
         tileGrid.tileSize = EditorGUILayout.FloatField("Cell Size", tileGrid.tileSize);
+
+        tileInputSet = (TileInputSet)EditorGUILayout.ObjectField("Tile Input Set", tileInputSet, typeof(TileInputSet), false);
+        if(tileInputSet != null)
+        {
+            serializedTileInputSet = new SerializedObject(tileInputSet);
+        }
 
         GUILayout.BeginHorizontal();
             if (GUILayout.Button("Generate"))

@@ -12,9 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1960bd12f2473454e8d8e36099712b1e, type: 3}
   m_Name: zBottomRight
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 200094413327123030, guid: 961dfad77dea168458d73b9c096d3945, type: 3}
+  gameObject: {fileID: 200094413327123030, guid: 18d2a4e4cb0d3864ab43680465d8240f, type: 3}
   id: -37
-  compatibleTop: []
-  compatibleBottom: []
-  compatibleLeft: []
-  compatibleRight: []
+  compatibleTop:
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
+  - {fileID: 11400000, guid: 285b18e0be212394d96f063b41d4d004, type: 2}
+  - {fileID: 11400000, guid: 2081985cf28d4404b9f9b39ad3ea119d, type: 2}
+  - {fileID: 11400000, guid: eac3a1e2012ba224b9639ac34477be3e, type: 2}
+  compatibleBottom:
+  - {fileID: 11400000, guid: 6467a622f137a094b9bcce8beb830281, type: 2}
+  - {fileID: 11400000, guid: eac3a1e2012ba224b9639ac34477be3e, type: 2}
+  - {fileID: 11400000, guid: 781b2d8043fd9a242ac82f328a553321, type: 2}
+  compatibleLeft:
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
+  - {fileID: 11400000, guid: 3a2557d50e4a20145b09e8a39f4f805f, type: 2}
+  - {fileID: 11400000, guid: 596b1a160b4bca341b9b07208bedeca3, type: 2}
+  - {fileID: 11400000, guid: 2081985cf28d4404b9f9b39ad3ea119d, type: 2}
+  compatibleRight:
+  - {fileID: 11400000, guid: 45114592cbefb4d459c60400cb81e3d2, type: 2}
+  - {fileID: 11400000, guid: 596b1a160b4bca341b9b07208bedeca3, type: 2}
+  - {fileID: 11400000, guid: 66245670a18d07a4b8c4792a308e06c5, type: 2}

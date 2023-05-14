@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FourDirectionTiles:
   - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
-  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
-  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
-  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
   TopTiles:
   - {fileID: 11400000, guid: 285b18e0be212394d96f063b41d4d004, type: 2}
   TopLeftTiles:
