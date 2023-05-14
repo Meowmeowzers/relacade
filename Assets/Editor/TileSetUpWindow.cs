@@ -41,6 +41,10 @@ namespace HelloWorld
 
         Vector2 scrollPositionLeft = Vector2.zero;
         Vector2 scrollPositionRight = Vector2.zero;
+        
+        int newArraySize;
+        int currentArraySize;
+
         #endregion
 
         [MenuItem("Custom/Tile Setup")]
@@ -650,13 +654,12 @@ namespace HelloWorld
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
             #endregion
-            
+
+            EditorGUILayout.Space(10);
+
             if (selectedInputTileSet != null && selectedInputTileSetProperty != "")
             {
-                //EditorGUILayout.PropertyField(selectedDirectionInputTileList, true);
-                EditorGUILayout.BeginVertical(GUILayout.Width(300));
                 ShowTileList();
-                EditorGUILayout.EndVertical();
                 serializedTileSetObject.ApplyModifiedProperties();
             }
 
@@ -668,9 +671,17 @@ namespace HelloWorld
         private void ShowTileList()
         {
             EditorGUILayout.BeginHorizontal();
-            selectedDirectionInputTileList.isExpanded = EditorGUILayout.Foldout(selectedDirectionInputTileList.isExpanded, selectedInputTileSetProperty);
-            
+           
+            EditorGUILayout.LabelField(selectedInputTileSetProperty);
             GUILayout.FlexibleSpace();
+
+            // Array size field
+            currentArraySize = selectedDirectionInputTileList.arraySize;
+            newArraySize = EditorGUILayout.IntField(currentArraySize, GUILayout.Width(50));
+            if (newArraySize != currentArraySize)
+            {
+                selectedDirectionInputTileList.arraySize = newArraySize;
+            }
 
             // Plus button
             if (GUILayout.Button("+", GUILayout.Width(20)))
@@ -688,28 +699,25 @@ namespace HelloWorld
             }
 
             EditorGUILayout.EndHorizontal();
-            if (selectedDirectionInputTileList.isExpanded)
+
+            EditorGUILayout.Space(5);
+
+            for (int i = 0; i < selectedDirectionInputTileList.arraySize; i++)
             {
-                //EditorGUI.indentLevel++;
+                SerializedProperty elementProperty = selectedDirectionInputTileList.GetArrayElementAtIndex(i);
 
-                for (int i = 0; i < selectedDirectionInputTileList.arraySize; i++)
+                //GUIContent elementLabel = new($"Element {i + 1}");
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField($"Item {i + 1}", GUILayout.Width(60));
+                //EditorGUI.PropertyField(EditorGUILayout.GetControlRect(true), elementProperty, true);
+                EditorGUILayout.PropertyField(elementProperty, GUIContent.none);
+                if (GUILayout.Button(">", GUILayout.Width(30)))
                 {
-                    SerializedProperty elementProperty = selectedDirectionInputTileList.GetArrayElementAtIndex(i);
-
-                    //GUIContent elementLabel = new($"Element {i + 1}");
-                    EditorGUILayout.BeginHorizontal();
-
-                    //EditorGUI.PropertyField(EditorGUILayout.GetControlRect(true), elementProperty, true);
-                    EditorGUILayout.PropertyField(elementProperty);
-                    if (GUILayout.Button(">", GUILayout.Width(30)))
-                    {
-                        Object elementReference = elementProperty.objectReferenceValue;
-                        selectedTileConstraints = new(elementReference);
-                    }
-                    EditorGUILayout.EndHorizontal();
+                    Object elementReference = elementProperty.objectReferenceValue;
+                    selectedTileConstraints = new(elementReference);
                 }
+                EditorGUILayout.EndHorizontal();
             }
-            //EditorGUI.indentLevel--;
         }
 
         private void SetCurrentTileToConfig(string property)
