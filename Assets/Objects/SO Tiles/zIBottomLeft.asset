@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: zIBottomLeft
   m_EditorClassIdentifier: 
   gameObject: {fileID: 200094413327123030, guid: 62c5690bf350b1648b9c6874e3598957, type: 3}
-  id: -37
+  id: 5
   compatibleTop:
   - {fileID: 11400000, guid: 45114592cbefb4d459c60400cb81e3d2, type: 2}
   - {fileID: 11400000, guid: 66245670a18d07a4b8c4792a308e06c5, type: 2}

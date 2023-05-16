@@ -8,7 +8,7 @@ namespace HelloWorld
     public class SaveWaveData : MonoBehaviour
     {
         public string fileName = "";
-        public TileGrid tileGrid;
+        public EditorTileGrid tileGrid;
         public List<CellData> cells = new();
         private DataTileGrid tileGridData;
         public int size;
@@ -33,7 +33,7 @@ namespace HelloWorld
         public void GetTileGridData()
         {
             //tileGridData.Clear();
-            tileGridData = new(tileGrid.size, tileGrid.tileSize, tileGrid.inputTiles, cells);
+            tileGridData = new(tileGrid.size, tileGrid.tileSize, tileGrid.tileInputs, cells);
         }
 
         public void GetCellData()

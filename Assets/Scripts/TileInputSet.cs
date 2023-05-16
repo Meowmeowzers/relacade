@@ -8,6 +8,8 @@ namespace HelloWorld
     [CreateAssetMenu(fileName = "New Input Tile Set Data", menuName = "Relacade/Input Tile Set Data")]
     public class TileInputSet : ScriptableObject
     {
+        [SerializeField] public List<TileInput> AllInputTiles = new();
+
         [SerializeField] public List<TileInput> FourDirectionTiles = new();
         [SerializeField] public List<TileInput> TopTiles = new();
         [SerializeField] public List<TileInput> TopLeftTiles = new();

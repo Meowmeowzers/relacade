@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: zLeft
   m_EditorClassIdentifier: 
   gameObject: {fileID: 200094413327123030, guid: c6523def1c333464cb2e55fcd90c3428, type: 3}
-  id: 0
+  id: 9
   compatibleTop:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 596b1a160b4bca341b9b07208bedeca3, type: 2}
   - {fileID: 11400000, guid: 6735115dead4b4a419b8f4f7fd54db9c, type: 2}
   compatibleBottom:
   - {fileID: 11400000}
-  - {fileID: 11400000, guid: 596b1a160b4bca341b9b07208bedeca3, type: 2}
+  - {fileID: 11400000, guid: 2081985cf28d4404b9f9b39ad3ea119d, type: 2}
   - {fileID: 11400000, guid: f80ba1935519825459e871882c281d2f, type: 2}
   compatibleLeft:
   - {fileID: 11400000, guid: 6467a622f137a094b9bcce8beb830281, type: 2}
