@@ -1,0 +1,99 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace HelloWorld
+{
+
+    //Future: make entropy 1 the definite state
+    //TODO: Dont use tilegrid variable. Pass values from parent instead. IDK to reduce coupling??
+    public class EditorGridCell : MonoBehaviour
+    {
+        public int xIndex;
+        public int yIndex;
+        public int entropy;
+        public int selectedTileID;
+        private bool isDefinite = false;
+
+        public List<TileInput> tileInputs;
+        public List<TileInput> propagatedTileInputs = new();
+
+        private TileInput selectedTileInput;
+
+        //New script
+        public void Initialize(List<TileInput> value)
+        {
+            tileInputs.Clear();
+            tileInputs.AddRange(value);
+            propagatedTileInputs.Clear();
+            isDefinite = false;
+            entropy = tileInputs.Count;
+        }
+
+        public void SelectTile()
+        {
+            selectedTileInput = tileInputs[Random.Range(0, tileInputs.Count)];
+            Instantiate(selectedTileInput.gameObject, transform);
+
+            tileInputs.Clear();
+            tileInputs.Add(selectedTileInput);
+
+            selectedTileID = selectedTileInput.id;
+            isDefinite = true;
+            entropy = 1;
+
+            Debug.Log("Selected Cell: " + xIndex + " " + yIndex
+                + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
+        }
+        public void SelectTile(TileInput tileInput)
+        {
+            selectedTileID = tileInput.id;
+            selectedTileInput = tileInput;
+            Instantiate(tileInput.gameObject, transform);
+            tileInputs.Clear();
+            tileInputs.Add(selectedTileInput);
+            isDefinite = true;
+            entropy = 1;
+        }
+
+        public void Propagate(List<TileInput> compatibleTiles)
+        {
+            propagatedTileInputs.Clear();
+            foreach (var item in compatibleTiles)
+            {
+                if (tileInputs.Contains(item))
+                {
+                    propagatedTileInputs.Add(item);
+                }
+            }
+            tileInputs.Clear();
+            tileInputs.AddRange(propagatedTileInputs);
+            entropy = tileInputs.Count;
+        }
+
+        public bool IsCellNotConflict()
+        {
+            if (tileInputs.Count > 0)
+                return true;
+            else
+                return false;
+        }
+        //NewScript end
+
+        public void ResetCell(List<TileInput> value)
+        {
+            Initialize(value);
+            if(GetComponentInChildren<Transform>().gameObject != null)
+            {
+                DestroyImmediate(GetComponentInChildren<Transform>().gameObject);
+            }
+        }
+
+        public bool IsNotDefiniteState()
+        {
+            if (!isDefinite)
+                return true;
+            else
+                return false;
+        }
+    }
+}

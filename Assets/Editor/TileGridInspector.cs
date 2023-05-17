@@ -1,197 +1,270 @@
-using HelloWorld;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(EditorTileGrid))]
-public class TileGridInspector : Editor
+namespace HelloWorld.Editor
 {
-    private EditorTileGrid tileGrid;
-    private SerializedObject serializedTileGrid;
+	[CustomEditor(typeof(EditorTileGrid))]
+	public class TileGridInspector : UnityEditor.Editor
+	{
+		private EditorTileGrid tileGrid;
 
-    private TextAsset importedData;
-    private string fileName = "";
-    private bool showDefaultInspector = false;
-    private bool enableDefaultInspector = false;
+		private SerializedProperty serializedSize;
+		private SerializedProperty serializedTileSize;
+		private SerializedProperty serializedTileSet;
+		private SerializedProperty serializedTileInputs;
+		private SerializedProperty serializedGridCellObject;
 
-    public List<CellData> cells = new();
-    private HelloWorld.DataTileGrid tileGridData;
+		private readonly List<CellData> cells = new();
+		private DataTileGrid tileGridData;
 
-    public int size;
-    public float tilesize;
+        //private TextAsset importedData;
+		//private bool showSaveLoadSection = false;
+        //private bool showDefaultInspector = false;
+        //private bool enableDefaultInspector = false;
+        private bool shouldFinalize = false;
 
-    public TileInputSet tileInputSet;
-    public SerializedObject serializedTileInputSet;
+        private void OnEnable()
+		{
+			tileGrid = (EditorTileGrid)target;
 
-    private SerializedProperty tileInputSetSerialized;
-    private SerializedProperty serializedTileInputs;
-    private SerializedProperty sizeSerialized;
-    private SerializedProperty tileSizeSerialized;
+			serializedSize = serializedObject.FindProperty("size");
+			serializedTileSize = serializedObject.FindProperty("tileSize");
+			serializedTileSet = serializedObject.FindProperty("tileInputSet");
+			serializedTileInputs = serializedObject.FindProperty("tileInputs");
+			serializedGridCellObject = serializedObject.FindProperty("gridCellObject");
 
-    private void OnEnable()
-    {
-        tileGrid = (EditorTileGrid)target;
-        serializedTileGrid = new(tileGrid);
+			serializedTileInputs.isExpanded = false;
+		}
 
-        tileInputSetSerialized = serializedTileGrid.FindProperty("tileInputSet");
-        serializedTileInputSet.FindProperty("tileInputSet");
-        serializedTileInputs.FindPropertyRelative("tileInputs");
-        sizeSerialized.FindPropertyRelative("size");
-        tileSizeSerialized = serializedTileGrid.FindProperty("tileSize");
-    }
+		public override void OnInspectorGUI()
+		{
+			serializedObject.Update();
 
-    
-    /*
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
-        serializedTileGrid.Update();
-        if(serializedTileInputSet != null)
-        {
-            serializedTileInputSet.Update();
-        }
+			EditorGUILayout.PropertyField(serializedGridCellObject);
+			EditorGUILayout.PropertyField(serializedTileSet);
+			EditorGUILayout.PropertyField(serializedSize);
+			EditorGUILayout.PropertyField(serializedTileSize);
 
-        tileGrid.gridCellObject = (GameObject)EditorGUILayout.ObjectField("Cell Object", tileGrid.gridCellObject, typeof(GameObject), false);
-        //EditorGUILayout.ObjectField("TileGrid", tileGrid, typeof(TileGridInspector), false);
-        EditorGUILayout.PropertyField(sizeSerialized);
-        EditorGUILayout.PropertyField(tileSizeSerialized);
+			EditorGUILayout.BeginHorizontal();
+			if (GUILayout.Button("Generate", GUILayout.Height(25)))
+			{
+				tileGrid.ClearCells();
+				tileGrid.gridCell = new EditorGridCell[tileGrid.size, tileGrid.size];
+				tileGrid.InitializeWave();
+			}
+			if (GUILayout.Button("Clear", GUILayout.Height(25)))
+			{
+				tileGrid.Stop();
+				tileGrid.ClearCells();
+			}
+			EditorGUILayout.EndHorizontal();
+            
+			EditorGUILayout.BeginHorizontal();
+			shouldFinalize = EditorGUILayout.ToggleLeft("Finalize?", shouldFinalize, GUILayout.Width(70));
 
-        tileInputSet = (TileInputSet)EditorGUILayout.ObjectField("Tile Input Set", tileInputSet, typeof(TileInputSet), false);
-        if(tileInputSet != null)
-        {
-            serializedTileInputSet = new SerializedObject(tileInputSet);
-        }
+            if (shouldFinalize)
+			{
+				if (GUILayout.Button("Finalize", GUILayout.Height(20)))
+				{
+					Debug.Log("Finalize game objects");
+				}
+			}
 
-        GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Generate"))
+			EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Separator();
+
+            //importedData = (TextAsset)EditorGUILayout.ObjectField("Data file", importedData, typeof(TextAsset), true);
+			
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Load File"))
             {
-                tileGrid.ClearCells();
-                tileGrid.gridCell = new EditorGridCell[tileGrid.size, tileGrid.size];
-                tileGrid.InitializeWave();
+                Load();
             }
-            if (GUILayout.Button("Clear"))
+            if (GUILayout.Button("Save"))
             {
-                tileGrid.ClearCells();
+                SaveData();
             }
-        GUILayout.EndHorizontal();
+            EditorGUILayout.EndHorizontal();
 
-        EditorGUILayout.Separator();
+			EditorGUILayout.PropertyField(serializedTileInputs);
+			
+			serializedObject.ApplyModifiedProperties();
+		}
 
-        fileName = EditorGUILayout.TextField("Data path", fileName);
-        importedData = (TextAsset)EditorGUILayout.ObjectField("Data file", importedData, typeof(Object), true);
+		private void Load()
+		{
+			string filePath = EditorUtility.OpenFilePanel("Select File", "", "json");
+			if (!string.IsNullOrEmpty(filePath))
+			{
+				Debug.Log(filePath);
 
+				StreamReader reader = new(filePath);
+				string content = reader.ReadToEnd();
+				reader.Close();
+
+				tileGridData = JsonUtility.FromJson<DataTileGrid>(content);
+				//Debug.Log(tileGridData.size + " " + tileGridData.tileSize);
+
+				int newSize = tileGridData.size;
+				float newTileSize = tileGridData.tileSize;
+				List<CellData> newCellData = tileGridData.cellData;
+
+				tileGrid.ResetWave(newSize, newTileSize, newCellData);
+			}
+		}
+
+		public void SaveData()
+		{
+			string filePath = EditorUtility.SaveFilePanelInProject("Save level data", "LevelData", "json", "Choose a location to save the generated level data.");
+			if (!string.IsNullOrEmpty(filePath))
+			{
+				GetCellData();
+				GetTileGridData();
+
+				string data = JsonUtility.ToJson(tileGridData);
+				FileStream filestream = new(filePath, FileMode.Create);
+
+				using StreamWriter writer = new(filestream);
+				writer.Write(data);
+
+				Debug.Log("Grid data saved...");
+		
+				//if (string.IsNullOrEmpty(filePath)) return;
+				//AssetDatabase.CreateAsset(scriptableObject, filePath);
+				//AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+			}
+		}
+
+		public void GetTileGridData()
+		{
+			tileGridData = new(tileGrid.size, tileGrid.tileSize, tileGrid.tileInputs, cells);
+		}
+
+		public void GetCellData()
+		{
+			cells.Clear();
+			Debug.Log(tileGrid.gridCell);
+			int newXIndex;
+			int newYIndex;
+			int newSelectedTileID;
+			foreach (var item in tileGrid.gridCell)
+			{
+				EditorGridCell cell = item.GetComponent<EditorGridCell>();
+				Debug.Log(cell);
+				newXIndex = cell.xIndex;
+				newYIndex = cell.yIndex;
+				newSelectedTileID = cell.selectedTileID;
+				CellData cellData = new(newXIndex, newYIndex, newSelectedTileID);
+				cells.Add(cellData);
+			}
+		}
+	}
+}
+
+/*
+if (showDefaultInspector = EditorGUILayout.Foldout(showDefaultInspector, "Show default Inspector"))
+{
+enableDefaultInspector = EditorGUILayout.BeginToggleGroup("Enable", enableDefaultInspector);
+//base.OnInspectorGUI();
+DrawDefaultInspector();
+EditorGUILayout.EndToggleGroup();
+}
+*/
+
+/*
+EditorGUILayout.LabelField("File Name", GUILayout.Width(60));
+        fileName = EditorGUILayout.TextField(fileName);
         if (GUILayout.Button("Save"))
         {
-            SaveData();
+            Debug.Log("TODO::::SaveData()");
+            //SaveData();
         }
+*/
+/*
+public override void OnInspectorGUI()
+{
+    serializedObject.Update();
+    serializedTileGrid.Update();
+    if(serializedTileInputSet != null)
+    {
+        serializedTileInputSet.Update();
+    }
 
-        GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Load from file"))
-            {
-                LoadWaveDataFromFile();
-            }
-            if (GUILayout.Button("Load from path"))
-            {
-                LoadWaveDataFromPath();
-            }
-        GUILayout.EndHorizontal();
+    tileGrid.gridCellObject = (GameObject)EditorGUILayout.ObjectField("Cell Object", tileGrid.gridCellObject, typeof(GameObject), false);
+    //EditorGUILayout.ObjectField("TileGrid", tileGrid, typeof(TileGridInspector), false);
+    EditorGUILayout.PropertyField(sizeSerialized);
+    EditorGUILayout.PropertyField(tileSizeSerialized);
 
-        
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("tileInputs"), new("Input Tiles SO"), true);
-        if(tileInputSet != null)
+    tileInputSet = (TileInputSet)EditorGUILayout.ObjectField("Tile Input Set", tileInputSet, typeof(TileInputSet), false);
+    if(tileInputSet != null)
+    {
+        serializedTileInputSet = new SerializedObject(tileInputSet);
+    }
+
+    GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Generate"))
         {
-            if (GUILayout.Button("Load from Input Tile Set SO"))
-            {
-                tileGrid.GetInputTilesFromSet();
-            }
-            serializedTileInputs.objectReferenceValue = tileInputSet;
-            EditorGUILayout.PropertyField(serializedTileInputSet.FindProperty("AllInputTiles"), new("Input Tiles"), true);
+            tileGrid.ClearCells();
+            tileGrid.gridCell = new EditorGridCell[tileGrid.size, tileGrid.size];
+            tileGrid.InitializeWave();
         }
-
-        
-        if (showDefaultInspector = EditorGUILayout.Foldout(showDefaultInspector, "Show default Inspector"))
+        if (GUILayout.Button("Clear"))
         {
-            enableDefaultInspector = EditorGUILayout.BeginToggleGroup("Enable", enableDefaultInspector);
-            //base.OnInspectorGUI();
-            DrawDefaultInspector();
-            EditorGUILayout.EndToggleGroup();
+            tileGrid.ClearCells();
         }
+    GUILayout.EndHorizontal();
 
-        serializedObject.ApplyModifiedProperties();
-        serializedTileGrid.ApplyModifiedProperties();
-        if(serializedTileInputSet != null)
+    EditorGUILayout.Separator();
+
+    fileName = EditorGUILayout.TextField("Data path", fileName);
+    importedData = (TextAsset)EditorGUILayout.ObjectField("Data file", importedData, typeof(Object), true);
+
+    if (GUILayout.Button("Save"))
+    {
+        SaveData();
+    }
+
+    GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Load from file"))
         {
-            serializedTileInputSet.ApplyModifiedProperties();
+            LoadWaveDataFromFile();
         }
-    }
-    */
-    public void SaveData()
-    {
-        GetCellData();
-        GetTileGridData();
-        size = tileGrid.size;
-        tilesize = tileGrid.tileSize;
-
-        string data = JsonUtility.ToJson(tileGridData);
-        FileStream filestream = new(Application.dataPath + "/" + fileName + ".json", FileMode.Create);
-
-        using StreamWriter writer = new(filestream);
-        writer.Write(data);
-
-        Debug.Log("Grid data saved...");
-        AssetDatabase.Refresh();
-    }
-
-    public void GetTileGridData()
-    {
-        tileGridData = new(tileGrid.size, tileGrid.tileSize, tileGrid.tileInputs, cells);
-    }
-
-    public void GetCellData()
-    {
-        cells.Clear();
-        Debug.Log(tileGrid.gridCell);
-        foreach (var item in tileGrid.gridCell)
+        if (GUILayout.Button("Load from path"))
         {
-            EditorGridCell cell = item.GetComponent<EditorGridCell>();
-            Debug.Log(cell);
-            int newXIndex = cell.xIndex;
-            int newYIndex = cell.yIndex;
-            int newSelectedTileID = cell.selectedTileID;
-            CellData cellData = new(newXIndex, newYIndex, newSelectedTileID);
-            cells.Add(cellData);
+            LoadWaveDataFromPath();
         }
+    GUILayout.EndHorizontal();
+
+
+    EditorGUILayout.PropertyField(serializedObject.FindProperty("tileInputs"), new("Input Tiles SO"), true);
+    if(tileInputSet != null)
+    {
+        if (GUILayout.Button("Load from Input Tile Set SO"))
+        {
+            tileGrid.GetInputTilesFromSet();
+        }
+        serializedTileInputs.objectReferenceValue = tileInputSet;
+        EditorGUILayout.PropertyField(serializedTileInputSet.FindProperty("AllInputTiles"), new("Input Tiles"), true);
     }
 
-    public void LoadWaveDataFromPath()
+
+    if (showDefaultInspector = EditorGUILayout.Foldout(showDefaultInspector, "Show default Inspector"))
     {
-        //AssetDatabase.Refresh();
-        string path = Application.dataPath + "/" + fileName + ".json";
-        Debug.Log(path);
-
-        StreamReader reader = new(path);
-        string content = reader.ReadToEnd();
-        reader.Close();
-
-        tileGridData = JsonUtility.FromJson<HelloWorld.DataTileGrid>(content);
-        //Debug.Log(tileGridData.size + " " + tileGridData.tileSize);
-
-        int newSize = tileGridData.size;
-        float newTileSize = tileGridData.tileSize;
-        List<CellData> newCellData = tileGridData.cellData;
-
-        tileGrid.ResetWave(newSize, newTileSize, newCellData);
+        enableDefaultInspector = EditorGUILayout.BeginToggleGroup("Enable", enableDefaultInspector);
+        //base.OnInspectorGUI();
+        DrawDefaultInspector();
+        EditorGUILayout.EndToggleGroup();
     }
 
-    public void LoadWaveDataFromFile()
+    serializedObject.ApplyModifiedProperties();
+    serializedTileGrid.ApplyModifiedProperties();
+    if(serializedTileInputSet != null)
     {
-        tileGridData = JsonUtility.FromJson<HelloWorld.DataTileGrid>(importedData.ToString());
-
-        int newSize = tileGridData.size;
-        float newTileSize = tileGridData.tileSize;
-        List<CellData> newCellData = tileGridData.cellData;
-
-        tileGrid.ResetWave(newSize, newTileSize, newCellData);
+        serializedTileInputSet.ApplyModifiedProperties();
     }
 }
+*/

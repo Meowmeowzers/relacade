@@ -3,20 +3,18 @@ using UnityEditor;
 using UnityEngine;
 
 // Based from Renaissance Coders tutorials from YT
-namespace HelloWorld
+namespace HelloWorld.Editor
 {
     public class TileSetUpWindow : EditorWindow
     {
         //Left
         private TileInputSet selectedInputTileSet;
-
         private SerializedObject serializedTileSetObject;
         private SerializedProperty selectedDirectionInputTileList;
         private string selectedInputTileSetProperty = "";
 
         //Right
         private SerializedObject selectedTileConstraints;
-
         private SerializedProperty id;
         private SerializedProperty gameObject;
         private SerializedProperty compatibleTopList;
@@ -32,8 +30,8 @@ namespace HelloWorld
 
         #region Window Variables
 
-        private int headerSectionHeight = 40;
-        private int tileSetupSectionWidth = 320;
+        private readonly int headerSectionHeight = 40;
+        private readonly int tileSetupSectionWidth = 320;
 
         private Texture2D headerBackgroundTexture;
         private Texture2D leftBackgroundTexture;
@@ -47,8 +45,8 @@ namespace HelloWorld
         private Rect tileSetupSection;
         private Rect tileConstraintSetupSection;
 
-        private static int windowMinWidth = 600;
-        private static int windowMinHeight = 350;
+        private static readonly int windowMinWidth = 600;
+        private static readonly int windowMinHeight = 350;
 
         private Vector2 scrollPositionLeft = Vector2.zero;
         private Vector2 scrollPositionRight = Vector2.zero;
@@ -633,6 +631,7 @@ namespace HelloWorld
 
             //TileInputSet temp = selectedInputTileSet;
 
+            /*
             SerializedProperty fourDirection = serializedTileSetObject.FindProperty("FourDirectionTiles");
             SerializedProperty topDirection = serializedTileSetObject.FindProperty("TopTiles");
             SerializedProperty bottomDirection = serializedTileSetObject.FindProperty("BottomTiles");
@@ -651,7 +650,7 @@ namespace HelloWorld
                     top.GetArrayElementAtIndex(j).objectReferenceValue = topDirection.GetArrayElementAtIndex(j).objectReferenceValue;
                 }
             }
-
+            */
             /*
             List<TileInput> temp = selectedInputTileSet.TopLeftTiles;
             for(int i = 0; i < temp.Count; i++)
@@ -831,6 +830,7 @@ namespace HelloWorld
                     AssetDatabase.CreateAsset(scriptableObject, savePath);
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();
+
                     selectedInputTileSet = scriptableObject as TileInputSet;
                     GUILayout.EndArea();
                 }
