@@ -208,7 +208,7 @@ namespace HelloWorld
             tileSize = newTileSize;
 
             ResetAllCells();
-            gridCell = new EditorGridCell[size, size];
+            InitializeGridCells();
 
             Vector3 pos;
 
@@ -252,13 +252,18 @@ namespace HelloWorld
         {
             //wSetTileDelay = new(value);
         }
+        
+        public void InitializeGridCells()
+        {
+            gridCell = new EditorGridCell[size, size];
+        }
 
         public void SetGridSize(float value)
         {
             StopAllCoroutines();
             ResetAllCells();
             size = Convert.ToInt32(value);
-            gridCell = new EditorGridCell[size, size];
+            InitializeGridCells();
             InitializeWave();
         }
 

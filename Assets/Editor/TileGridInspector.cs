@@ -57,8 +57,8 @@ namespace HelloWorld.Editor
 			if (GUILayout.Button("Generate", GUILayout.Height(25)))
 			{
 				tileGrid.ClearCells();
-				tileGrid.gridCell = new EditorGridCell[tileGrid.size, tileGrid.size];
-				tileGrid.InitializeWave();
+                tileGrid.InitializeGridCells();
+                tileGrid.InitializeWave();
 			}
 			if (GUILayout.Button("Clear", GUILayout.Height(25)))
 			{
