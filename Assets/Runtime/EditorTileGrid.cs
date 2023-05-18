@@ -315,5 +315,42 @@ namespace HelloWorld
                 tileInputs.Add(item);
             }
         }
+
+        public void FinalizeGrid()
+        {
+            GameObject newParentObject = new GameObject("Generated Content  "); ;
+            newParentObject.transform.position = this.transform.position;
+
+            int childCount = this.transform.childCount;
+            int grandChildCount;
+            Transform childTransform;
+            Transform grandChildTransform;
+
+            // Get all the first child objects of the parent
+            for (int i = 0; i < childCount; i++)
+            {
+                childTransform = transform.GetChild(i);
+
+                // Move child's children to the new parent
+                grandChildCount = childTransform.childCount;
+                for (int j = 0; j < grandChildCount; j++)
+                {
+                    grandChildTransform = childTransform.GetChild(j);
+                    grandChildTransform.SetParent(newParentObject.transform);
+                }
+
+                // Detach the child from the parent
+                childTransform.SetParent(this.transform);
+            }
+
+            DeleteEditorGameObjects();
+        }
+
+        private void DeleteEditorGameObjects()
+        {
+            //Delete the editor gameobjects
+            DestroyImmediate(this.gameObject);
+
+        }
     }
 }

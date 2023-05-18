@@ -40,7 +40,13 @@ namespace HelloWorld.Editor
 
 		public override void OnInspectorGUI()
 		{
-			serializedObject.Update();
+            if (EditorUtility.InstanceIDToObject(tileGrid.GetInstanceID()) == null)
+            {
+                Debug.LogWarning("Target object has been destroyed.");
+                return;
+            }
+
+            serializedObject.Update();
 
 			EditorGUILayout.PropertyField(serializedGridCellObject);
 			EditorGUILayout.PropertyField(serializedTileSet);
@@ -68,7 +74,10 @@ namespace HelloWorld.Editor
 			{
 				if (GUILayout.Button("Finalize", GUILayout.Height(20)))
 				{
+					//Fix/suppress errors
 					Debug.Log("Finalize game objects");
+					tileGrid.FinalizeGrid();
+					tileGrid = null;
 				}
 			}
 
@@ -91,7 +100,10 @@ namespace HelloWorld.Editor
 
 			EditorGUILayout.PropertyField(serializedTileInputs);
 			
-			serializedObject.ApplyModifiedProperties();
+			//if(EditorUtility.InstanceIDToObject(tileGrid.GetInstanceID()) == null)
+			//{
+				serializedObject.ApplyModifiedProperties();
+			//}
 		}
 
 		private void Load()

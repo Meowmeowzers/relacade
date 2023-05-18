@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,8 +23,8 @@ namespace HelloWorld.Editor
         private SerializedProperty compatibleLeftList;
         private SerializedProperty compatibleRightList;
 
-        private string assetName = "NewScriptableObject";
-        private string savePath = "Assets/";
+        private string assetName = "New Tile Set Configuration Data";
+        //private string savePath = "Assets/";
 
         private enum DirectionToSet
         { FourDirection, Top, Bottom, Left, Right, TopLeft, TopRight, BottomLeft, BottomRight, IFourDirection, ITopLeft, ITopRight, IBottomLeft, IBottomRight };
@@ -64,18 +65,80 @@ namespace HelloWorld.Editor
             window.Show();
         }
 
-        [MenuItem("Relacade/Create/Tile Set Configuration")]
+        [MenuItem("Relacade/Create Asset/Tile Set Configuration")]
         private static void CreateTileSetConfiguration()
         {
-            Debug.Log("TODO");
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Objects/EditorWave.prefab");
+
+            if (prefab != null)
+            {
+                GameObject prefabInstance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                prefabInstance.transform.SetParent(null); // Set parent to null to place in Hierarchy root
+                prefabInstance.name = prefab.name + " (Instance)";
+            }
+            else
+            {
+                Debug.LogWarning("Prefab not found at path: " + "Assets / Objects / EditorWave.prefab");
+            }
         }
 
-        [MenuItem("Relacade/Create/Input Tile")]
+        [MenuItem("Relacade/Create Object/WaveTileGrid")]
+        private static void CreateWave()
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Objects/EditorWave.prefab");
+
+            if (prefab != null)
+            {
+                GameObject prefabInstance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                prefabInstance.name = prefab.name + " (Instance)";
+            }
+            else
+            {
+                Debug.LogWarning("Prefab not found at path: Assets/Objects/EditorWave.prefab");
+            }
+        }
+
+        [MenuItem("Relacade/Create Asset/Input Tile")]
         private static void CreateInputTile()
         {
-            Debug.Log("TODO");
+            ScriptableObject scriptableObject = ScriptableObject.CreateInstance<TileInput>();
+            string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", "Input Tile", "asset", "Choose a location to save the ScriptableObject.");
+            if (string.IsNullOrEmpty(savePath)) return;
+            AssetDatabase.CreateAsset(scriptableObject, savePath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
+        [MenuItem("Relacade/Sample/Tile Set Configuration")]
+        private static void CreateSampleTileSetConfiguration()
+        {
+            ScriptableObject loadedAsset;
+
+            string assetPath = "Assets/Objects/SO Tiles/ITileSet.asset";
+            loadedAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath);
+            //loadedAsset = Resources.Load<ScriptableObject>(assetPath);
+
+            if (loadedAsset == null)
+            {
+                Debug.Log("Fail to find asset");
+                return;
+            }
+
+            ScriptableObject duplicatedObject = Instantiate(loadedAsset);
+
+            string outputPath = EditorUtility.SaveFilePanel("Save Scriptable Object", "Sample Tile Set", "Sample Tile Set Config", "asset");
+
+            if (string.IsNullOrEmpty(outputPath))
+            {
+                Debug.Log("Save operation cancelled");
+                return;
+            }
+
+            outputPath = FileUtil.GetProjectRelativePath(outputPath);
+            AssetDatabase.CreateAsset(duplicatedObject, outputPath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
         private void OnEnable()
         {
             InitTextures();
@@ -825,14 +888,13 @@ namespace HelloWorld.Editor
                 if (GUILayout.Button("Create Tile Set Configuration", GUILayout.Height(30)))
                 {
                     ScriptableObject scriptableObject = ScriptableObject.CreateInstance<TileInputSet>();
-                    savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", assetName, "asset", "Choose a location to save the ScriptableObject.");
+                    string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", assetName, "asset", "Choose a location to save the ScriptableObject.");
                     if (string.IsNullOrEmpty(savePath)) return;
                     AssetDatabase.CreateAsset(scriptableObject, savePath);
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();
 
                     selectedInputTileSet = scriptableObject as TileInputSet;
-                    GUILayout.EndArea();
                 }
 
                 EditorGUILayout.EndVertical();
@@ -847,6 +909,7 @@ namespace HelloWorld.Editor
             }
             else if (selectedTileConstraints == null)
             {
+                EditorGUILayout.LabelField("- Press the + and - buttons to add new items");
                 EditorGUILayout.LabelField("- Select an item from the tile list by pressing the > button");
                 EditorGUILayout.LabelField("- Make sure to fill the item with an input tile then press the > button");
                 EditorGUILayout.LabelField("- Dont have input tiles? you should plan, create and setup input tiles first");
