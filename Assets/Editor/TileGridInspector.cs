@@ -62,7 +62,6 @@ namespace HelloWorld.Editor
 			}
 			if (GUILayout.Button("Clear", GUILayout.Height(25)))
 			{
-				tileGrid.Stop();
 				tileGrid.ClearCells();
 			}
 			EditorGUILayout.EndHorizontal();

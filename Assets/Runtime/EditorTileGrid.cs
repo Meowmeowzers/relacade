@@ -27,6 +27,8 @@ namespace HelloWorld
 
         private readonly EditorWaitForSeconds editorWait = new(0f);
 
+        EditorCoroutine coroutine;
+
         public enum LookDirection
         { UP, DOWN, LEFT, RIGHT };
 
@@ -50,11 +52,11 @@ namespace HelloWorld
                     }
                 }
 
-                EditorCoroutineUtility.StartCoroutineOwnerless(CollapseWave());
+                coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(CollapseWave());
             }
             else
             {
-                Debug.LogWarning("Input tiles are empty");
+                Debug.LogWarning("Input tiles are empty...");
             }
         }
 
@@ -76,7 +78,9 @@ namespace HelloWorld
                     var x = selectedRandomCell.xIndex;
                     var y = selectedRandomCell.yIndex;
                     Debug.LogWarning("Conflict on cell " + x + " " + y);
-                    ResetWave();
+                    //Stop();
+                    //ResetWave();
+                    yield break;
                 }
 
                 //Propagation Phase
@@ -157,7 +161,7 @@ namespace HelloWorld
                     return false;
                 }
             }
-            Debug.Log("Wave Fully Collapsed...");
+            //Debug.Log("Wave Fully Collapsed...");
             return true;
         }
 
@@ -195,7 +199,6 @@ namespace HelloWorld
         public void ResetWave()
         {
             Debug.Log("Resetting Wave...");
-            StopAllCoroutines();
             ResetAllCells();
             InitializeWave();
         }
@@ -247,11 +250,6 @@ namespace HelloWorld
                 yIndex++;
             }
         }
-
-        public void SetDelaySet()
-        {
-            //wSetTileDelay = new(value);
-        }
         
         public void InitializeGridCells()
         {
@@ -260,7 +258,7 @@ namespace HelloWorld
 
         public void SetGridSize(float value)
         {
-            StopAllCoroutines();
+            Stop();
             ResetAllCells();
             size = Convert.ToInt32(value);
             InitializeGridCells();
@@ -278,19 +276,19 @@ namespace HelloWorld
             }
         }
 
+        public void Stop()
+        {
+            EditorCoroutineUtility.StopCoroutine(coroutine);
+        }
+
         public void ClearCells()
         {
-            StopAllCoroutines();
+            //Stop();
             List<EditorGridCell> child = GetComponentsInChildren<EditorGridCell>().ToList();
             foreach (var item in child)
             {
                 DestroyImmediate(item.gameObject);
             }
-        }
-
-        public void Stop()
-        {
-            StopAllCoroutines();
         }
 
         public void InitializeWaveNoStart()
@@ -355,7 +353,6 @@ namespace HelloWorld
         {
             //Delete the editor gameobjects
             DestroyImmediate(this.gameObject);
-
         }
     }
 }

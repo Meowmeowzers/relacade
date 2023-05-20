@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1960bd12f2473454e8d8e36099712b1e, type: 3}
-  m_Name: zIBottomLeft
+  m_Name: BWCornerDL
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 200094413327123030, guid: 62c5690bf350b1648b9c6874e3598957, type: 3}
+  gameObject: {fileID: 200094413327123030, guid: b018fafb092dddf4dab2e54031be86f2, type: 3}
   id: 5
   compatibleTop:
   - {fileID: 11400000, guid: 45114592cbefb4d459c60400cb81e3d2, type: 2}

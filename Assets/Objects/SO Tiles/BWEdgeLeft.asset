@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1960bd12f2473454e8d8e36099712b1e, type: 3}
-  m_Name: zRight
+  m_Name: BWEdgeLeft
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 200094413327123030, guid: c8c95d8c295cd2a4083c9f67c22802e5, type: 3}
+  gameObject: {fileID: 200094413327123030, guid: 5586d5b5c762fff49a0920836695c4b9, type: 3}
   id: 11
   compatibleTop:
   - {fileID: 11400000, guid: c86016582a055bf4f8436903480ccec0, type: 2}

@@ -3,9 +3,6 @@ using UnityEngine;
 
 namespace HelloWorld
 {
-
-    //Future: make entropy 1 the definite state
-    //TODO: Dont use tilegrid variable. Pass values from parent instead. IDK to reduce coupling??
     public class EditorGridCell : MonoBehaviour
     {
         public int xIndex;
@@ -41,9 +38,10 @@ namespace HelloWorld
             isDefinite = true;
             entropy = 1;
 
-            Debug.Log("Selected Cell: " + xIndex + " " + yIndex
-                + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
+            //Debug.Log("Selected Cell: " + xIndex + " " + yIndex
+              //  + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
         }
+
         public void SelectTile(TileInput tileInput)
         {
             selectedTileID = tileInput.id;
