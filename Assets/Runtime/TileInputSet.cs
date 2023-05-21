@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace HelloWorld
@@ -9,6 +8,7 @@ namespace HelloWorld
     public class TileInputSet : ScriptableObject
     {
         [SerializeField] public List<TileInput> AllInputTiles = new();
+        [SerializeField] public List<TileInput> UniqueInputTiles = new();
 
         [SerializeField] public List<TileInput> ForeGroundTiles = new();
         [SerializeField] public List<TileInput> BackGroundTiles = new();

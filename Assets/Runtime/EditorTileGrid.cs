@@ -12,7 +12,8 @@ namespace HelloWorld
     public class EditorTileGrid : MonoBehaviour
     {
         public TileInputSet tileInputSet;
-        public List<TileInput> tileInputs;
+        public List<TileInput> allTileInputs;
+        public List<TileInput> uniqueTileInputs;
 
         [Range(2, 50)]
         public int size = 8;
@@ -33,8 +34,8 @@ namespace HelloWorld
         { UP, DOWN, LEFT, RIGHT };
 
         public void InitializeWave()
-        {
-            if(tileInputs.Count != 0)
+        {            
+            if(allTileInputs.Count != 0)
             {
                 Vector3 pos;
 
@@ -48,7 +49,7 @@ namespace HelloWorld
                         gridCell[x, y] = tempGameObject.GetComponent<EditorGridCell>();
                         gridCell[x, y].xIndex = x;
                         gridCell[x, y].yIndex = y;
-                        gridCell[x, y].Initialize(tileInputs);
+                        gridCell[x, y].Initialize(allTileInputs);
                     }
                 }
 
@@ -94,7 +95,7 @@ namespace HelloWorld
             int x = cell.xIndex;
             int y = cell.yIndex;
 
-            foreach (var item in tileInputs)
+            foreach (var item in allTileInputs)
             {
                 //I dont remeber why id needs to match
                 if (cell.selectedTileID == item.id)
@@ -239,7 +240,7 @@ namespace HelloWorld
                     xIndex++;
                     yIndex = 0;
                 }
-                foreach (var tile in tileInputs)
+                foreach (var tile in allTileInputs)
                 {
                     if (item.selectedTileID == tile.id)
                     {
@@ -271,7 +272,7 @@ namespace HelloWorld
             {
                 foreach (var item in gridCell)
                 {
-                    item.ResetCell(tileInputs);
+                    item.ResetCell(allTileInputs);
                 }
             }
         }
@@ -305,17 +306,17 @@ namespace HelloWorld
                     gridCell[x, y] = tempGameObject.GetComponent<EditorGridCell>();
                     gridCell[x, y].xIndex = x;
                     gridCell[x, y].yIndex = y;
-                    gridCell[x, y].Initialize(tileInputs);
+                    gridCell[x, y].Initialize(allTileInputs);
                 }
             }
         }
 
         public void GetInputTilesFromSet()
         {
-            tileInputs.Clear();
+            allTileInputs.Clear();
             foreach(var item in tileInputSet.AllInputTiles)
             {
-                tileInputs.Add(item);
+                allTileInputs.Add(item);
             }
         }
 
@@ -353,6 +354,12 @@ namespace HelloWorld
         {
             //Delete the editor gameobjects
             DestroyImmediate(this.gameObject);
+        }
+
+        public void ReLoadTileInputsFromSet()
+        {
+            allTileInputs.Clear();
+            allTileInputs.AddRange(tileInputSet.AllInputTiles);
         }
     }
 }
