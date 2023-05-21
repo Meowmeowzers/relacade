@@ -512,172 +512,203 @@ namespace HelloWorld.Editor
 				#region Four/Full/Filled
 				case DirectionToSet.Foreground:
 
-					#region ForeGround
-					
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowDownRightTiles);
-					
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpRightTiles);
-					
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownRightTiles);
-					
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownLeftTiles);
+                    #region ForeGround
 
-					//3x3
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+                    #region 2x2
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.ForeGroundTiles,
+						set.EdgeDownTiles,
+						set.ElbowDownRightTiles
+					);
+					
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.ForeGroundTiles,
+						set.EdgeUpTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowUpRightTiles
+					);
+					
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.ForeGroundTiles,
+						set.EdgeRightTiles,
+						set.ElbowUpRightTiles,
+						set.ElbowDownRightTiles
+					);
+					
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.ForeGroundTiles,
+						set.EdgeLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowDownLeftTiles
+					);
+                    #endregion
+                    #region 3x3
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceRightTiles
+					);
+                    #endregion
+
                     break;
 
-				#endregion FourDirection
+					#endregion 
 
 				case DirectionToSet.Background:
 
 					#region Background
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BackGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerUpRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.BackGroundTiles,
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.CornerUpRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BackGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerDownRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.BackGroundTiles,
+						set.EdgeDownTiles,
+						set.CornerDownLeftTiles,
+						set.CornerDownRightTiles
+					);
 					
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BackGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.BackGroundTiles,
+						set.EdgeLeftTiles,
+						set.CornerUpLeftTiles,
+						set.CornerDownLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BackGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.BackGroundTiles,
+						set.EdgeRightTiles,
+						set.CornerUpRightTiles,
+						set.CornerDownRightTiles
+					);
 
-					#endregion IFourDirection
+					#endregion
 
 					break;
 
 				case DirectionToSet.Filled:
 
                     #region Filled
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles,
+						set.ForeGroundTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceRightTiles);
+                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles,
+						set.ForeGroundTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles,
+						set.ForeGroundTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles,
+						set.ForeGroundTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
                     #endregion
                     break;
@@ -685,45 +716,48 @@ namespace HelloWorld.Editor
 				case DirectionToSet.FourFace:
 
 					#region FourFace
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceDownTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 					#endregion
 					break;
 
@@ -733,25 +767,33 @@ namespace HelloWorld.Editor
 				case DirectionToSet.EdgeUp:
 
 					#region Top
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowDownRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.ForeGroundTiles,
+						set.EdgeDownTiles,
+						set.ElbowDownLeftTiles,
+						set.ElbowDownRightTiles
+					);
 					
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BackGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerDownRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.BackGroundTiles,
+						set.EdgeDownTiles,
+						set.CornerDownLeftTiles,
+						set.CornerDownRightTiles
+					);
 					
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerURDLTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeUpTiles,
+						set.CornerUpRightTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerURDLTiles
+					);
 					
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerULDRTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowUpRightTiles,
+						set.CornerULDRTiles
+					);
 				#endregion Top
 					break;
 
@@ -760,25 +802,33 @@ namespace HelloWorld.Editor
 
 					#region Bottom
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BackGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerUpRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.BackGroundTiles,
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.CornerUpRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.ForeGroundTiles,
+						set.EdgeUpTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowUpRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerULDRTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeDownTiles,
+						set.CornerDownRightTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerURDLTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeDownTiles,
+						set.CornerDownLeftTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 
 					#endregion Bottom
 
@@ -788,25 +838,33 @@ namespace HelloWorld.Editor
 
 					#region Left
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerURDLTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeLeftTiles,
+						set.CornerDownLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerURDLTiles
+					);
 					
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerULDRTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeLeftTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.ForeGroundTiles,
+						set.EdgeRightTiles,
+						set.ElbowUpRightTiles,
+						set.ElbowDownRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BackGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.BackGroundTiles,
+						set.EdgeRightTiles,
+						set.CornerUpRightTiles,
+						set.CornerDownRightTiles
+					);
 
 					#endregion Left
 
@@ -816,24 +874,32 @@ namespace HelloWorld.Editor
 
 					#region Right
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerULDRTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeRightTiles,
+						set.CornerDownRightTiles,
+						set.ElbowUpRightTiles,
+						set.CornerULDRTiles
+					);
 					
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerURDLTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeRightTiles,
+						set.CornerUpRightTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BackGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.BackGroundTiles,
+						set.EdgeLeftTiles,
+						set.CornerDownLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.ForeGroundTiles,
+						set.EdgeLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowDownLeftTiles
+					);
 
 					#endregion Right
 
@@ -846,25 +912,33 @@ namespace HelloWorld.Editor
 
 					#region TopLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowDownRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.ForeGroundTiles,
+						set.EdgeDownTiles,
+						set.ElbowDownLeftTiles,
+						set.ElbowDownRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerULDRTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeLeftTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.ForeGroundTiles,
+						set.EdgeRightTiles,
+						set.ElbowUpRightTiles,
+						set.ElbowDownRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerULDRTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowUpRightTiles,
+						set.CornerULDRTiles
+					);
 
 					#endregion TopLeft
 
@@ -874,25 +948,33 @@ namespace HelloWorld.Editor
 
 					#region TopRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowDownRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.ForeGroundTiles,
+						set.EdgeDownTiles,
+						set.ElbowDownLeftTiles,
+						set.ElbowDownRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerURDLTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeRightTiles,
+						set.CornerUpRightTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerURDLTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeUpTiles,
+						set.CornerUpRightTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.ForeGroundTiles,
+						set.EdgeLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowDownLeftTiles
+					);
 
 					#endregion TopRight
 
@@ -902,25 +984,33 @@ namespace HelloWorld.Editor
 
 					#region BottomLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerURDLTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeLeftTiles,
+						set.CornerDownLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.ForeGroundTiles,
+						set.EdgeUpTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowUpRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.ForeGroundTiles,
+						set.EdgeRightTiles,
+						set.ElbowUpRightTiles,
+						set.ElbowDownRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerURDLTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeDownTiles,
+						set.CornerDownLeftTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 
 					#endregion BottomLeft
 
@@ -930,25 +1020,33 @@ namespace HelloWorld.Editor
 
 					#region BottomRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerULDRTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeRightTiles,
+						set.CornerDownRightTiles,
+						set.ElbowUpRightTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowUpRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.ForeGroundTiles,
+						set.EdgeUpTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowUpRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerULDRTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeDownTiles,
+						set.CornerDownRightTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.ForeGroundTiles,
+						set.EdgeLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.ElbowDownLeftTiles
+					);
 
 					#endregion BottomRight
 
@@ -961,25 +1059,33 @@ namespace HelloWorld.Editor
 
 					#region ITopLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerURDLTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerDownLeftTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BackGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerDownRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.BackGroundTiles,
+						set.EdgeDownTiles,
+						set.CornerDownLeftTiles,
+						set.CornerDownRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerURDLTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeUpTiles,
+						set.CornerUpRightTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BackGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.BackGroundTiles,
+						set.EdgeRightTiles,
+						set.CornerUpRightTiles,
+						set.CornerDownRightTiles
+					);
 
 					#endregion ITopLeft
 
@@ -989,24 +1095,32 @@ namespace HelloWorld.Editor
 
 					#region ITopRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerULDRTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeRightTiles,
+						set.ElbowUpRightTiles,
+						set.CornerDownRightTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.BackGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerDownRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.BackGroundTiles,
+						set.EdgeDownTiles,
+						set.CornerDownRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BackGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.BackGroundTiles,
+						set.EdgeLeftTiles,
+						set.CornerUpLeftTiles,
+						set.CornerDownLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerULDRTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowUpRightTiles,
+						set.CornerULDRTiles
+					);
 
 					#endregion ITopRight
 
@@ -1016,25 +1130,33 @@ namespace HelloWorld.Editor
 
 					#region IBottomLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BackGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerUpRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.BackGroundTiles,
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.CornerUpRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerULDRTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeLeftTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerULDRTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeDownTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerDownRightTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.BackGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.BackGroundTiles,
+						set.EdgeRightTiles,
+						set.CornerUpRightTiles,
+						set.CornerDownRightTiles
+					);
 
 					#endregion IBottomLeft
 
@@ -1044,24 +1166,32 @@ namespace HelloWorld.Editor
 
 					#region IBottomRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.BackGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerUpRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.BackGroundTiles,
+						set.EdgeUpTiles,
+						set.CornerUpRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerURDLTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeRightTiles,
+						set.CornerUpRightTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.BackGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.BackGroundTiles,
+						set.EdgeLeftTiles,
+						set.CornerUpLeftTiles,
+						set.CornerDownLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerURDLTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeDownTiles,
+						set.CornerDownLeftTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 
 					#endregion IBottomRight
 
@@ -1070,50 +1200,66 @@ namespace HelloWorld.Editor
 				case DirectionToSet.CornerULDR:
 					
 					#region CornerULDR
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerURDLTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeLeftTiles,
+						set.CornerDownLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerURDLTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeRightTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerURDLTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowUpLeftTiles,
+						set.CornerURDLTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ElbowDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerURDLTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeDownTiles,
+						set.CornerDownLeftTiles,
+						set.ElbowDownRightTiles,
+						set.CornerURDLTiles
+					);
 					#endregion
 
 					break;
 				case DirectionToSet.CornerURDL:
 
 					#region CornerULDR
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.EdgeRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ElbowUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.CornerULDRTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.EdgeRightTiles,
+						set.CornerDownRightTiles,
+						set.ElbowUpRightTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.EdgeLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ElbowDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.CornerULDRTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.EdgeLeftTiles,
+						set.CornerUpLeftTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.EdgeDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ElbowDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.CornerULDRTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.EdgeDownTiles,
+						set.CornerDownRightTiles,
+						set.ElbowDownLeftTiles,
+						set.CornerULDRTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.EdgeUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.CornerULDRTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.EdgeUpTiles,
+						set.CornerUpLeftTiles,
+						set.CornerUpRightTiles,
+						set.CornerULDRTiles
+					);
 					#endregion
 
 					break;
@@ -1124,44 +1270,52 @@ namespace HelloWorld.Editor
 
 					#region ThreeUp
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceDownTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.ForeGroundTiles,
+						set.FilledTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
 					#endregion
 
@@ -1170,44 +1324,52 @@ namespace HelloWorld.Editor
 
 					#region ThreeDown
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
 					#endregion
 
@@ -1216,45 +1378,53 @@ namespace HelloWorld.Editor
 
 					#region ThreeLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceDownTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceRightTiles
+					);
 
 					#endregion
 
@@ -1263,44 +1433,52 @@ namespace HelloWorld.Editor
 
 					#region ThreeRight
 					
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
 					#endregion
 
@@ -1312,45 +1490,53 @@ namespace HelloWorld.Editor
 
 					#region TwoUpLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceDownTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceRightTiles
+					);
 
 					#endregion
 					break;
@@ -1359,45 +1545,53 @@ namespace HelloWorld.Editor
 
 					#region TwoUpRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceDownTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
 					#endregion
 					break;
@@ -1406,41 +1600,49 @@ namespace HelloWorld.Editor
 
 					#region TwoDownLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceRightTiles
+					);
 
 					#endregion
 					break;
@@ -1449,44 +1651,52 @@ namespace HelloWorld.Editor
 
 					#region TwoDownRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
 					#endregion
 					break;
@@ -1498,45 +1708,53 @@ namespace HelloWorld.Editor
 
 					#region OneUp
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceDownTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceRightTiles
+					);
 
 					#endregion
 
@@ -1545,46 +1763,53 @@ namespace HelloWorld.Editor
 
 					#region OneDown
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
-
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceRightTiles
+					);
 
 					#endregion
 
@@ -1593,45 +1818,53 @@ namespace HelloWorld.Editor
 
 					#region OneLeft
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceRightTiles
+					);
 
 
 					#endregion
@@ -1641,44 +1874,52 @@ namespace HelloWorld.Editor
 
 					#region OneRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
 					#endregion
 
@@ -1688,46 +1929,54 @@ namespace HelloWorld.Editor
 				#region VH
 				case DirectionToSet.Vertical:
 
-					#region Vertical
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FourFaceTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.VerticalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceDownRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceDownTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceRightTiles);
+                    #region Vertical
+                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceDownTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FourFaceTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.VerticalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceUpRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceUpTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceRightTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceLeftTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ForeGroundTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.VerticalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceLeftTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceLeftTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ForeGroundTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.VerticalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceUpRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownRightTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceRightTiles);
+                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight,
+                        set.FilledTiles,
+                        set.ForeGroundTiles,
+                        set.VerticalTiles,
+                        set.OneFaceUpTiles,
+                        set.OneFaceDownTiles,
+                        set.OneFaceRightTiles,
+                        set.TwoFaceUpRightTiles,
+                        set.TwoFaceDownRightTiles,
+                        set.ThreeFaceRightTiles
+					);
 
 					#endregion
 
@@ -1735,44 +1984,52 @@ namespace HelloWorld.Editor
 				case DirectionToSet.Horizontal:
 
 					#region Horizontal
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ForeGroundTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.HorizontalTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceUpTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.OneFaceRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpLeftTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.TwoFaceUpRightTiles);
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.ThreeFaceUpTiles);
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpLeftTiles,
+						set.TwoFaceUpRightTiles,
+						set.ThreeFaceUpTiles
+					);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ForeGroundTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.HorizontalTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceDownTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.OneFaceRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.TwoFaceDownRightTiles);
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.ThreeFaceDownTiles);
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.HorizontalTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceLeftTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceDownTiles
+					);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FourFaceTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.HorizontalTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.OneFaceRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceUpRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.TwoFaceDownRightTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceUpTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceDownTiles);
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.ThreeFaceRightTiles);
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceRightTiles
+					);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FourFaceTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.HorizontalTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.OneFaceLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.TwoFaceDownLeftTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceUpTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceDownTiles);
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.ThreeFaceLeftTiles);
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+						set.FilledTiles,
+						set.FourFaceTiles,
+						set.HorizontalTiles,
+						set.OneFaceLeftTiles,
+						set.TwoFaceDownLeftTiles,
+						set.ThreeFaceUpTiles,
+						set.ThreeFaceDownTiles,
+						set.ThreeFaceLeftTiles
+					);
 
 					#endregion
 
@@ -1783,16 +2040,20 @@ namespace HelloWorld.Editor
 					break;
 			}
 			return tileInput;
-		}
+        }
 
-		private List<TileInput> SubCombine(List<TileInput> tileConstraintsList, List<TileInput> tilesToAdd)
+		private List<TileInput> SubCombine(List<TileInput> tileConstraintsList, params List<TileInput>[] tilesToAdd)
 		{
-			foreach (var item in tilesToAdd)
+			foreach (var set in tilesToAdd)
 			{
-				if (!tileConstraintsList.Contains(item))
+				foreach (var item in set)
 				{
-					tileConstraintsList.Add(item);
+					if (!tileConstraintsList.Contains(item))
+					{
+						tileConstraintsList.Add(item);
+					}
 				}
+
 			}
 			return tileConstraintsList;
 		}
