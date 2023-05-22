@@ -1,0 +1,25 @@
+{
+  "name": "com.gatozhanya.relacade",
+  "version": "0.5.1",
+  "displayName": "Relacade",
+  "description": "A prototype level generator for tile based levels using the WaveFunctionCollapse algorithm",
+  "unity": "2022.2",
+  "unityRelease": "12f1",
+  "documentationUrl": "https://#/",
+  "changelogUrl": "https://#",
+  "licensesUrl": "https://#",
+  "dependencies": {
+		"com.unity.editorcoroutines": "1.0.0"
+ },
+ "keywords": [
+    "level design",
+    "wave function collapse",
+    "level generator",
+    "tile-based levels"
+  ],
+  "author": {
+    "name": "GatoZhanya",
+    "email": "leolaureta123@gmail.com",
+    "url": "https://#"
+  }
+}
