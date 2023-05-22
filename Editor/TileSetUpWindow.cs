@@ -177,7 +177,7 @@ namespace HelloWorld.Editor
 		{
 			ScriptableObject loadedAsset;
 
-			string assetPath = "Packages/com.gatozhanya.relacade/Objects/SO Tiles 2/3x3 Sample tile set config.asset";
+			string assetPath = "Packages/com.gatozhanya.relacade/Objects/3x3 Input Tiles and Set/3x3 Sample tile set config.asset";
 			loadedAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath);
 			//loadedAsset = Resources.Load<ScriptableObject>(assetPath);
 
@@ -222,7 +222,7 @@ namespace HelloWorld.Editor
         [MenuItem("Relacade/Sample/Tile Set Configuration 2x2")]
         private static void CreateSampleTileSetConfiguration2()
         {
-            string assetPath = "Packages/com.gatozhanya.relacade/Objects/SO Tiles/BWTileSet.asset";
+            string assetPath = "Packages/com.gatozhanya.relacade/Objects/2x2 Input Tiles and Set/BWTileSet.asset";
             ScriptableObject loadedAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath);
 
             if (loadedAsset == null)
