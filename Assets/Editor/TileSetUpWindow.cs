@@ -82,6 +82,39 @@ namespace HelloWorld.Editor
 		private Texture2D headerBackgroundTexture;
 		private Texture2D leftBackgroundTexture;
 		private Texture2D rightBackgroundTexture;
+		private Texture2D textureAllInput;
+		private Texture2D textureForeground;
+		private Texture2D textureBackground;
+		private Texture2D textureFour;
+		private Texture2D textureFilled;
+		private Texture2D textureHorizontal;
+		private Texture2D textureVertical;
+		private Texture2D textureEdgeup;
+		private Texture2D textureEdgedown;
+		private Texture2D textureEdgeleft;
+		private Texture2D textureEdgeright;
+		private Texture2D textureElbowUL;
+		private Texture2D textureElbowUR;
+		private Texture2D textureElbowDL;
+		private Texture2D textureElbowDR;
+		private Texture2D textureCornerUL;
+		private Texture2D textureCornerUR;
+		private Texture2D textureCornerDL;
+		private Texture2D textureCornerDR;
+		private Texture2D textureCornerULDR;
+		private Texture2D textureCornerURDL;
+		private Texture2D textureTwoUL;
+		private Texture2D textureTwoUR;
+		private Texture2D textureTwoDL;
+		private Texture2D textureTwoDR;
+		private Texture2D textureThreeU;
+		private Texture2D textureThreeD;
+		private Texture2D textureThreeL;
+		private Texture2D textureThreeR;
+		private Texture2D textureOneU;
+		private Texture2D textureOneD;
+		private Texture2D textureOneL;
+		private Texture2D textureOneR;
 
 		private Color headerBackgroundColor = new(30f / 255f, 30f / 255f, 30f / 255f, 0.5f);
 		private Color leftBackgroundColor = new(30f / 255f, 30f / 255f, 30f / 255f, 0.5f);
@@ -102,7 +135,7 @@ namespace HelloWorld.Editor
 		private bool shouldClear = false;
 
 		private int selectedOptionIndex = 0;
-		private readonly string[] menuOptions = { "Full Combine", "2x2 Only", "3x3 Only" };
+		private readonly string[] menuOptions = { "Full Combine", "2x2 Only (TODO)", "3x3 Only (TODO)", "3x3 - No 1D together" };
 		GenericMenu menu;
 
 		private bool[] foldout = { false, false, false, false, false, false, false, false ,false };
@@ -208,10 +241,10 @@ namespace HelloWorld.Editor
 			DrawRight();
 			
 			serializedTileSetObject?.ApplyModifiedProperties();
-            // Null propagation?, it says it is used for simple null check
-        }
+			// Null propagation?, it says it is used for simple null check
+		}
 
-        private void SerializeProperties()
+		private void SerializeProperties()
 		{
 			serializedTileSetObject = new(selectedInputTileSet);
 			serializedTileSetObject.Update();
@@ -264,6 +297,40 @@ namespace HelloWorld.Editor
 			rightBackgroundTexture = new Texture2D(1, 1);
 			rightBackgroundTexture.SetPixel(0, 0, rightBackgroundColor);
 			rightBackgroundTexture.Apply();
+
+			textureAllInput = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureForeground = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureBackground = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureFour = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureFilled = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureHorizontal = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureVertical = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureEdgeup = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureEdgedown = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureEdgeleft = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureEdgeright = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureElbowUL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureElbowUR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureElbowDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureElbowDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureCornerUL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureCornerUR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureCornerDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureCornerDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureCornerULDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureCornerURDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureTwoUL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureTwoUR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureTwoDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureTwoDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureThreeU = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureThreeD = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureThreeL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureThreeR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureOneU = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureOneD = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureOneL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+			textureOneR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
 		}
 
 		private void InitData()
@@ -310,6 +377,7 @@ namespace HelloWorld.Editor
 			{
 				if (selectedInputTileSet != null /*& serializedTileSetObject != null*/)
 				{
+					ClearAllInputTileConstraints();
 					AutoGenerateDirect();
 				}
 			}
@@ -512,10 +580,10 @@ namespace HelloWorld.Editor
 				#region Four/Full/Filled
 				case DirectionToSet.Foreground:
 
-                    #region ForeGround
+					#region ForeGround
 
-                    #region 2x2
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+					#region 2x2
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
 						set.ForeGroundTiles,
 						set.EdgeDownTiles,
 						set.ElbowDownRightTiles
@@ -541,9 +609,9 @@ namespace HelloWorld.Editor
 						set.ElbowUpLeftTiles,
 						set.ElbowDownLeftTiles
 					);
-                    #endregion
-                    #region 3x3
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+					#endregion
+					#region 3x3
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
 						set.FilledTiles,
 						set.HorizontalTiles,
 						set.OneFaceUpTiles,
@@ -554,7 +622,7 @@ namespace HelloWorld.Editor
 						set.ThreeFaceUpTiles
 					);
 
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
 						set.FilledTiles,
 						set.ForeGroundTiles,
 						set.HorizontalTiles,
@@ -566,7 +634,7 @@ namespace HelloWorld.Editor
 						set.ThreeFaceDownTiles
 					);
 
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
 						set.FilledTiles,
 						set.ForeGroundTiles,
 						set.VerticalTiles,
@@ -578,7 +646,7 @@ namespace HelloWorld.Editor
 						set.ThreeFaceLeftTiles
 					);
 
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
 						set.FilledTiles,
 						set.ForeGroundTiles,
 						set.VerticalTiles,
@@ -589,9 +657,9 @@ namespace HelloWorld.Editor
 						set.TwoFaceDownRightTiles,
 						set.ThreeFaceRightTiles
 					);
-                    #endregion
+					#endregion
 
-                    break;
+					break;
 
 					#endregion 
 
@@ -633,8 +701,8 @@ namespace HelloWorld.Editor
 
 				case DirectionToSet.Filled:
 
-                    #region Filled
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles,
+					#region Filled
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, set.FilledTiles,
 						set.ForeGroundTiles,
 						set.FourFaceTiles,
 						set.VerticalTiles,
@@ -653,7 +721,7 @@ namespace HelloWorld.Editor
 						set.ThreeFaceRightTiles
 					);
 
-                    tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles,
+					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, set.FilledTiles,
 						set.ForeGroundTiles,
 						set.FourFaceTiles,
 						set.VerticalTiles,
@@ -672,7 +740,7 @@ namespace HelloWorld.Editor
 						set.ThreeFaceRightTiles
 					);
 
-                    tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles,
+					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, set.FilledTiles,
 						set.ForeGroundTiles,
 						set.FourFaceTiles,
 						set.VerticalTiles,
@@ -691,7 +759,7 @@ namespace HelloWorld.Editor
 						set.ThreeFaceRightTiles
 					);
 
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles,
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, set.FilledTiles,
 						set.ForeGroundTiles,
 						set.FourFaceTiles,
 						set.VerticalTiles,
@@ -710,8 +778,8 @@ namespace HelloWorld.Editor
 						set.ThreeFaceRightTiles
 					);
 
-                    #endregion
-                    break;
+					#endregion
+					break;
 				
 				case DirectionToSet.FourFace:
 
@@ -1707,54 +1775,63 @@ namespace HelloWorld.Editor
 				case DirectionToSet.OneFaceUp:
 
 					#region OneUp
+					
+					if(selectedOptionIndex == 3) 
+					{
+						tileInput.compatibleTop = SubCombine(tileInput.compatibleTop,
+							set.FilledTiles, set.FourFaceTiles, set.VerticalTiles,
+							set.TwoFaceDownLeftTiles, set.TwoFaceDownRightTiles,
+							set.ThreeFaceDownTiles, set.ThreeFaceLeftTiles, set.ThreeFaceRightTiles
+						);
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
-						set.FilledTiles,
-						set.FourFaceTiles,
-						set.VerticalTiles,
-						set.OneFaceDownTiles,
-						set.TwoFaceDownLeftTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceDownTiles,
-						set.ThreeFaceLeftTiles,
-						set.ThreeFaceRightTiles
-					);
+						tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom,
+							set.FilledTiles, set.ForeGroundTiles, set.HorizontalTiles,
+							set.TwoFaceDownLeftTiles, set.TwoFaceDownRightTiles,
+							set.ThreeFaceDownTiles
+						);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.HorizontalTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceLeftTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceDownLeftTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceDownTiles
-					);
+						tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft,
+							set.FilledTiles, set.ForeGroundTiles, set.VerticalTiles,
+							set.TwoFaceUpLeftTiles, set.TwoFaceDownLeftTiles,
+							set.ThreeFaceLeftTiles
+						);
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.VerticalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceLeftTiles,
-						set.TwoFaceUpLeftTiles,
-						set.TwoFaceDownLeftTiles,
-						set.ThreeFaceLeftTiles
-					);
+						tileInput.compatibleRight = SubCombine(tileInput.compatibleRight,
+							set.FilledTiles, set.ForeGroundTiles, set.VerticalTiles,
+							set.TwoFaceUpRightTiles, set.TwoFaceDownRightTiles,
+							set.ThreeFaceRightTiles
+						);
+					}
+					else
+					{
+						tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+							set.FilledTiles, set.FourFaceTiles,	set.VerticalTiles,
+							set.OneFaceDownTiles,
+							set.TwoFaceDownLeftTiles, set.TwoFaceDownRightTiles,
+							set.ThreeFaceDownTiles,	set.ThreeFaceLeftTiles,	set.ThreeFaceRightTiles
+						);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.VerticalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceUpRightTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceRightTiles
-					);
+						tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+							set.FilledTiles, set.ForeGroundTiles, set.HorizontalTiles,
+							set.OneFaceDownTiles, set.OneFaceLeftTiles, set.OneFaceRightTiles,
+							set.TwoFaceDownLeftTiles, set.TwoFaceDownRightTiles,
+							set.ThreeFaceDownTiles
+						);
+
+						tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+							set.FilledTiles,set.ForeGroundTiles, set.VerticalTiles,
+							set.OneFaceUpTiles,	set.OneFaceDownTiles, set.OneFaceLeftTiles,
+							set.TwoFaceUpLeftTiles,	set.TwoFaceDownLeftTiles,
+							set.ThreeFaceLeftTiles
+						);
+
+						tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+							set.FilledTiles,	set.ForeGroundTiles,	set.VerticalTiles,
+							set.OneFaceUpTiles,		set.OneFaceDownTiles,	set.OneFaceRightTiles,
+							set.TwoFaceUpRightTiles,	set.TwoFaceDownRightTiles,
+							set.ThreeFaceRightTiles
+						);
+					}
 
 					#endregion
 
@@ -1762,54 +1839,96 @@ namespace HelloWorld.Editor
 				case DirectionToSet.OneFaceDown:
 
 					#region OneDown
+					if(selectedOptionIndex == 3)
+					{
+							tileInput.compatibleTop = SubCombine(tileInput.compatibleTop,
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceUpRightTiles,
+							set.ThreeFaceUpTiles
+						);
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.HorizontalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceLeftTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceUpLeftTiles,
-						set.TwoFaceUpRightTiles,
-						set.ThreeFaceUpTiles
-					);
+                        tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom,
+                            set.FilledTiles,
+                            set.FourFaceTiles,
+                            set.VerticalTiles,
+                            set.TwoFaceUpLeftTiles,
+                            set.TwoFaceUpRightTiles,
+                            set.ThreeFaceUpTiles,
+                            set.ThreeFaceLeftTiles,
+                            set.ThreeFaceRightTiles
+                        );
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
-						set.FilledTiles,
-						set.FourFaceTiles,
-						set.VerticalTiles,
-						set.OneFaceUpTiles,
-						set.TwoFaceUpLeftTiles,
-						set.TwoFaceUpRightTiles,
-						set.ThreeFaceUpTiles,
-						set.ThreeFaceLeftTiles,
-						set.ThreeFaceRightTiles
-					);
+                        tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft,
+                            set.FilledTiles,
+                            set.ForeGroundTiles,
+                            set.VerticalTiles,
+                            set.TwoFaceUpLeftTiles,
+                            set.TwoFaceDownLeftTiles,
+                            set.ThreeFaceLeftTiles
+                        );
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.VerticalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceLeftTiles,
-						set.TwoFaceUpLeftTiles,
-						set.TwoFaceDownLeftTiles,
-						set.ThreeFaceLeftTiles
-					);
+                        tileInput.compatibleRight = SubCombine(tileInput.compatibleRight,
+                            set.FilledTiles,
+                            set.ForeGroundTiles,
+                            set.VerticalTiles,
+                            set.TwoFaceUpRightTiles,
+                            set.TwoFaceDownRightTiles,
+                            set.ThreeFaceRightTiles
+                        );
+                    }
+					else
+					{
+						tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.OneFaceUpTiles,
+							set.OneFaceLeftTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceUpRightTiles,
+							set.ThreeFaceUpTiles
+						);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.VerticalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceUpRightTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceRightTiles
-					);
+						tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+							set.FilledTiles,
+							set.FourFaceTiles,
+							set.VerticalTiles,
+							set.OneFaceUpTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceUpRightTiles,
+							set.ThreeFaceUpTiles,
+							set.ThreeFaceLeftTiles,
+							set.ThreeFaceRightTiles
+						);
+
+						tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.VerticalTiles,
+							set.OneFaceUpTiles,
+							set.OneFaceDownTiles,
+							set.OneFaceLeftTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceDownLeftTiles,
+							set.ThreeFaceLeftTiles
+						);
+
+						tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.VerticalTiles,
+							set.OneFaceUpTiles,
+							set.OneFaceDownTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceUpRightTiles,
+							set.TwoFaceDownRightTiles,
+							set.ThreeFaceRightTiles
+						);
+					}
 
 					#endregion
 
@@ -1817,54 +1936,97 @@ namespace HelloWorld.Editor
 				case DirectionToSet.OneFaceLeft:
 
 					#region OneLeft
+					
+					if(selectedOptionIndex == 3)
+					{
+						tileInput.compatibleTop = SubCombine(tileInput.compatibleTop,
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceUpRightTiles,
+							set.ThreeFaceUpTiles
+						);
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.HorizontalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceLeftTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceUpLeftTiles,
-						set.TwoFaceUpRightTiles,
-						set.ThreeFaceUpTiles
-					);
+                        tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom,
+                            set.FilledTiles,
+                            set.ForeGroundTiles,
+                            set.HorizontalTiles,
+                            set.TwoFaceDownLeftTiles,
+                            set.TwoFaceDownRightTiles,
+                            set.ThreeFaceDownTiles
+                        );
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.HorizontalTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceLeftTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceDownLeftTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceDownTiles
-					);
+                        tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft,
+                            set.FilledTiles,
+                            set.FourFaceTiles,
+                            set.HorizontalTiles,
+                            set.TwoFaceUpRightTiles,
+                            set.TwoFaceDownRightTiles,
+                            set.ThreeFaceUpTiles,
+                            set.ThreeFaceDownTiles,
+                            set.ThreeFaceRightTiles
+                        );
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
-						set.FilledTiles,
-						set.FourFaceTiles,
-						set.HorizontalTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceUpRightTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceUpTiles,
-						set.ThreeFaceDownTiles,
-						set.ThreeFaceRightTiles
-					);
+                        tileInput.compatibleRight = SubCombine(tileInput.compatibleRight,
+                            set.FilledTiles,
+                            set.ForeGroundTiles,
+                            set.VerticalTiles,
+                            set.TwoFaceUpRightTiles,
+                            set.TwoFaceDownRightTiles,
+                            set.ThreeFaceRightTiles
+                        );
+                    }
+					else
+					{
+						tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.OneFaceUpTiles,
+							set.OneFaceLeftTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceUpRightTiles,
+							set.ThreeFaceUpTiles
+						);
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.VerticalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceUpRightTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceRightTiles
-					);
+						tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.OneFaceDownTiles,
+							set.OneFaceLeftTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceDownLeftTiles,
+							set.TwoFaceDownRightTiles,
+							set.ThreeFaceDownTiles
+						);
+
+						tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+							set.FilledTiles,
+							set.FourFaceTiles,
+							set.HorizontalTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceUpRightTiles,
+							set.TwoFaceDownRightTiles,
+							set.ThreeFaceUpTiles,
+							set.ThreeFaceDownTiles,
+							set.ThreeFaceRightTiles
+						);
+
+						tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.VerticalTiles,
+							set.OneFaceUpTiles,
+							set.OneFaceDownTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceUpRightTiles,
+							set.TwoFaceDownRightTiles,
+							set.ThreeFaceRightTiles
+						);
+					}
 
 
 					#endregion
@@ -1874,52 +2036,94 @@ namespace HelloWorld.Editor
 
 					#region OneRight
 
-					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.HorizontalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceLeftTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceUpLeftTiles,
-						set.TwoFaceUpRightTiles,
-						set.ThreeFaceUpTiles
-					);
+					if(selectedOptionIndex == 3)
+					{
+						tileInput.compatibleTop = SubCombine(tileInput.compatibleTop,
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceUpRightTiles,
+							set.ThreeFaceUpTiles
+						);
 
-					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.HorizontalTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceLeftTiles,
-						set.OneFaceRightTiles,
-						set.TwoFaceDownLeftTiles,
-						set.TwoFaceDownRightTiles,
-						set.ThreeFaceDownTiles
-					);
+                        tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom,
+                            set.FilledTiles,
+                            set.ForeGroundTiles,
+                            set.HorizontalTiles,
+                            set.TwoFaceDownLeftTiles,
+                            set.TwoFaceDownRightTiles,
+                            set.ThreeFaceDownTiles
+                        );
 
-					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
-						set.FilledTiles,
-						set.ForeGroundTiles,
-						set.VerticalTiles,
-						set.OneFaceUpTiles,
-						set.OneFaceDownTiles,
-						set.OneFaceLeftTiles,
-						set.TwoFaceDownLeftTiles,
-						set.ThreeFaceLeftTiles
-					);
+                        tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft,
+                            set.FilledTiles,
+                            set.ForeGroundTiles,
+                            set.VerticalTiles,
+                            set.TwoFaceDownLeftTiles,
+                            set.ThreeFaceLeftTiles
+                        );
 
-					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
-						set.FilledTiles,
-						set.FourFaceTiles,
-						set.HorizontalTiles,
-						set.OneFaceLeftTiles,
-						set.TwoFaceUpLeftTiles,
-						set.TwoFaceDownLeftTiles,
-						set.ThreeFaceUpTiles,
-						set.ThreeFaceDownTiles,
-						set.ThreeFaceLeftTiles
-					);
+                        tileInput.compatibleRight = SubCombine(tileInput.compatibleRight,
+                            set.FilledTiles,
+                            set.FourFaceTiles,
+                            set.HorizontalTiles,
+                            set.TwoFaceUpLeftTiles,
+                            set.TwoFaceDownLeftTiles,
+                            set.ThreeFaceUpTiles,
+                            set.ThreeFaceDownTiles,
+                            set.ThreeFaceLeftTiles
+                        );
+                    }
+					else
+					{
+						tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.OneFaceUpTiles,
+							set.OneFaceLeftTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceUpRightTiles,
+							set.ThreeFaceUpTiles
+						);
+
+						tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.HorizontalTiles,
+							set.OneFaceDownTiles,
+							set.OneFaceLeftTiles,
+							set.OneFaceRightTiles,
+							set.TwoFaceDownLeftTiles,
+							set.TwoFaceDownRightTiles,
+							set.ThreeFaceDownTiles
+						);
+
+						tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
+							set.FilledTiles,
+							set.ForeGroundTiles,
+							set.VerticalTiles,
+							set.OneFaceUpTiles,
+							set.OneFaceDownTiles,
+							set.OneFaceLeftTiles,
+							set.TwoFaceDownLeftTiles,
+							set.ThreeFaceLeftTiles
+						);
+
+						tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
+							set.FilledTiles,
+							set.FourFaceTiles,
+							set.HorizontalTiles,
+							set.OneFaceLeftTiles,
+							set.TwoFaceUpLeftTiles,
+							set.TwoFaceDownLeftTiles,
+							set.ThreeFaceUpTiles,
+							set.ThreeFaceDownTiles,
+							set.ThreeFaceLeftTiles
+						);
+					}
 
 					#endregion
 
@@ -1929,8 +2133,8 @@ namespace HelloWorld.Editor
 				#region VH
 				case DirectionToSet.Vertical:
 
-                    #region Vertical
-                    tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
+					#region Vertical
+					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
 						set.FilledTiles,
 						set.FourFaceTiles,
 						set.VerticalTiles,
@@ -1966,16 +2170,16 @@ namespace HelloWorld.Editor
 						set.ThreeFaceLeftTiles
 					);
 
-                    tileInput.compatibleRight = SubCombine(tileInput.compatibleRight,
-                        set.FilledTiles,
-                        set.ForeGroundTiles,
-                        set.VerticalTiles,
-                        set.OneFaceUpTiles,
-                        set.OneFaceDownTiles,
-                        set.OneFaceRightTiles,
-                        set.TwoFaceUpRightTiles,
-                        set.TwoFaceDownRightTiles,
-                        set.ThreeFaceRightTiles
+					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight,
+						set.FilledTiles,
+						set.ForeGroundTiles,
+						set.VerticalTiles,
+						set.OneFaceUpTiles,
+						set.OneFaceDownTiles,
+						set.OneFaceRightTiles,
+						set.TwoFaceUpRightTiles,
+						set.TwoFaceDownRightTiles,
+						set.ThreeFaceRightTiles
 					);
 
 					#endregion
@@ -2040,7 +2244,7 @@ namespace HelloWorld.Editor
 					break;
 			}
 			return tileInput;
-        }
+		}
 
 		private List<TileInput> SubCombine(List<TileInput> tileConstraintsList, params List<TileInput>[] tilesToAdd)
 		{
@@ -2063,106 +2267,138 @@ namespace HelloWorld.Editor
 			GUILayout.BeginArea(tileSetupSection);
 			scrollPositionLeft = EditorGUILayout.BeginScrollView(scrollPositionLeft, false, true);
 
-			EditorGUILayout.BeginVertical(GUILayout.MaxWidth(280));
+			EditorGUILayout.BeginVertical();
+
 			ButtonCategory("All Tiles", 0);
-			ShowTileSets(foldout[0], allInput);
+			ShowTileSets(foldout[0], allInput, textureAllInput);
 
 			ButtonCategory("Filled Tiles", 1);
-			ShowTileSets(foldout[1], foreground, background, four, filled);
+			ShowTileSets(foldout[1], foreground, textureForeground);
+			ShowTileSets(foldout[1], background, textureBackground);
+			ShowTileSets(foldout[1], four, textureFour);
+			ShowTileSets(foldout[1], filled, textureFilled);
 
 			ButtonCategory("Edge Tiles", 2);
-			ShowTileSets(foldout[2], edgeup, edgedown, edgeleft, edgeright);
+			ShowTileSets(foldout[2], edgeup, textureEdgeup);
+			ShowTileSets(foldout[2], edgedown, textureEdgedown);
+			ShowTileSets(foldout[2], edgeleft, textureEdgeleft);
+			ShowTileSets(foldout[2], edgeright, textureEdgeright);
 
 			ButtonCategory("Elbow Tiles", 3);
-			ShowTileSets(foldout[3], elbowUL, elbowUR, elbowDL, elbowDR);
+			ShowTileSets(foldout[3], elbowUL, textureElbowUL);
+			ShowTileSets(foldout[3], elbowUR, textureElbowUR);
+			ShowTileSets(foldout[3], elbowDL, textureElbowDL);
+			ShowTileSets(foldout[3], elbowDR, textureElbowDR);
 
 			ButtonCategory("Corner Tiles", 4);
-			ShowTileSets(foldout[4], cornerUL, cornerUR, cornerDL, cornerDR, cornerULDR, cornerURDL);
+			ShowTileSets(foldout[4], cornerUL, textureCornerUL);
+			ShowTileSets(foldout[4], cornerUR, textureCornerUR);
+			ShowTileSets(foldout[4], cornerDL, textureCornerDL);
+			ShowTileSets(foldout[4], cornerDR, textureCornerDR);
+			ShowTileSets(foldout[4], cornerULDR, textureCornerULDR);
+			ShowTileSets(foldout[4], cornerURDL, textureCornerURDL);
 
 			ButtonCategory("Vertical / Horizontal Tiles", 5);
-			ShowTileSets(foldout[5], vertical, horizontal);
+			ShowTileSets(foldout[5], vertical, textureVertical);
+			ShowTileSets(foldout[5], horizontal, textureHorizontal);
 
 			ButtonCategory("One Face Tiles", 6);
-			ShowTileSets(foldout[6], oneUL, oneUR, oneDL, oneDR);
+			ShowTileSets(foldout[6], oneUL, textureOneU);
+			ShowTileSets(foldout[6], oneUR, textureOneD);
+			ShowTileSets(foldout[6], oneDL, textureOneL);
+			ShowTileSets(foldout[6], oneDR, textureOneR);
 
 			ButtonCategory("Two Face / Curved Tiles", 7);
-			ShowTileSets(foldout[7], twoUL, twoUR, twoDL, twoDR);
+			ShowTileSets(foldout[7], twoUL, textureTwoUL);
+			ShowTileSets(foldout[7], twoUR, textureTwoUR);
+			ShowTileSets(foldout[7], twoDL, textureTwoDL);
+			ShowTileSets(foldout[7], twoDR, textureTwoDR);
 
 			ButtonCategory("Three Face Tiles", 8);
-			ShowTileSets(foldout[8], threeUL, threeUR, threeDL, threeDR);
+			ShowTileSets(foldout[8], threeUL, textureThreeU);
+			ShowTileSets(foldout[8], threeUR, textureThreeD);
+			ShowTileSets(foldout[8], threeDL, textureThreeL);
+			ShowTileSets(foldout[8], threeDR, textureThreeR);
 
 			EditorGUILayout.EndVertical();
+			EditorGUILayout.Space(100);
 			EditorGUILayout.EndScrollView();
 			EditorGUILayout.Space(20);
 			GUILayout.EndArea();
 		}
+
 		private void ButtonCategory(string name, int show)
 		{
-			if (GUILayout.Button(name, GUILayout.Height(30)))
+			if (GUILayout.Button(name, GUILayout.Height(30), GUILayout.Width(281)))
 			{
-				SerializeProperties();
-				foldout[show] = !foldout[show];
+				if(selectedInputTileSet != null) 
+				{
+					SerializeProperties();
+					foldout[show] = !foldout[show];
+				}
 			}
 		}
 
-		private void ShowTileSets(bool showTileset, params SerializedProperty[] property)
+		private void ShowTileSets(bool showTileset, SerializedProperty property, Texture2D pic)
 		{
 			if (showTileset)
 			{
-				foreach(var item in property)
+				EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(270));
+				GUILayout.Label(pic, GUILayout.MaxWidth(190));
+				EditorGUILayout.LabelField(property.name, EditorStyles.largeLabel, GUILayout.MaxWidth(170));
+
+
+				// Array size field
+				int currentArraySize = property.arraySize;
+				int newArraySize = EditorGUILayout.IntField(currentArraySize, GUILayout.Width(40));
+				if (newArraySize != currentArraySize)
 				{
-					EditorGUILayout.BeginHorizontal(GUILayout.MinWidth(270));
-
-					EditorGUILayout.LabelField(item.name, EditorStyles.largeLabel, GUILayout.MaxWidth(190));
-
-					// Array size field
-					int currentArraySize = item.arraySize;
-					int newArraySize = EditorGUILayout.IntField(currentArraySize, GUILayout.Width(40));
-					if (newArraySize != currentArraySize)
-					{
-						item.arraySize = newArraySize;
-					}
-
-					// Plus button
-					if (GUILayout.Button("+", EditorStyles.toolbarButton, GUILayout.Width(20), GUILayout.Height(20)))
-					{
-						item.arraySize++;
-					}
-
-					// Minus button
-					if (GUILayout.Button("-", EditorStyles.toolbarButton, GUILayout.Width(20)))
-					{
-						if (item.arraySize > 0)
-						{
-							item.arraySize--;
-						}
-					}
-					GUILayout.Space(10);
-					EditorGUILayout.EndHorizontal();
-					
-					EditorGUILayout.Space(5);
-
-					for (int i = 0; i < item.arraySize; i++)
-					{
-						SerializedProperty elementProperty = item.GetArrayElementAtIndex(i);
-
-						EditorGUILayout.BeginHorizontal();
-						EditorGUILayout.LabelField($"Item {i + 1}", EditorStyles.miniLabel,GUILayout.MaxWidth(65));
-						EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(175));
-
-						if (GUILayout.Button(">", EditorStyles.toolbarButton ,GUILayout.Width(30)))
-						{
-							if (elementProperty.objectReferenceValue != null)
-							{
-								Object elementReference = elementProperty.objectReferenceValue;
-								selectedTileConstraints = new(elementReference);
-							}
-						}
-						EditorGUILayout.EndHorizontal();
-					}
-					EditorGUILayout.Space(5);
+					property.arraySize = newArraySize;
 				}
+
+				// Plus button
+				if (GUILayout.Button(" +", EditorStyles.miniButtonRight, GUILayout.Width(20)))
+				{
+					property.arraySize++;
+				}
+
+				// Minus button
+				if (GUILayout.Button(" -", EditorStyles.miniButtonRight, GUILayout.Width(20)))
+				{
+					if (property.arraySize > 0)
+					{
+						property.arraySize--;
+					}
+				}
+
+				GUILayout.FlexibleSpace();
+				
+				EditorGUILayout.EndHorizontal();
+					
+				EditorGUILayout.Space(5);
+
+				for (int i = 0; i < property.arraySize; i++)
+				{
+					SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
+
+					EditorGUILayout.BeginHorizontal();
+					EditorGUILayout.LabelField($"Item {i + 1}", EditorStyles.miniLabel,GUILayout.MaxWidth(65));
+					EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(175));
+
+					if (GUILayout.Button(">", EditorStyles.toolbarButton ,GUILayout.Width(30)))
+					{
+						if (elementProperty.objectReferenceValue != null)
+						{
+							Object elementReference = elementProperty.objectReferenceValue;
+							selectedTileConstraints = new(elementReference);
+						}
+					}
+					EditorGUILayout.EndHorizontal();
+				}
+				
+				EditorGUILayout.Space(5);
 			}
+
 		}
 
 
@@ -2257,40 +2493,40 @@ namespace HelloWorld.Editor
 
 		private void GetAllUniqueInputTiles()
 		{
-            GetUniqueTiles(selectedInputTileSet.AllInputTiles);
-            GetUniqueTiles(selectedInputTileSet.ForeGroundTiles);
-            GetUniqueTiles(selectedInputTileSet.BackGroundTiles);
-            GetUniqueTiles(selectedInputTileSet.FilledTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeUpTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeDownTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeRightTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowUpLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowUpRightTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowDownLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowDownRightTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerUpLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerUpRightTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerDownLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerDownRightTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerULDRTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerURDLTiles);
-            GetUniqueTiles(selectedInputTileSet.FourFaceTiles);
-            GetUniqueTiles(selectedInputTileSet.VerticalTiles);
-            GetUniqueTiles(selectedInputTileSet.HorizontalTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceUpLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceUpRightTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceDownLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceDownRightTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceUpTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceDownTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceRightTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceUpTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceDownTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceRightTiles);
-        }
+			GetUniqueTiles(selectedInputTileSet.AllInputTiles);
+			GetUniqueTiles(selectedInputTileSet.ForeGroundTiles);
+			GetUniqueTiles(selectedInputTileSet.BackGroundTiles);
+			GetUniqueTiles(selectedInputTileSet.FilledTiles);
+			GetUniqueTiles(selectedInputTileSet.EdgeUpTiles);
+			GetUniqueTiles(selectedInputTileSet.EdgeDownTiles);
+			GetUniqueTiles(selectedInputTileSet.EdgeLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.EdgeRightTiles);
+			GetUniqueTiles(selectedInputTileSet.ElbowUpLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.ElbowUpRightTiles);
+			GetUniqueTiles(selectedInputTileSet.ElbowDownLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.ElbowDownRightTiles);
+			GetUniqueTiles(selectedInputTileSet.CornerUpLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.CornerUpRightTiles);
+			GetUniqueTiles(selectedInputTileSet.CornerDownLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.CornerDownRightTiles);
+			GetUniqueTiles(selectedInputTileSet.CornerULDRTiles);
+			GetUniqueTiles(selectedInputTileSet.CornerURDLTiles);
+			GetUniqueTiles(selectedInputTileSet.FourFaceTiles);
+			GetUniqueTiles(selectedInputTileSet.VerticalTiles);
+			GetUniqueTiles(selectedInputTileSet.HorizontalTiles);
+			GetUniqueTiles(selectedInputTileSet.TwoFaceUpLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.TwoFaceUpRightTiles);
+			GetUniqueTiles(selectedInputTileSet.TwoFaceDownLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.TwoFaceDownRightTiles);
+			GetUniqueTiles(selectedInputTileSet.ThreeFaceUpTiles);
+			GetUniqueTiles(selectedInputTileSet.ThreeFaceDownTiles);
+			GetUniqueTiles(selectedInputTileSet.ThreeFaceLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.ThreeFaceRightTiles);
+			GetUniqueTiles(selectedInputTileSet.OneFaceUpTiles);
+			GetUniqueTiles(selectedInputTileSet.OneFaceDownTiles);
+			GetUniqueTiles(selectedInputTileSet.OneFaceLeftTiles);
+			GetUniqueTiles(selectedInputTileSet.OneFaceRightTiles);
+		}
 
 		private void GetUniqueTiles(List<TileInput> list)
 		{
@@ -2313,94 +2549,103 @@ namespace HelloWorld.Editor
 
 		private void ClearAllInputTiles()
 		{
-			ClearAllInputTilesInDirection(selectedInputTileSet.AllInputTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ForeGroundTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.BackGroundTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.FilledTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.EdgeUpTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.EdgeDownTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.EdgeLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.EdgeRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ElbowUpLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ElbowUpRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ElbowDownLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ElbowDownRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.CornerUpLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.CornerUpRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.CornerDownLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.CornerDownRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.CornerULDRTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.CornerURDLTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.FourFaceTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.VerticalTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.HorizontalTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.TwoFaceUpLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.TwoFaceUpRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.TwoFaceDownLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.TwoFaceDownRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ThreeFaceUpTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ThreeFaceDownTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ThreeFaceLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.ThreeFaceRightTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.OneFaceUpTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.OneFaceDownTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.OneFaceLeftTiles);
-			ClearAllInputTilesInDirection(selectedInputTileSet.OneFaceRightTiles);
+			ClearAllInputTilesInDirection(
+				selectedInputTileSet.AllInputTiles,
+				selectedInputTileSet.ForeGroundTiles,
+				selectedInputTileSet.BackGroundTiles,
+				selectedInputTileSet.FilledTiles,
+				selectedInputTileSet.EdgeUpTiles,
+				selectedInputTileSet.EdgeDownTiles,
+				selectedInputTileSet.EdgeLeftTiles,
+				selectedInputTileSet.EdgeRightTiles,
+				selectedInputTileSet.ElbowUpLeftTiles,
+				selectedInputTileSet.ElbowUpRightTiles,
+				selectedInputTileSet.ElbowDownLeftTiles,
+				selectedInputTileSet.ElbowDownRightTiles,
+				selectedInputTileSet.CornerUpLeftTiles,
+				selectedInputTileSet.CornerUpRightTiles,
+				selectedInputTileSet.CornerDownLeftTiles,
+				selectedInputTileSet.CornerDownRightTiles,
+				selectedInputTileSet.CornerULDRTiles,
+				selectedInputTileSet.CornerURDLTiles,
+				selectedInputTileSet.FourFaceTiles,
+				selectedInputTileSet.VerticalTiles,
+				selectedInputTileSet.HorizontalTiles,
+				selectedInputTileSet.TwoFaceUpLeftTiles,
+				selectedInputTileSet.TwoFaceUpRightTiles,
+				selectedInputTileSet.TwoFaceDownLeftTiles,
+				selectedInputTileSet.TwoFaceDownRightTiles,
+				selectedInputTileSet.ThreeFaceUpTiles,
+				selectedInputTileSet.ThreeFaceDownTiles,
+				selectedInputTileSet.ThreeFaceLeftTiles,
+				selectedInputTileSet.ThreeFaceRightTiles,
+				selectedInputTileSet.OneFaceUpTiles,
+				selectedInputTileSet.OneFaceDownTiles,
+				selectedInputTileSet.OneFaceLeftTiles,
+				selectedInputTileSet.OneFaceRightTiles
+			);
 		}
 
-		private void ClearAllInputTilesInDirection(List<TileInput> tilesInDirectionList)
+		private void ClearAllInputTilesInDirection(params List<TileInput>[] tilesInDirectionList)
 		{
-			tilesInDirectionList.Clear();
+			foreach(var item in tilesInDirectionList)
+			{
+				item.Clear();
+			}
 		}
 
 		private void ClearAllInputTileConstraints()
 		{
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.AllInputTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ForeGroundTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.BackGroundTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.FilledTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.EdgeUpTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.EdgeDownTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.EdgeLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.EdgeRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ElbowUpLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ElbowUpRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ElbowDownLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ElbowDownRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.CornerUpLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.CornerUpRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.CornerDownLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.CornerDownRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.CornerULDRTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.CornerURDLTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.FourFaceTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.VerticalTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.HorizontalTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.TwoFaceUpLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.TwoFaceUpRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.TwoFaceDownLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.TwoFaceDownRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ThreeFaceUpTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ThreeFaceDownTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ThreeFaceLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.ThreeFaceRightTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.OneFaceUpTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.OneFaceDownTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.OneFaceLeftTiles);
-			ClearAllInputTileConstraintsInDirection(selectedInputTileSet.OneFaceRightTiles);
+			ClearAllInputTileConstraintsInDirection(
+				selectedInputTileSet.AllInputTiles,
+				selectedInputTileSet.ForeGroundTiles,
+				selectedInputTileSet.BackGroundTiles,
+				selectedInputTileSet.FilledTiles,
+				selectedInputTileSet.EdgeUpTiles,
+				selectedInputTileSet.EdgeDownTiles,
+				selectedInputTileSet.EdgeLeftTiles,
+				selectedInputTileSet.EdgeRightTiles,
+				selectedInputTileSet.ElbowUpLeftTiles,
+				selectedInputTileSet.ElbowUpRightTiles,
+				selectedInputTileSet.ElbowDownLeftTiles,
+				selectedInputTileSet.ElbowDownRightTiles,
+				selectedInputTileSet.CornerUpLeftTiles,
+				selectedInputTileSet.CornerUpRightTiles,
+				selectedInputTileSet.CornerDownLeftTiles,
+				selectedInputTileSet.CornerDownRightTiles,
+				selectedInputTileSet.CornerULDRTiles,
+				selectedInputTileSet.CornerURDLTiles,
+				selectedInputTileSet.FourFaceTiles,
+				selectedInputTileSet.VerticalTiles,
+				selectedInputTileSet.HorizontalTiles,
+				selectedInputTileSet.TwoFaceUpLeftTiles,
+				selectedInputTileSet.TwoFaceUpRightTiles,
+				selectedInputTileSet.TwoFaceDownLeftTiles,
+				selectedInputTileSet.TwoFaceDownRightTiles,
+				selectedInputTileSet.ThreeFaceUpTiles,
+				selectedInputTileSet.ThreeFaceDownTiles,
+				selectedInputTileSet.ThreeFaceLeftTiles,
+				selectedInputTileSet.ThreeFaceRightTiles,
+				selectedInputTileSet.OneFaceUpTiles,
+				selectedInputTileSet.OneFaceDownTiles,
+				selectedInputTileSet.OneFaceLeftTiles,
+				selectedInputTileSet.OneFaceRightTiles
+			);
 		}
 
-		private void ClearAllInputTileConstraintsInDirection(List<TileInput> tileInDirectionList)
+		private void ClearAllInputTileConstraintsInDirection(params List<TileInput>[] tileInDirectionList)
 		{
-			foreach(var item in tileInDirectionList)
+			foreach(var set in tileInDirectionList)
 			{
-				item.compatibleTop.Clear();
-				item.compatibleBottom.Clear();
-				item.compatibleLeft.Clear();
-				item.compatibleRight.Clear();
+				foreach(var item in set)
+				{
+					item.compatibleTop.Clear();
+					item.compatibleBottom.Clear();
+					item.compatibleLeft.Clear();
+					item.compatibleRight.Clear();
+				}
 			}
 		}
-
 
 		private void AutoGenerateSerialized()
 		{

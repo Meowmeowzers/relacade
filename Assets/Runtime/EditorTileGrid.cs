@@ -88,6 +88,7 @@ namespace HelloWorld
 				PropagateConstraints(selectedRandomCell);
 				yield return editorWait;
 			}
+			yield break;
 		}
 
 		public void PropagateConstraints(EditorGridCell cell)
@@ -150,14 +151,13 @@ namespace HelloWorld
 		{
 			foreach (var cell in gridCell)
 			{
-				//TODO: change to use function instead of direct access to isDefinite
 				if (cell.IsNotDefiniteState())
 				{
 					//Debug.Log("Wave not Fully Collapsed...");
 					return false;
 				}
 			}
-			//Debug.Log("Wave Fully Collapsed...");
+			Debug.Log("Wave Fully Collapsed...");
 			return true;
 		}
 
@@ -188,7 +188,7 @@ namespace HelloWorld
 					}
 				}
 			}
-			Debug.Log("# of lowest entropy cells: " + lowestEntropyCells.Count.ToString());
+			//Debug.Log("# of lowest entropy cells: " + lowestEntropyCells.Count.ToString());
 			return lowestEntropyCellsSelected;
 		}
 

@@ -9,7 +9,7 @@ public class MenuBarWindow : EditorWindow
     private string[] menuOptions = { "Option 1", "Option 2", "Option 3" };
     private Object targetObject;
 
-    bool  showFoldout = false;
+    bool showFoldout = false;
 
     [MenuItem("Window/Menu Bar Window")]
     public static void ShowWindow()
@@ -17,6 +17,11 @@ public class MenuBarWindow : EditorWindow
         MenuBarWindow window = GetWindow<MenuBarWindow>();
         window.titleContent = new GUIContent("Menu Bar");
         window.Show();
+    }
+    private void OnEnable()
+    {
+        image1 = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+        image2 = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolPlants").image as Texture2D;
     }
 
     private void OnGUI()
@@ -52,7 +57,6 @@ public class MenuBarWindow : EditorWindow
             menu.ShowAsContext();
         }
 
-        
 
         GUILayout.EndHorizontal();
 
@@ -74,8 +78,7 @@ public class MenuBarWindow : EditorWindow
             EditorGUILayout.EndVertical();
         }
 
-        image1 = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-        image2 = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolPlants").image as Texture2D;
+        
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label(image1, GUILayout.Width(40), GUILayout.Height(40));
