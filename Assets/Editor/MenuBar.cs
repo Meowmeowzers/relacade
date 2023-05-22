@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MenuBarWindow : EditorWindow
 {
+    Texture2D image1;
+    Texture2D image2;
     private int selectedOptionIndex = 0;
     private string[] menuOptions = { "Option 1", "Option 2", "Option 3" };
     private Object targetObject;
@@ -71,5 +73,19 @@ public class MenuBarWindow : EditorWindow
 
             EditorGUILayout.EndVertical();
         }
+
+        image1 = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+        image2 = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolPlants").image as Texture2D;
+
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Label(image1, GUILayout.Width(40), GUILayout.Height(40));
+        GUILayout.Label(image2, GUILayout.Width(40), GUILayout.Height(40));
+
+        if (GUILayout.Button("My Button"))
+        {
+            // Button click action
+        }
+
+        EditorGUILayout.EndHorizontal();
     }
 }

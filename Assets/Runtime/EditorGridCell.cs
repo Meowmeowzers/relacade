@@ -14,7 +14,7 @@ namespace HelloWorld
         public List<TileInput> tileInputs;
         public List<TileInput> propagatedTileInputs = new();
 
-        private TileInput selectedTileInput;
+        public TileInput selectedTileInput;
 
         //New script
         public void Initialize(List<TileInput> value)
