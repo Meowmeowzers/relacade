@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 // Based from Renaissance Coders tutorials from YT
 namespace HelloWorld.Editor
@@ -60,9 +59,8 @@ namespace HelloWorld.Editor
 		Texture2D previewTexture;
 
 		private string assetName = "New Tile Set Configuration Data";
-		//private string savePath = "Assets/";
-
-		private enum DirectionToSet
+        //private string savePath = "Assets/";
+        private enum DirectionToSet
 		{ 
 			Foreground, Background, Filled, 
 			EdgeUp, EdgeDown, EdgeLeft, EdgeRight,
@@ -164,6 +162,7 @@ namespace HelloWorld.Editor
 			}
 			else
 			{
+
 				Debug.LogWarning("Prefab not found at path: " + "Assets / Objects / EditorWave.prefab");
 			}
 		}
