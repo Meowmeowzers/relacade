@@ -60,6 +60,7 @@ namespace HelloWorld.Editor
 
 		private string assetName = "New Tile Set Configuration Data";
         //private string savePath = "Assets/";
+
         private enum DirectionToSet
 		{ 
 			Foreground, Background, Filled, 
@@ -318,39 +319,39 @@ namespace HelloWorld.Editor
 			rightBackgroundTexture.SetPixel(0, 0, rightBackgroundColor);
 			rightBackgroundTexture.Apply();
 
-			textureAllInput = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureForeground = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureBackground = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureFour = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureFilled = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureHorizontal = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureVertical = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureEdgeup = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureEdgedown = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureEdgeleft = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureEdgeright = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureElbowUL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureElbowUR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureElbowDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureElbowDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureCornerUL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureCornerUR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureCornerDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureCornerDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureCornerULDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureCornerURDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureTwoUL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureTwoUR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureTwoDL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureTwoDR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureThreeU = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureThreeD = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureThreeL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureThreeR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureOneU = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureOneD = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureOneL = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
-			textureOneR = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
+            textureAllInput = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00011.png");
+            textureForeground = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00011.png");
+            textureBackground = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00017.png");
+			textureFour = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00012.png");
+			textureFilled = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00032.png");
+			textureHorizontal = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0006.png");
+			textureVertical = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0005.png");
+			textureEdgeup = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00018.png");
+			textureEdgedown = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00019.png");
+			textureEdgeleft = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00020.png");
+			textureEdgeright = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00021.png");
+			textureElbowUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00024.png");
+			textureElbowUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00025.png");
+			textureElbowDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00023.png");
+			textureElbowDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00022.png");
+			textureCornerUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00028.png");
+			textureCornerUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00029.png");
+			textureCornerDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00027.png");
+			textureCornerDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00026.png");
+			textureCornerULDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00031.png");
+			textureCornerURDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00030.png");
+			textureTwoUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0008.png");
+			textureTwoUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0007.png");
+			textureTwoDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0009.png");
+			textureTwoDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00010.png");
+			textureThreeU = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00013.png");
+			textureThreeD = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00014.png");
+			textureThreeL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00015.png");
+			textureThreeR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00016.png");
+			textureOneU = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0001.png");
+			textureOneD = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0002.png");
+			textureOneL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0003.png");
+			textureOneR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0004.png");
 		}
 
 		private void InitData()
@@ -2364,9 +2365,8 @@ namespace HelloWorld.Editor
 			if (showTileset)
 			{
 				EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(270));
-				GUILayout.Label(pic, GUILayout.MaxWidth(190));
+				GUILayout.Label(pic);
 				EditorGUILayout.LabelField(property.name, EditorStyles.largeLabel, GUILayout.MaxWidth(170));
-
 
 				// Array size field
 				int currentArraySize = property.arraySize;
