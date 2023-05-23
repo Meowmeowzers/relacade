@@ -185,7 +185,7 @@ namespace HelloWorld.Editor
 			{
 				Debug.Log("Fail to find asset");
 				return;
-			}
+			} 
 
 			ScriptableObject duplicatedObject = Instantiate(loadedAsset);
 
@@ -273,8 +273,8 @@ namespace HelloWorld.Editor
 			allInput = serializedTileSetObject.FindProperty("AllInputTiles");
 			foreground = serializedTileSetObject.FindProperty("ForeGroundTiles");
 			background = serializedTileSetObject.FindProperty("BackGroundTiles");
-			filled = serializedTileSetObject.FindProperty("FourFaceTiles");
-			four = serializedTileSetObject.FindProperty("FilledTiles");
+			filled = serializedTileSetObject.FindProperty("FilledTiles");
+			four = serializedTileSetObject.FindProperty("FourFaceTiles");
 			vertical = serializedTileSetObject.FindProperty("VerticalTiles");
 			horizontal = serializedTileSetObject.FindProperty("HorizontalTiles");
 			edgeup = serializedTileSetObject.FindProperty("EdgeUpTiles");
