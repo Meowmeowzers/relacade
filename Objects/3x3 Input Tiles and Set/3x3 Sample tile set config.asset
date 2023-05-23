@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc1bd19df3282604ba22a455d47b2068, type: 3}
-  m_Name: 3x3 Sample tile set config
+  m_Name: 3x3 Sample Tile Set Config
   m_EditorClassIdentifier: 
   AllInputTiles:
   - {fileID: 11400000, guid: 208f48073af5152439328cb34a068d1c, type: 2}

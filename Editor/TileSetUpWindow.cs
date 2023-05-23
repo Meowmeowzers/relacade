@@ -223,7 +223,7 @@ namespace HelloWorld.Editor
         [MenuItem("Relacade/Sample/Tile Set Configuration 2x2")]
         private static void CreateSampleTileSetConfiguration2()
         {
-            string assetPath = "Packages/com.gatozhanya.relacade/Objects/2x2 Input Tiles and Set/BWTileSet.asset";
+            string assetPath = "Packages/com.gatozhanya.relacade/Objects/2x2 Input Tiles and Set/2x2 Sample Tile Set Config.asset";
             ScriptableObject loadedAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath);
 
             if (loadedAsset == null)
@@ -331,10 +331,10 @@ namespace HelloWorld.Editor
 			textureEdgedown = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00019.png");
 			textureEdgeleft = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00020.png");
 			textureEdgeright = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00021.png");
-			textureElbowUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00024.png");
-			textureElbowUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00025.png");
-			textureElbowDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00023.png");
-			textureElbowDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00022.png");
+			textureElbowUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00022.png");
+			textureElbowUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00023.png");
+			textureElbowDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00025.png");
+			textureElbowDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00024.png");
 			textureCornerUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00028.png");
 			textureCornerUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00029.png");
 			textureCornerDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00027.png");
@@ -390,7 +390,7 @@ namespace HelloWorld.Editor
 			GUILayout.BeginArea(headerSection);
 			EditorGUILayout.Space(3);
 			GUILayout.BeginHorizontal(EditorStyles.toolbar);
-			EditorGUILayout.LabelField("Tile Set Config", GUILayout.Width(100));
+			EditorGUILayout.LabelField("Tile Set Config", GUILayout.Width(100), GUILayout.MaxWidth(100));
 			selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.MaxWidth(300));
 
 			GUILayout.FlexibleSpace();

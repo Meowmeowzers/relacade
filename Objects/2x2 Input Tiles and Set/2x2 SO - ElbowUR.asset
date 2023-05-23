@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1960bd12f2473454e8d8e36099712b1e, type: 3}
+  m_Name: 2x2 SO - ElbowUR
+  m_EditorClassIdentifier: 
+  gameObject: {fileID: 200094413327123030, guid: 77a8ccd235b3768409ed50265917dba5, type: 3}
+  id: 8
+  compatibleTop:
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
+  - {fileID: 11400000, guid: 285b18e0be212394d96f063b41d4d004, type: 2}
+  - {fileID: 11400000, guid: eac3a1e2012ba224b9639ac34477be3e, type: 2}
+  - {fileID: 11400000, guid: 2081985cf28d4404b9f9b39ad3ea119d, type: 2}
+  compatibleBottom:
+  - {fileID: 11400000, guid: 3a2557d50e4a20145b09e8a39f4f805f, type: 2}
+  - {fileID: 11400000, guid: f80ba1935519825459e871882c281d2f, type: 2}
+  - {fileID: 11400000, guid: 2081985cf28d4404b9f9b39ad3ea119d, type: 2}
+  compatibleLeft:
+  - {fileID: 11400000, guid: 45114592cbefb4d459c60400cb81e3d2, type: 2}
+  - {fileID: 11400000, guid: f80ba1935519825459e871882c281d2f, type: 2}
+  - {fileID: 11400000, guid: c86016582a055bf4f8436903480ccec0, type: 2}
+  compatibleRight:
+  - {fileID: 11400000, guid: b54469bb1371f3146a8add52d9631d65, type: 2}
+  - {fileID: 11400000, guid: 6467a622f137a094b9bcce8beb830281, type: 2}
+  - {fileID: 11400000, guid: c86016582a055bf4f8436903480ccec0, type: 2}
+  - {fileID: 11400000, guid: eac3a1e2012ba224b9639ac34477be3e, type: 2}
