@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 // Based from Renaissance Coders tutorials from YT
 namespace HelloWorld.Editor
@@ -596,6 +597,7 @@ namespace HelloWorld.Editor
 
 		private TileInput MainCombine(TileInput tileInput, TileInputSet set, DirectionToSet direction)
 		{
+			if (tileInput == null) return null;
 			switch (direction)
 			{
 				#region Four/Full/Filled
@@ -2563,6 +2565,7 @@ namespace HelloWorld.Editor
 		{
 			for(int i = 0; i < selectedInputTileSet.AllInputTiles.Count; i++)
 			{
+				if (selectedInputTileSet.AllInputTiles[i] == null) continue;
 				selectedInputTileSet.AllInputTiles[i].id = i + 1;
 			}
 		}
@@ -2659,12 +2662,20 @@ namespace HelloWorld.Editor
 			{
 				foreach(var item in set)
 				{
-					item.compatibleTop.Clear();
-					item.compatibleBottom.Clear();
-					item.compatibleLeft.Clear();
-					item.compatibleRight.Clear();
+					if (item == null)
+					{
+						//continue if item is null
+						continue;
+					}
+					else
+					{
+                        item.compatibleTop.Clear();
+                        item.compatibleBottom.Clear();
+                        item.compatibleLeft.Clear();
+                        item.compatibleRight.Clear();
+                    }
 				}
-			}
+            }
 		}
 
 		private void AutoGenerateSerialized()
