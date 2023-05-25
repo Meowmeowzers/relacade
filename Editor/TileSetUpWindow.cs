@@ -2515,7 +2515,7 @@ namespace HelloWorld.Editor
 
 		private void GetAllUniqueInputTiles()
 		{
-			GetUniqueTiles(selectedInputTileSet.AllInputTiles);
+			//GetUniqueTiles(selectedInputTileSet.AllInputTiles);
 			GetUniqueTiles(selectedInputTileSet.ForeGroundTiles);
 			GetUniqueTiles(selectedInputTileSet.BackGroundTiles);
 			GetUniqueTiles(selectedInputTileSet.FilledTiles);
@@ -2552,6 +2552,8 @@ namespace HelloWorld.Editor
 
 		private void GetUniqueTiles(List<TileInput> list)
 		{
+
+			selectedInputTileSet.AllInputTiles.Clear();
 			foreach (TileInput item in list)
 			{
 				if (!selectedInputTileSet.AllInputTiles.Contains(item))
