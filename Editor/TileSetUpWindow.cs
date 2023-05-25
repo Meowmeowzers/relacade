@@ -2515,7 +2515,7 @@ namespace HelloWorld.Editor
 
 		private void GetAllUniqueInputTiles()
 		{
-			GetUniqueTiles(selectedInputTileSet.AllInputTiles);
+			//GetUniqueTiles(selectedInputTileSet.AllInputTiles);
 			GetUniqueTiles(selectedInputTileSet.ForeGroundTiles);
 			GetUniqueTiles(selectedInputTileSet.BackGroundTiles);
 			GetUniqueTiles(selectedInputTileSet.FilledTiles);
