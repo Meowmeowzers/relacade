@@ -2,6 +2,7 @@
     "name": "GatoZhanya.HelloWorld.Editor",
     "rootNamespace": "",
     "references": [
+        "GUID:478a2357cc57436488a56e564b08d223",
         "GUID:1873fbb228bf37d4f9cdefd3c2dd106a"
     ],
     "includePlatforms": [

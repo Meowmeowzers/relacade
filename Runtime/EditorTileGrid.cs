@@ -1,10 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Unity.EditorCoroutines.Editor;
-using System.Collections;
 
 //Editor WFC tile grid
 namespace HelloWorld
@@ -26,9 +26,9 @@ namespace HelloWorld
 		private EditorGridCell selectedRandomCell;
 		private GameObject tempGameObject;
 
-		private readonly EditorWaitForSeconds editorWait = new(0f);
+		private readonly Unity.EditorCoroutines.Editor.EditorWaitForSeconds editorWait = new(0f);
 
-		EditorCoroutine coroutine;
+        Unity.EditorCoroutines.Editor.EditorCoroutine coroutine;
 
 		public enum LookDirection
 		{ UP, DOWN, LEFT, RIGHT };
@@ -317,7 +317,7 @@ namespace HelloWorld
 
 		public void FinalizeGrid()
 		{
-			GameObject newParentObject = new GameObject("Generated Content  "); ;
+			GameObject newParentObject = new("Generated Content"); ;
 			newParentObject.transform.position = this.transform.position;
 
 			int childCount = this.transform.childCount;
