@@ -47,6 +47,6 @@ MonoBehaviour:
   tileInputSet: {fileID: 0}
   allTileInputs: []
   uniqueTileInputs: []
-  size: 2
+  size: 8
   tileSize: 1
   gridCellObject: {fileID: 7375977999617206148, guid: 86bf27f6680673740bc6a02b4aa6c51d, type: 3}
