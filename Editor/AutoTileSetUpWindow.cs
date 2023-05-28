@@ -1277,7 +1277,8 @@ namespace HelloWorld.Editor
 					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
 						set.FilledTiles,
 						
-						set.VerticalTiles
+						set.VerticalTiles,
+						set.OneFaceUpTiles
 					);
 
 					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
@@ -1340,7 +1341,8 @@ namespace HelloWorld.Editor
 					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
 						set.FilledTiles,
 						
-						set.VerticalTiles
+						set.VerticalTiles,
+						set.OneFaceDownTiles
 					);
 
 					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
@@ -1377,8 +1379,9 @@ namespace HelloWorld.Editor
 
 					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
 						set.FilledTiles,
-						set.VerticalTiles,
-						set.OneFaceDownTiles
+						set.TwoFaceDownLeftTiles,
+						set.TwoFaceDownRightTiles,
+						set.VerticalTiles
 					);
 
 					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
@@ -1395,8 +1398,9 @@ namespace HelloWorld.Editor
 
 					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
 						set.FilledTiles,
-						set.HorizontalTiles,
-						set.OneFaceRightTiles
+                        set.TwoFaceUpRightTiles,
+                        set.TwoFaceDownRightTiles,
+                        set.HorizontalTiles
 					);
 
 					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
@@ -1421,8 +1425,10 @@ namespace HelloWorld.Editor
 					tileInput.compatibleTop = SubCombine(tileInput.compatibleTop, 
 						set.FilledTiles,
 						set.VerticalTiles,
-						set.OneFaceDownTiles
-					);
+                        set.TwoFaceDownLeftTiles,
+                        set.TwoFaceDownRightTiles
+
+                    );
 
 					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
 						set.FilledTiles,
@@ -1451,8 +1457,10 @@ namespace HelloWorld.Editor
 					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
 						set.FilledTiles,
 						set.HorizontalTiles,
-						set.OneFaceLeftTiles
-					);
+                        set.TwoFaceUpLeftTiles,
+                        set.TwoFaceDownLeftTiles
+
+                    );
 
 					#endregion
 					break;
@@ -1475,14 +1483,17 @@ namespace HelloWorld.Editor
 					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
 						set.FilledTiles,
 						set.VerticalTiles,
-						set.OneFaceUpTiles
-					);
+						set.TwoFaceUpLeftTiles,
+                        set.TwoFaceUpRightTiles
+
+                    );
 
 					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
 						set.FilledTiles,
 						set.HorizontalTiles,
-						set.OneFaceRightTiles
-					);
+                        set.TwoFaceUpRightTiles,
+                        set.TwoFaceDownRightTiles
+                    );
 
 					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
 						set.FilledTiles,
@@ -1517,8 +1528,10 @@ namespace HelloWorld.Editor
 					tileInput.compatibleBottom = SubCombine(tileInput.compatibleBottom, 
 						set.FilledTiles,
 						set.VerticalTiles,
-						set.OneFaceUpTiles
-					);
+                        set.TwoFaceUpLeftTiles,
+                        set.TwoFaceUpRightTiles
+
+                    );
 
 					tileInput.compatibleLeft = SubCombine(tileInput.compatibleLeft, 
 						set.FilledTiles,
@@ -1535,8 +1548,10 @@ namespace HelloWorld.Editor
 					tileInput.compatibleRight = SubCombine(tileInput.compatibleRight, 
 						set.FilledTiles,
 						set.HorizontalTiles,
-						set.OneFaceLeftTiles
-					);
+                        set.TwoFaceUpLeftTiles,
+                        set.TwoFaceDownLeftTiles
+
+                    );
 
 					#endregion
 					break;
