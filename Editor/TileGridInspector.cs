@@ -52,7 +52,8 @@ namespace HelloWorld.Editor
 
 			if (GUILayout.Button("Reload Tile set", GUILayout.Height(20)))
 			{
-				tileGrid.ReLoadTileInputsFromSet();
+                Undo.RecordObject(target, "Reload TileSet");
+                tileGrid.ReLoadTileInputsFromSet();
 			}
 
 			EditorGUILayout.BeginHorizontal();
@@ -104,6 +105,7 @@ namespace HelloWorld.Editor
 			{
 				serializedObject?.ApplyModifiedProperties();
 			}
+			//EditorUtility.SetDirty(target);
 		}
 
 		private void Load()
