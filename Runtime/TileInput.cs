@@ -8,12 +8,12 @@ namespace HelloWorld
     [Serializable]
     public class TileInput : ScriptableObject
     {
-        public GameObject gameObject;
-        public int id;
+        [SerializeField] public GameObject gameObject;
+        [SerializeField] public int id;
         
-        public List<TileInput> compatibleTop = new();
-        public List<TileInput> compatibleBottom = new();
-        public List<TileInput> compatibleLeft = new();
-        public List<TileInput> compatibleRight = new();
+        [SerializeField] public List<TileInput> compatibleTop = new();
+        [SerializeField] public List<TileInput> compatibleBottom = new();
+        [SerializeField] public List<TileInput> compatibleLeft = new();
+        [SerializeField] public List<TileInput> compatibleRight = new();
     }
 }

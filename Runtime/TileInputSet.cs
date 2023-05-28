@@ -1,10 +1,11 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace HelloWorld
 {
     [CreateAssetMenu(fileName = "New Input Tile Set Data", menuName = "Relacade/Input Tile Set Data")]
+    [Serializable]
     public class TileInputSet : ScriptableObject
     {
         [SerializeField] public List<TileInput> AllInputTiles = new();
