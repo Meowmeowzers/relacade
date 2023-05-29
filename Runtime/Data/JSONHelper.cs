@@ -27,7 +27,8 @@ public static class JSONHelper
     {
         public T[] items;
 
-        public Wrapper(T[] value) { 
+        public Wrapper(T[] value)
+        {
             items = value;
         }
     }

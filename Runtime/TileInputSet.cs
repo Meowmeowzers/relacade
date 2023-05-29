@@ -17,6 +17,7 @@ namespace HelloWorld
 
         // 2x2 - Road/Field tile set
         [SerializeField] public List<TileInput> EdgeUpTiles = new();
+
         [SerializeField] public List<TileInput> EdgeDownTiles = new();
         [SerializeField] public List<TileInput> EdgeLeftTiles = new();
         [SerializeField] public List<TileInput> EdgeRightTiles = new();
@@ -54,8 +55,5 @@ namespace HelloWorld
         [SerializeField] public List<TileInput> OneFaceDownTiles = new();
         [SerializeField] public List<TileInput> OneFaceLeftTiles = new();
         [SerializeField] public List<TileInput> OneFaceRightTiles = new();
-
-        
-
     }
 }

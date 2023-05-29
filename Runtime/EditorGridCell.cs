@@ -39,7 +39,7 @@ namespace HelloWorld
             entropy = 1;
 
             //Debug.Log("Selected Cell: " + xIndex + " " + yIndex
-              //  + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
+            //  + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
         }
 
         public void SelectTile(TileInput tileInput)
@@ -75,12 +75,13 @@ namespace HelloWorld
             else
                 return false;
         }
+
         //NewScript end
 
         public void ResetCell(List<TileInput> value)
         {
             Initialize(value);
-            if(GetComponentInChildren<Transform>().gameObject != null)
+            if (GetComponentInChildren<Transform>().gameObject != null)
             {
                 DestroyImmediate(GetComponentInChildren<Transform>().gameObject);
             }

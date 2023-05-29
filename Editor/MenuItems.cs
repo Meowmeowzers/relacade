@@ -5,7 +5,7 @@ namespace HelloWorld.Editor
 {
     public class MenuItems : EditorWindow
     {
-        [MenuItem("Relacade/Auto Tile Set Data Generator")]
+        [MenuItem("Relacade/Tile Set Data Generator")]
         public static void StartWindow()
         {
             AutoTileSetUpWindow window = (AutoTileSetUpWindow)GetWindow(typeof(AutoTileSetUpWindow));

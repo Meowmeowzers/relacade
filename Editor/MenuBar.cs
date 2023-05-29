@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class MenuBarWindow : EditorWindow
 {
-    Texture2D image1;
-    Texture2D image2;
+    private Texture2D image1;
+    private Texture2D image2;
     private int selectedOptionIndex = 0;
     private string[] menuOptions = { "Option 1", "Option 2", "Option 3" };
     private Object targetObject;
 
-    bool showFoldout = false;
+    private bool showFoldout = false;
 
     [MenuItem("Window/Menu Bar Window")]
     public static void ShowWindow()
@@ -18,6 +18,7 @@ public class MenuBarWindow : EditorWindow
         window.titleContent = new GUIContent("Menu Bar");
         window.Show();
     }
+
     private void OnEnable()
     {
         image1 = EditorGUIUtility.IconContent("TerrainInspector.TerrainToolSplat").image as Texture2D;
@@ -57,7 +58,6 @@ public class MenuBarWindow : EditorWindow
             menu.ShowAsContext();
         }
 
-
         GUILayout.EndHorizontal();
 
         GUILayout.Space(10f);
@@ -77,8 +77,6 @@ public class MenuBarWindow : EditorWindow
 
             EditorGUILayout.EndVertical();
         }
-
-        
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label(image1, GUILayout.Width(40), GUILayout.Height(40));

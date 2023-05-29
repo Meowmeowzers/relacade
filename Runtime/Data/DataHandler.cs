@@ -34,17 +34,17 @@ public static class DataHandler
     {
         FileStream filestream = new(path, FileMode.Create);
 
-    using StreamWriter writer = new(filestream);
-    writer.Write(content);
+        using StreamWriter writer = new(filestream);
+        writer.Write(content);
     }
 
     private static string ReadFile(string path)
     {
         if (File.Exists(path))
         {
-        StreamReader reader = new(path);
-        string content = reader.ReadToEnd();
-        return content;
+            StreamReader reader = new(path);
+            string content = reader.ReadToEnd();
+            return content;
         }
         return "";
     }

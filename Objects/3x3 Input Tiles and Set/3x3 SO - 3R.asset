@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3x3 SO - 3R
   m_EditorClassIdentifier: 
   gameObject: {fileID: 6173187183464301065, guid: 5013d9b7bc01e2441a6f419536bb6dc8, type: 3}
-  id: 17
+  id: 16
   compatibleTop:
   - {fileID: 11400000, guid: a89e43729c3c33d4388ab8a73dddb3e8, type: 2}
   - {fileID: 11400000, guid: 625b6e8ac94753d42861d65d1f7af2bf, type: 2}
@@ -28,7 +28,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 71c441ee45b14bd48a347af6c930bb4b, type: 2}
   - {fileID: 11400000, guid: 4876835703b5f2949858fc9163e45bd4, type: 2}
   - {fileID: 11400000, guid: 4c6708f768695d9469ecaadbebca7c9c, type: 2}
-  - {fileID: 11400000, guid: 395268fadcb833f47b317faa4d363fa7, type: 2}
   - {fileID: 11400000, guid: 625b6e8ac94753d42861d65d1f7af2bf, type: 2}
   - {fileID: 11400000, guid: caa5ad56fa2f5584ea46206b524e5c3e, type: 2}
   - {fileID: 11400000, guid: bc5e5ea3f0ba2a5458063134c2e71e97, type: 2}

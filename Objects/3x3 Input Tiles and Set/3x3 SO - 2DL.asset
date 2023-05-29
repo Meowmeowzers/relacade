@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: 3x3 SO - 2DL
   m_EditorClassIdentifier: 
   gameObject: {fileID: 6480630453927355603, guid: 6da7d251c6213ad47836a337900416fe, type: 3}
-  id: 12
+  id: 11
   compatibleTop:
   - {fileID: 11400000, guid: a89e43729c3c33d4388ab8a73dddb3e8, type: 2}
   - {fileID: 11400000, guid: 208f48073af5152439328cb34a068d1c, type: 2}
   - {fileID: 11400000, guid: 71c441ee45b14bd48a347af6c930bb4b, type: 2}
   - {fileID: 11400000, guid: 4876835703b5f2949858fc9163e45bd4, type: 2}
   - {fileID: 11400000, guid: 4c6708f768695d9469ecaadbebca7c9c, type: 2}
-  - {fileID: 11400000, guid: 395268fadcb833f47b317faa4d363fa7, type: 2}
   - {fileID: 11400000, guid: c3f425b3915d83d438b00e3306e98684, type: 2}
   - {fileID: 11400000, guid: 8408e5890a9b119439fead8065c6c82f, type: 2}
   - {fileID: 11400000, guid: 47a061faed7af3e48880ee5ee17023db, type: 2}
@@ -43,7 +42,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 71c441ee45b14bd48a347af6c930bb4b, type: 2}
   - {fileID: 11400000, guid: 4876835703b5f2949858fc9163e45bd4, type: 2}
   - {fileID: 11400000, guid: 4c6708f768695d9469ecaadbebca7c9c, type: 2}
-  - {fileID: 11400000, guid: 395268fadcb833f47b317faa4d363fa7, type: 2}
   - {fileID: 11400000, guid: 625b6e8ac94753d42861d65d1f7af2bf, type: 2}
   - {fileID: 11400000, guid: c3f425b3915d83d438b00e3306e98684, type: 2}
   - {fileID: 11400000, guid: 3b931968d6667b14d9e633dcc94df444, type: 2}

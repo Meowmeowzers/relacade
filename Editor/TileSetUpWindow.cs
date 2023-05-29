@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace HelloWorld.Editor
 {
@@ -9,10 +8,13 @@ namespace HelloWorld.Editor
     {
         //Left
         private TileInputSet selectedInputTileSet;
+
         private SerializedObject serializedTileSetObject;
 
         // Serialized Properties
+
         #region Serialized Properties
+
         private SerializedProperty allInput;
         private SerializedProperty foreground;
         private SerializedProperty background;
@@ -38,18 +40,20 @@ namespace HelloWorld.Editor
         private SerializedProperty twoUR;
         private SerializedProperty twoDL;
         private SerializedProperty twoDR;
-        private SerializedProperty threeUL;
-        private SerializedProperty threeUR;
-        private SerializedProperty threeDL;
-        private SerializedProperty threeDR;
-        private SerializedProperty oneUL;
-        private SerializedProperty oneUR;
-        private SerializedProperty oneDL;
-        private SerializedProperty oneDR;
-        #endregion
+        private SerializedProperty threeU;
+        private SerializedProperty threeD;
+        private SerializedProperty threeL;
+        private SerializedProperty threeR;
+        private SerializedProperty oneU;
+        private SerializedProperty oneD;
+        private SerializedProperty oneL;
+        private SerializedProperty oneR;
+
+        #endregion Serialized Properties
 
         //Right
         private SerializedObject selectedTileConstraints;
+
         private SerializedProperty id;
         private SerializedProperty gameObject;
         private SerializedProperty compatibleTopList;
@@ -81,38 +85,6 @@ namespace HelloWorld.Editor
         private Texture2D leftBackgroundTexture;
         private Texture2D rightBackgroundTexture;
         private Texture2D textureAllInput;
-        private Texture2D textureForeground;
-        private Texture2D textureBackground;
-        private Texture2D textureFour;
-        private Texture2D textureFilled;
-        private Texture2D textureHorizontal;
-        private Texture2D textureVertical;
-        private Texture2D textureEdgeup;
-        private Texture2D textureEdgedown;
-        private Texture2D textureEdgeleft;
-        private Texture2D textureEdgeright;
-        private Texture2D textureElbowUL;
-        private Texture2D textureElbowUR;
-        private Texture2D textureElbowDL;
-        private Texture2D textureElbowDR;
-        private Texture2D textureCornerUL;
-        private Texture2D textureCornerUR;
-        private Texture2D textureCornerDL;
-        private Texture2D textureCornerDR;
-        private Texture2D textureCornerULDR;
-        private Texture2D textureCornerURDL;
-        private Texture2D textureTwoUL;
-        private Texture2D textureTwoUR;
-        private Texture2D textureTwoDL;
-        private Texture2D textureTwoDR;
-        private Texture2D textureThreeU;
-        private Texture2D textureThreeD;
-        private Texture2D textureThreeL;
-        private Texture2D textureThreeR;
-        private Texture2D textureOneU;
-        private Texture2D textureOneD;
-        private Texture2D textureOneL;
-        private Texture2D textureOneR;
 
         private Color headerBackgroundColor = new(30f / 255f, 30f / 255f, 30f / 255f, 0.5f);
         private Color leftBackgroundColor = new(30f / 255f, 30f / 255f, 30f / 255f, 0.5f);
@@ -129,12 +101,6 @@ namespace HelloWorld.Editor
         private Vector2 scrollPositionRight = Vector2.zero;
 
         private bool shouldClear = false;
-
-        private int selectedOptionIndex = 0;
-        private readonly string[] menuOptions = { "Full Combine", "2x2 Only (TODO)", "3x3 Only (TODO)", "3x3 - No 1D together" };
-        GenericMenu menu;
-
-        private bool[] foldout = { false, false, false, false, false, false, false, false, false };
 
         #endregion Window Variables
 
@@ -154,19 +120,64 @@ namespace HelloWorld.Editor
 
         private void OnGUI()
         {
+            if (selectedInputTileSet != null)
+            {
+                SerializeProperties();
+            }
+
             DrawLayouts();
             DrawHeader();
             DrawLeft();
             DrawRight();
 
-            serializedTileSetObject?.ApplyModifiedProperties();
-            // Null propagation?, it says it is used for simple null check
+            if (serializedTileSetObject != null)
+            {
+                UpdateSerializedProperties();
+            }
+        }
+
+        private void UpdateSerializedProperties()
+        {
+            allInput.serializedObject.ApplyModifiedProperties();
+            foreground.serializedObject.ApplyModifiedProperties();
+            background.serializedObject.ApplyModifiedProperties();
+            filled.serializedObject.ApplyModifiedProperties();
+            four.serializedObject.ApplyModifiedProperties();
+            vertical.serializedObject.ApplyModifiedProperties();
+            horizontal.serializedObject.ApplyModifiedProperties();
+            edgeup.serializedObject.ApplyModifiedProperties();
+            edgedown.serializedObject.ApplyModifiedProperties();
+            edgeleft.serializedObject.ApplyModifiedProperties();
+            edgeright.serializedObject.ApplyModifiedProperties();
+            elbowUL.serializedObject.ApplyModifiedProperties();
+            elbowUR.serializedObject.ApplyModifiedProperties();
+            elbowDL.serializedObject.ApplyModifiedProperties();
+            elbowDR.serializedObject.ApplyModifiedProperties();
+            cornerUL.serializedObject.ApplyModifiedProperties();
+            cornerUR.serializedObject.ApplyModifiedProperties();
+            cornerDL.serializedObject.ApplyModifiedProperties();
+            cornerDR.serializedObject.ApplyModifiedProperties();
+            cornerULDR.serializedObject.ApplyModifiedProperties();
+            cornerURDL.serializedObject.ApplyModifiedProperties();
+            twoUL.serializedObject.ApplyModifiedProperties();
+            twoUR.serializedObject.ApplyModifiedProperties();
+            twoDL.serializedObject.ApplyModifiedProperties();
+            twoDR.serializedObject.ApplyModifiedProperties();
+            threeU.serializedObject.ApplyModifiedProperties();
+            threeD.serializedObject.ApplyModifiedProperties();
+            threeL.serializedObject.ApplyModifiedProperties();
+            threeR.serializedObject.ApplyModifiedProperties();
+            oneU.serializedObject.ApplyModifiedProperties();
+            oneD.serializedObject.ApplyModifiedProperties();
+            oneL.serializedObject.ApplyModifiedProperties();
+            oneR.serializedObject.ApplyModifiedProperties();
+
+            serializedTileSetObject.ApplyModifiedProperties();
         }
 
         private void SerializeProperties()
         {
             serializedTileSetObject = new(selectedInputTileSet);
-            serializedTileSetObject.Update();
 
             allInput = serializedTileSetObject.FindProperty("AllInputTiles");
             foreground = serializedTileSetObject.FindProperty("ForeGroundTiles");
@@ -193,14 +204,16 @@ namespace HelloWorld.Editor
             twoUR = serializedTileSetObject.FindProperty("TwoFaceUpRightTiles");
             twoDL = serializedTileSetObject.FindProperty("TwoFaceDownLeftTiles");
             twoDR = serializedTileSetObject.FindProperty("TwoFaceDownRightTiles");
-            threeUL = serializedTileSetObject.FindProperty("ThreeFaceUpTiles");
-            threeUR = serializedTileSetObject.FindProperty("ThreeFaceDownTiles");
-            threeDL = serializedTileSetObject.FindProperty("ThreeFaceLeftTiles");
-            threeDR = serializedTileSetObject.FindProperty("ThreeFaceRightTiles");
-            oneUL = serializedTileSetObject.FindProperty("OneFaceUpTiles");
-            oneUR = serializedTileSetObject.FindProperty("OneFaceDownTiles");
-            oneDL = serializedTileSetObject.FindProperty("OneFaceLeftTiles");
-            oneDR = serializedTileSetObject.FindProperty("OneFaceRightTiles");
+            threeU = serializedTileSetObject.FindProperty("ThreeFaceUpTiles");
+            threeD = serializedTileSetObject.FindProperty("ThreeFaceDownTiles");
+            threeL = serializedTileSetObject.FindProperty("ThreeFaceLeftTiles");
+            threeR = serializedTileSetObject.FindProperty("ThreeFaceRightTiles");
+            oneU = serializedTileSetObject.FindProperty("OneFaceUpTiles");
+            oneD = serializedTileSetObject.FindProperty("OneFaceDownTiles");
+            oneL = serializedTileSetObject.FindProperty("OneFaceLeftTiles");
+            oneR = serializedTileSetObject.FindProperty("OneFaceRightTiles");
+
+            serializedTileSetObject.Update();
         }
 
         private void InitTextures()
@@ -218,38 +231,6 @@ namespace HelloWorld.Editor
             rightBackgroundTexture.Apply();
 
             textureAllInput = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00011.png");
-            textureForeground = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00011.png");
-            textureBackground = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00017.png");
-            textureFour = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00012.png");
-            textureFilled = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00032.png");
-            textureHorizontal = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0006.png");
-            textureVertical = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0005.png");
-            textureEdgeup = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00018.png");
-            textureEdgedown = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00019.png");
-            textureEdgeleft = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00020.png");
-            textureEdgeright = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00021.png");
-            textureElbowUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00022.png");
-            textureElbowUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00023.png");
-            textureElbowDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00025.png");
-            textureElbowDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00024.png");
-            textureCornerUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00028.png");
-            textureCornerUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00029.png");
-            textureCornerDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00027.png");
-            textureCornerDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00026.png");
-            textureCornerULDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00031.png");
-            textureCornerURDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00030.png");
-            textureTwoUL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0008.png");
-            textureTwoUR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0007.png");
-            textureTwoDL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0009.png");
-            textureTwoDR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00010.png");
-            textureThreeU = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00013.png");
-            textureThreeD = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00014.png");
-            textureThreeL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00015.png");
-            textureThreeR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-00016.png");
-            textureOneU = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0001.png");
-            textureOneD = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0002.png");
-            textureOneL = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0003.png");
-            textureOneR = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.gatozhanya.relacade/Objects/Icons/Sprite-0004.png");
         }
 
         private void InitData()
@@ -292,26 +273,17 @@ namespace HelloWorld.Editor
 
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("Options", EditorStyles.toolbarDropDown, GUILayout.Width(60)))
+            if (GUILayout.Button("Auto Set ID", EditorStyles.toolbarButton, GUILayout.MaxWidth(200)))
             {
-                menu = new GenericMenu();
-
-                for (int i = 0; i < menuOptions.Length; i++)
+                if (selectedInputTileSet != null /*& serializedTileSetObject != null*/)
                 {
-                    int optionIndex = i; // Store the index in a separate variable to use in the delegate
-
-                    menu.AddItem(new GUIContent(menuOptions[i]), selectedOptionIndex == i, () =>
-                    {
-                        selectedOptionIndex = optionIndex;
-                        Repaint();
-                    });
+                    ClearAllInputTileConstraints();
+                    GiveUniqueIDToTiles();
+                    UpdateSerializedProperties();
                 }
-
-                menu.ShowAsContext();
             }
 
             shouldClear = EditorGUILayout.ToggleLeft("Clear?", shouldClear, GUILayout.Width(60));
-
             if (GUILayout.Button("Clear", GUILayout.MaxWidth(200)))
             {
                 if (selectedInputTileSet != null && serializedTileSetObject != null && shouldClear)
@@ -333,7 +305,10 @@ namespace HelloWorld.Editor
 
             EditorGUILayout.BeginVertical();
 
-            ShowTileSets(true, allInput, textureAllInput);
+            if (selectedInputTileSet != null)
+            {
+                ShowTileSets(true, allInput, textureAllInput);
+            }
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space(100);
@@ -346,9 +321,9 @@ namespace HelloWorld.Editor
         {
             if (showTileset)
             {
-                EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(270));
+                EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(250));
                 GUILayout.Label(pic);
-                EditorGUILayout.LabelField(property.name, EditorStyles.largeLabel, GUILayout.MaxWidth(170));
+                EditorGUILayout.LabelField("All Input Tiles", EditorStyles.largeLabel, GUILayout.MaxWidth(170));
 
                 // Array size field
                 int currentArraySize = property.arraySize;
@@ -362,6 +337,7 @@ namespace HelloWorld.Editor
                 if (GUILayout.Button(" +", EditorStyles.miniButtonRight, GUILayout.Width(20)))
                 {
                     property.arraySize++;
+                    property.serializedObject.ApplyModifiedProperties();
                 }
 
                 // Minus button
@@ -370,6 +346,7 @@ namespace HelloWorld.Editor
                     if (property.arraySize > 0)
                     {
                         property.arraySize--;
+                        property.serializedObject.ApplyModifiedProperties();
                     }
                 }
 
@@ -381,27 +358,50 @@ namespace HelloWorld.Editor
 
                 for (int i = 0; i < property.arraySize; i++)
                 {
-                    SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
-
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(175), GUILayout.Height(40));
-
-                    if (GUILayout.Button(">", GUILayout.Height(40)))
+                    if (property.GetArrayElementAtIndex(i).objectReferenceValue != null)
                     {
-                        if (elementProperty.objectReferenceValue != null)
+                        SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
+                        SerializedObject gameObjectProperty = new(property.GetArrayElementAtIndex(i).objectReferenceValue);
+                        SerializedProperty texture = gameObjectProperty.FindProperty("gameObject");
+
+                        EditorGUILayout.BeginHorizontal();
+                        Texture2D previewTexture = AssetPreview.GetAssetPreview(texture.objectReferenceValue);
+                        GUILayout.Label(previewTexture, GUILayout.Width(50), GUILayout.Height(50));
+
+                        EditorGUILayout.LabelField($"Item {i + 1}", EditorStyles.miniLabel, GUILayout.MaxWidth(60));
+                        EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(175));
+                        if (GUILayout.Button(">", EditorStyles.toolbarButton, GUILayout.Width(30)))
                         {
-                            Object elementReference = elementProperty.objectReferenceValue;
-                            selectedTileConstraints = new(elementReference);
+                            if (elementProperty.objectReferenceValue != null)
+                            {
+                                Object elementReference = elementProperty.objectReferenceValue;
+                                selectedTileConstraints = new(elementReference);
+                            }
                         }
+                        EditorGUILayout.EndHorizontal();
                     }
-                    EditorGUILayout.EndHorizontal();
+                    else
+                    {
+                        SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Label(Texture2D.blackTexture, GUILayout.Width(50), GUILayout.Height(50));
+                        EditorGUILayout.LabelField($"Item {i + 1}", EditorStyles.miniLabel, GUILayout.MaxWidth(60));
+                        EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(175));
+                        if (GUILayout.Button(">", EditorStyles.toolbarButton, GUILayout.Width(30)))
+                        {
+                            if (elementProperty.objectReferenceValue != null)
+                            {
+                                Object elementReference = elementProperty.objectReferenceValue;
+                                selectedTileConstraints = new(elementReference);
+                            }
+                        }
+                        EditorGUILayout.EndHorizontal();
+                    }
                 }
 
-                EditorGUILayout.Space(10);
+                EditorGUILayout.Space(5);
             }
-
         }
-
 
         private void DrawRight()
         {
@@ -486,65 +486,123 @@ namespace HelloWorld.Editor
 
         private void GetAllUniqueInputTiles()
         {
-            //GetUniqueTiles(selectedInputTileSet.AllInputTiles);
-            selectedInputTileSet.AllInputTiles.Clear();
-            GetUniqueTiles(selectedInputTileSet.ForeGroundTiles);
-            GetUniqueTiles(selectedInputTileSet.BackGroundTiles);
-            GetUniqueTiles(selectedInputTileSet.FilledTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeUpTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeDownTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.EdgeRightTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowUpLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowUpRightTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowDownLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.ElbowDownRightTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerUpLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerUpRightTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerDownLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerDownRightTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerULDRTiles);
-            GetUniqueTiles(selectedInputTileSet.CornerURDLTiles);
-            GetUniqueTiles(selectedInputTileSet.FourFaceTiles);
-            GetUniqueTiles(selectedInputTileSet.VerticalTiles);
-            GetUniqueTiles(selectedInputTileSet.HorizontalTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceUpLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceUpRightTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceDownLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.TwoFaceDownRightTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceUpTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceDownTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.ThreeFaceRightTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceUpTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceDownTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceLeftTiles);
-            GetUniqueTiles(selectedInputTileSet.OneFaceRightTiles);
+            allInput.ClearArray();
+            UpdateSerializedProperties();
+            GetUniqueTiles(
+                selectedInputTileSet.ForeGroundTiles,
+                selectedInputTileSet.BackGroundTiles,
+                selectedInputTileSet.FilledTiles,
+                selectedInputTileSet.EdgeUpTiles,
+                selectedInputTileSet.EdgeDownTiles,
+                selectedInputTileSet.EdgeLeftTiles,
+                selectedInputTileSet.EdgeRightTiles,
+                selectedInputTileSet.ElbowUpLeftTiles,
+                selectedInputTileSet.ElbowUpRightTiles,
+                selectedInputTileSet.ElbowDownLeftTiles,
+                selectedInputTileSet.ElbowDownRightTiles,
+                selectedInputTileSet.CornerUpLeftTiles,
+                selectedInputTileSet.CornerUpRightTiles,
+                selectedInputTileSet.CornerDownLeftTiles,
+                selectedInputTileSet.CornerDownRightTiles,
+                selectedInputTileSet.CornerULDRTiles,
+                selectedInputTileSet.CornerURDLTiles,
+                selectedInputTileSet.FourFaceTiles,
+                selectedInputTileSet.VerticalTiles,
+                selectedInputTileSet.HorizontalTiles,
+                selectedInputTileSet.TwoFaceUpLeftTiles,
+                selectedInputTileSet.TwoFaceUpRightTiles,
+                selectedInputTileSet.TwoFaceDownLeftTiles,
+                selectedInputTileSet.TwoFaceDownRightTiles,
+                selectedInputTileSet.ThreeFaceUpTiles,
+                selectedInputTileSet.ThreeFaceDownTiles,
+                selectedInputTileSet.ThreeFaceLeftTiles,
+                selectedInputTileSet.ThreeFaceRightTiles,
+                selectedInputTileSet.OneFaceUpTiles,
+                selectedInputTileSet.OneFaceDownTiles,
+                selectedInputTileSet.OneFaceLeftTiles,
+                selectedInputTileSet.OneFaceRightTiles);
+
+            serializedTileSetObject.Update();
         }
 
-        private void GetUniqueTiles(List<TileInput> list)
+        private void GetUniqueTiles(params List<TileInput>[] list)
         {
-            foreach (TileInput item in list)
+            int count = 0;
+            foreach (var set in list)
             {
-                if (!selectedInputTileSet.AllInputTiles.Contains(item))
+                foreach (var item in set)
                 {
-                    selectedInputTileSet.AllInputTiles.Add(item);
+                    serializedTileSetObject.Update();
+                    //Debug.Log(allInput.arraySize);
+                    if (!selectedInputTileSet.AllInputTiles.Contains(item))
+                    {
+                        allInput.InsertArrayElementAtIndex(count);
+                        allInput.GetArrayElementAtIndex(count).objectReferenceValue = item;
+                        count++;
+                        allInput.serializedObject.ApplyModifiedProperties();
+                    }
                 }
             }
         }
 
         private void GiveUniqueIDToTiles()
         {
-            for (int i = 0; i < selectedInputTileSet.AllInputTiles.Count; i++)
+            //serializeproperty.intValue doesnt work
+            //Converted the serialized property into a list, directly modified the list
+            //IDK what happened it did not modified the serialized property directly but it still works
+            //Could it be that object reference value passes the reference?
+            serializedTileSetObject.Update();
+
+            SerializedProperty listProperty = serializedTileSetObject.FindProperty("AllInputTiles");
+            if (listProperty != null && listProperty.isArray)
             {
-                if (selectedInputTileSet.AllInputTiles[i] == null) continue;
-                selectedInputTileSet.AllInputTiles[i].id = i + 1;
+                List<TileInput> tileList = GetListFromSerializedProperty(listProperty);
+                if (tileList != null)
+                {
+                    for (int i = 0; i < tileList.Count; i++)
+                    {
+                        TileInput tile = tileList[i];
+                        if (tile != null)
+                        {
+                            tile.id = i + 1;
+                        }
+                        else
+                        {
+                            Debug.Log("TileInput element at index " + i + " is null");
+                        }
+                    }
+
+                    serializedTileSetObject.ApplyModifiedProperties();
+                }
+                else
+                {
+                    Debug.Log("Unable to retrieve List<TileInput> from serialized property");
+                }
+            }
+            else
+            {
+                Debug.Log("List<TileInput> property is null or not a list");
             }
         }
 
-        private void ClearAllInputTileConstraints()
+        // Helper method to retrieve List<T> from a serialized property
+        private List<TileInput> GetListFromSerializedProperty(SerializedProperty property)
         {
-            ClearAllInputTileConstraintsInDirection(
+            List<TileInput> list = new();
+
+            for (int i = 0; i < property.arraySize; i++)
+            {
+                SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
+                TileInput element = elementProperty.objectReferenceValue as TileInput;
+                list.Add(element);
+            }
+
+            return list;
+        }
+
+        private void ClearAllInputTiles()
+        {
+            ClearAllInputTilesInDirection(
                 selectedInputTileSet.AllInputTiles,
                 selectedInputTileSet.ForeGroundTiles,
                 selectedInputTileSet.BackGroundTiles,
@@ -581,6 +639,58 @@ namespace HelloWorld.Editor
             );
         }
 
+        private void ClearAllInputTilesInDirection(params List<TileInput>[] tilesInDirectionList)
+        {
+            foreach (var item in tilesInDirectionList)
+            {
+                item.Clear();
+            }
+        }
+
+        private void ClearAllInputTileConstraints()
+        {
+            SerializedObject temp = new(selectedInputTileSet);
+
+            ClearAllInputTileConstraintsInDirection(
+                selectedInputTileSet.AllInputTiles,
+                selectedInputTileSet.ForeGroundTiles,
+                selectedInputTileSet.BackGroundTiles,
+                selectedInputTileSet.FilledTiles,
+                selectedInputTileSet.EdgeUpTiles,
+                selectedInputTileSet.EdgeDownTiles,
+                selectedInputTileSet.EdgeLeftTiles,
+                selectedInputTileSet.EdgeRightTiles,
+                selectedInputTileSet.ElbowUpLeftTiles,
+                selectedInputTileSet.ElbowUpRightTiles,
+                selectedInputTileSet.ElbowDownLeftTiles,
+                selectedInputTileSet.ElbowDownRightTiles,
+                selectedInputTileSet.CornerUpLeftTiles,
+                selectedInputTileSet.CornerUpRightTiles,
+                selectedInputTileSet.CornerDownLeftTiles,
+                selectedInputTileSet.CornerDownRightTiles,
+                selectedInputTileSet.CornerULDRTiles,
+                selectedInputTileSet.CornerURDLTiles,
+                selectedInputTileSet.FourFaceTiles,
+                selectedInputTileSet.VerticalTiles,
+                selectedInputTileSet.HorizontalTiles,
+                selectedInputTileSet.TwoFaceUpLeftTiles,
+                selectedInputTileSet.TwoFaceUpRightTiles,
+                selectedInputTileSet.TwoFaceDownLeftTiles,
+                selectedInputTileSet.TwoFaceDownRightTiles,
+                selectedInputTileSet.ThreeFaceUpTiles,
+                selectedInputTileSet.ThreeFaceDownTiles,
+                selectedInputTileSet.ThreeFaceLeftTiles,
+                selectedInputTileSet.ThreeFaceRightTiles,
+                selectedInputTileSet.OneFaceUpTiles,
+                selectedInputTileSet.OneFaceDownTiles,
+                selectedInputTileSet.OneFaceLeftTiles,
+                selectedInputTileSet.OneFaceRightTiles
+            );
+
+            temp.ApplyModifiedProperties();
+            temp.Update();
+        }
+
         private void ClearAllInputTileConstraintsInDirection(params List<TileInput>[] tileInDirectionList)
         {
             foreach (var set in tileInDirectionList)
@@ -594,6 +704,12 @@ namespace HelloWorld.Editor
                     }
                     else
                     {
+                        SerializedObject temp = new(item);
+                        temp.FindProperty("compatibleTop").ClearArray();
+                        temp.FindProperty("compatibleBottom").ClearArray();
+                        temp.FindProperty("compatibleLeft").ClearArray();
+                        temp.FindProperty("compatibleRight").ClearArray();
+                        temp.ApplyModifiedProperties();
                         item.compatibleTop.Clear();
                         item.compatibleBottom.Clear();
                         item.compatibleLeft.Clear();
@@ -602,6 +718,5 @@ namespace HelloWorld.Editor
                 }
             }
         }
-
     }
 }
