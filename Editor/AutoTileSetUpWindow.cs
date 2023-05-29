@@ -151,8 +151,7 @@ namespace HelloWorld.Editor
 		{
 			if(selectedInputTileSet != null)
 			{
-				serializedTileSetObject = new(selectedInputTileSet);
-				serializedTileSetObject.Update();
+				SerializeProperties();
 			}
 
             DrawLayouts();
@@ -160,7 +159,10 @@ namespace HelloWorld.Editor
 			DrawLeft();
 			DrawRight();
 			
-            serializedTileSetObject?.ApplyModifiedProperties();
+			if(serializedTileSetObject != null)
+			{
+				UpdateSerializedProperties();
+			}
 			// Null propagation?, it says it is used for simple null check
         }
 
@@ -202,9 +204,48 @@ namespace HelloWorld.Editor
 			oneD = serializedTileSetObject.FindProperty("OneFaceDownTiles");
 			oneL = serializedTileSetObject.FindProperty("OneFaceLeftTiles");
 			oneR = serializedTileSetObject.FindProperty("OneFaceRightTiles");
-		}
+        }
+        
+		private void UpdateSerializedProperties()
+        {
+			allInput.serializedObject.ApplyModifiedProperties();
+			foreground.serializedObject.ApplyModifiedProperties();
+            background.serializedObject.ApplyModifiedProperties();
+            filled.serializedObject.ApplyModifiedProperties();
+            four.serializedObject.ApplyModifiedProperties();
+            vertical.serializedObject.ApplyModifiedProperties();
+            horizontal.serializedObject.ApplyModifiedProperties();
+            edgeup.serializedObject.ApplyModifiedProperties();
+            edgedown.serializedObject.ApplyModifiedProperties();
+            edgeleft.serializedObject.ApplyModifiedProperties();
+            edgeright.serializedObject.ApplyModifiedProperties(); 
+            elbowUL.serializedObject.ApplyModifiedProperties(); 
+            elbowUR.serializedObject.ApplyModifiedProperties(); 
+            elbowDL.serializedObject.ApplyModifiedProperties(); 
+            elbowDR.serializedObject.ApplyModifiedProperties(); 
+            cornerUL.serializedObject.ApplyModifiedProperties();
+            cornerUR.serializedObject.ApplyModifiedProperties();
+            cornerDL.serializedObject.ApplyModifiedProperties();
+            cornerDR.serializedObject.ApplyModifiedProperties();
+            cornerULDR.serializedObject.ApplyModifiedProperties();
+            cornerURDL.serializedObject.ApplyModifiedProperties();
+            twoUL.serializedObject.ApplyModifiedProperties();
+            twoUR.serializedObject.ApplyModifiedProperties();
+            twoDL.serializedObject.ApplyModifiedProperties();
+            twoDR.serializedObject.ApplyModifiedProperties();
+            threeU.serializedObject.ApplyModifiedProperties();
+            threeD.serializedObject.ApplyModifiedProperties();
+            threeL.serializedObject.ApplyModifiedProperties();
+            threeR.serializedObject.ApplyModifiedProperties();
+            oneU.serializedObject.ApplyModifiedProperties();
+            oneD.serializedObject.ApplyModifiedProperties();
+            oneL.serializedObject.ApplyModifiedProperties();
+            oneR.serializedObject.ApplyModifiedProperties();
 
-		private void InitTextures()
+            serializedTileSetObject.ApplyModifiedProperties();
+        }
+
+        private void InitTextures()
 		{
 			headerBackgroundTexture = new Texture2D(1, 1);
 			headerBackgroundTexture.SetPixel(0, 0, headerBackgroundColor);
@@ -299,8 +340,8 @@ namespace HelloWorld.Editor
 				{
                     ClearAllInputTileConstraints();
 					AutoGenerateSerialized();
-					SerializeProperties();
-				}
+                    UpdateSerializedProperties();
+                }
 			}
 			if (GUILayout.Button("Options", EditorStyles.toolbarDropDown, GUILayout.Width(60)))
 			{
@@ -327,8 +368,8 @@ namespace HelloWorld.Editor
 				{
 					Debug.Log("Cleared");
 					ClearAllInputTileConstraints();
-					SerializeProperties();
-				}
+                    UpdateSerializedProperties();
+                }
 			}
 
 			EditorGUILayout.EndHorizontal();
@@ -501,7 +542,6 @@ namespace HelloWorld.Editor
 
         private void AutoGenerateSerialized()
         {
-            //TODO: Use serialized objects and properties to enable undo functionality in editor
             for (int i = 0; i < foreground.arraySize; i++)
             {
 				SerializedProperty temp = foreground.GetArrayElementAtIndex(i);
@@ -733,6 +773,9 @@ namespace HelloWorld.Editor
                 horizontal.GetArrayElementAtIndex(i).objectReferenceValue = MainCombine((TileInput)temp.objectReferenceValue, selectedInputTileSet, DirectionToSet.Horizontal);
                 horizontal.GetArrayElementAtIndex(i).serializedObject.ApplyModifiedProperties();
             }
+            
+			GetAllUniqueInputTiles();
+            GiveUniqueIDToTiles();
         }
 
         private TileInput MainCombine(TileInput tileInput, TileInputSet set, DirectionToSet direction)
@@ -2443,7 +2486,6 @@ namespace HelloWorld.Editor
 
 		}
 
-
 		private void DrawRight()
 		{
 			GUILayout.BeginArea(tileConstraintSetupSection);
@@ -2536,8 +2578,7 @@ namespace HelloWorld.Editor
 		private void GetAllUniqueInputTiles()
 		{
 			allInput.ClearArray();
-            //GetUniqueTiles(selectedInputTileSet.AllInputTiles);
-            selectedInputTileSet.AllInputTiles.Clear();
+			UpdateSerializedProperties();
             GetUniqueTiles(
 				selectedInputTileSet.ForeGroundTiles,
 				selectedInputTileSet.BackGroundTiles,
@@ -2571,23 +2612,23 @@ namespace HelloWorld.Editor
 				selectedInputTileSet.OneFaceDownTiles,
 				selectedInputTileSet.OneFaceLeftTiles,
 				selectedInputTileSet.OneFaceRightTiles);
+
+			serializedTileSetObject.Update();
 		}
 
 		private void GetUniqueTiles(params List<TileInput>[] list)
 		{
-			//TODO
-			List<TileInput> temp = new();
 			int count = 0;
 			foreach (var set in list)
 			{
 				foreach(var item in set)
 				{
+					serializedTileSetObject.Update();
+					//Debug.Log(allInput.arraySize);
                     if (!selectedInputTileSet.AllInputTiles.Contains(item))
                     {
-                        selectedInputTileSet.AllInputTiles.Add(item);
-						temp.Add(item);
-						allInput.arraySize++;
-						allInput.GetArrayElementAtIndex(count);
+						allInput.InsertArrayElementAtIndex(count);
+						allInput.GetArrayElementAtIndex(count).objectReferenceValue = item;
 						count++;
 						allInput.serializedObject.ApplyModifiedProperties();
                     }
@@ -2595,17 +2636,63 @@ namespace HelloWorld.Editor
 			}
 		}
 
-		private void GiveUniqueIDToTiles()
-		{
-			for(int i = 0; i < selectedInputTileSet.AllInputTiles.Count; i++)
-			{
-				if (selectedInputTileSet.AllInputTiles[i] == null) continue;
-				selectedInputTileSet.AllInputTiles[i].id = i + 1;
-				allInput.GetArrayElementAtIndex(i).FindPropertyRelative("id").intValue = i + 1;
-			}
-		}
+        private void GiveUniqueIDToTiles()
+        {
+			//serializeproperty.intValue doesnt work
+			//Converted the serialized property into a list, directly modified the list
+			//IDK what happened it did not modified the serialized property directly but it still works
+			//Could it be that object reference value passes the reference?
+            serializedTileSetObject.Update();
 
-		private void ClearAllInputTiles()
+            SerializedProperty listProperty = serializedTileSetObject.FindProperty("AllInputTiles");
+            if (listProperty != null && listProperty.isArray)
+            {
+                List<TileInput> tileList = GetListFromSerializedProperty(listProperty);
+                if (tileList != null)
+                {
+                    for (int i = 0; i < tileList.Count; i++)
+                    {
+                        TileInput tile = tileList[i];
+                        if (tile != null)
+                        {
+                            tile.id = i + 1;
+                        }
+                        else
+                        {
+                            Debug.Log("TileInput element at index " + i + " is null");
+                        }
+                    }
+
+                    serializedTileSetObject.ApplyModifiedProperties();
+                }
+                else
+                {
+                    Debug.Log("Unable to retrieve List<TileInput> from serialized property");
+                }
+            }
+            else
+            {
+                Debug.Log("List<TileInput> property is null or not a list");
+            }
+        }
+
+        // Helper method to retrieve List<T> from a serialized property
+        private List<TileInput> GetListFromSerializedProperty(SerializedProperty property)
+        {
+            List<TileInput> list = new();
+
+            for (int i = 0; i < property.arraySize; i++)
+            {
+                SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
+				TileInput element = elementProperty.objectReferenceValue as TileInput;
+                list.Add(element);
+            }
+
+            return list;
+        }
+
+
+        private void ClearAllInputTiles()
 		{
 			ClearAllInputTilesInDirection(
 				selectedInputTileSet.AllInputTiles,
