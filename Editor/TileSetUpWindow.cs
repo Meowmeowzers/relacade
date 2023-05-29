@@ -307,6 +307,7 @@ namespace HelloWorld.Editor
 
             if (selectedInputTileSet != null)
             {
+                SerializeProperties();
                 ShowTileSets(true, allInput, textureAllInput);
             }
 
@@ -400,6 +401,7 @@ namespace HelloWorld.Editor
                 }
 
                 EditorGUILayout.Space(5);
+                property.serializedObject.ApplyModifiedProperties();
             }
         }
 
