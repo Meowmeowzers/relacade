@@ -269,9 +269,7 @@ namespace HelloWorld.Editor
             EditorGUILayout.Space(3);
             GUILayout.BeginHorizontal(EditorStyles.toolbar);
             EditorGUILayout.LabelField("Tile Set Config", GUILayout.Width(100), GUILayout.MaxWidth(100));
-            selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.MaxWidth(300));
-
-            GUILayout.FlexibleSpace();
+            selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false);
 
             if (GUILayout.Button("Auto Set ID", EditorStyles.toolbarButton, GUILayout.MaxWidth(200)))
             {
@@ -283,7 +281,7 @@ namespace HelloWorld.Editor
             }
 
             shouldClear = EditorGUILayout.ToggleLeft("Clear?", shouldClear, GUILayout.Width(60));
-            if (GUILayout.Button("Clear", GUILayout.MaxWidth(200)))
+            if (GUILayout.Button("Clear"))
             {
                 if (selectedInputTileSet != null && serializedTileSetObject != null && shouldClear)
                 {
