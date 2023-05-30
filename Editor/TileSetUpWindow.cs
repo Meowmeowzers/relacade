@@ -277,7 +277,6 @@ namespace HelloWorld.Editor
             {
                 if (selectedInputTileSet != null /*& serializedTileSetObject != null*/)
                 {
-                    ClearAllInputTileConstraints();
                     GiveUniqueIDToTiles();
                     UpdateSerializedProperties();
                 }
