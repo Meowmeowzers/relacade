@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HelloWorld
+namespace HelloWorld.Editor
 {
     public class EditorGridCell : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HelloWorld
+namespace HelloWorld.Editor
 {
     [CreateAssetMenu(fileName = "New Input Tile Data", menuName = "Relacade/Input Tile Data")]
     [Serializable]

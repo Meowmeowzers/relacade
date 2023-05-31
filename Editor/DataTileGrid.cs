@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HelloWorld
+namespace HelloWorld.Editor
 {
     [Serializable]
     public class DataTileGrid

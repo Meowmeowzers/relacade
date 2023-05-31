@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.EditorCoroutines.Editor;
 using UnityEngine;
+#if UNITY_EDITOR
+using Unity.EditorCoroutines.Editor;
+#endif
 
 //Editor WFC tile grid
-namespace HelloWorld
+namespace HelloWorld.Editor
 {
     public class EditorTileGrid : MonoBehaviour
     {
@@ -26,9 +28,9 @@ namespace HelloWorld
         private EditorGridCell selectedRandomCell;
         private GameObject tempGameObject;
 
-        private readonly Unity.EditorCoroutines.Editor.EditorWaitForSeconds editorWait = new(0f);
+        private readonly EditorWaitForSeconds editorWait = new(0f);
 
-        private Unity.EditorCoroutines.Editor.EditorCoroutine coroutine;
+        private EditorCoroutine coroutine;
 
         public enum LookDirection
         { UP, DOWN, LEFT, RIGHT };

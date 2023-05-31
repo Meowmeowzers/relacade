@@ -2,13 +2,30 @@
     "name": "GatoZhanya.HelloWorld.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:478a2357cc57436488a56e564b08d223",
-        "GUID:1873fbb228bf37d4f9cdefd3c2dd106a"
+        "GUID:478a2357cc57436488a56e564b08d223"
     ],
-    "includePlatforms": [
-        "Editor"
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "EmbeddedLinux",
+        "GameCoreScarlett",
+        "GameCoreXboxOne",
+        "iOS",
+        "LinuxStandalone64",
+        "CloudRendering",
+        "macOSStandalone",
+        "PS4",
+        "PS5",
+        "QNX",
+        "Stadia",
+        "Switch",
+        "tvOS",
+        "WSA",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64",
+        "XboxOne"
     ],
-    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
