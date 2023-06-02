@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a952d33b06dc9974497f45b0a4baab44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridCellObject: {fileID: 7375977999617206148, guid: 86bf27f6680673740bc6a02b4aa6c51d, type: 3}
   tileInputSet: {fileID: 0}
   allTileInputs: []
-  uniqueTileInputs: []
   size: 8
   tileSize: 1
-  gridCellObject: {fileID: 7375977999617206148, guid: 86bf27f6680673740bc6a02b4aa6c51d, type: 3}
+  uniqueTileInputs: []

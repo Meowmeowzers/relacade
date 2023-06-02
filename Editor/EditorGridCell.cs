@@ -78,13 +78,14 @@ namespace HelloWorld.Editor
 
         //NewScript end
 
-        public void ResetCell(List<TileInput> value)
+        public void ResetAndInitializeCell(List<TileInput> value)
         {
-            Initialize(value);
-            if (GetComponentInChildren<Transform>().gameObject != null)
+            for (int i = 0; i < transform.childCount; i++)
             {
-                DestroyImmediate(GetComponentInChildren<Transform>().gameObject);
+                DestroyImmediate(transform.GetChild(i).gameObject);
             }
+
+            Initialize(value);
         }
 
         public bool IsNotDefiniteState()

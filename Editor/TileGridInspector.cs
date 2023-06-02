@@ -14,13 +14,13 @@ namespace HelloWorld.Editor
         private SerializedProperty serializedTileSize;
         private SerializedProperty serializedTileSet;
         private SerializedProperty serializedTileInputs;
-        private SerializedProperty serializedGridCellObject;
-
-        private readonly List<CellData> cells = new();
-        private DataTileGrid tileGridData;
 
         private bool shouldFinalize = false;
         private bool isdead = false; // Used to suppress null reference error on destroy
+
+        //Used for save/load 
+        private DataTileGrid tileGridData;
+        private List<CellData> cells = new();
 
         private void OnEnable()
         {
@@ -30,8 +30,7 @@ namespace HelloWorld.Editor
             serializedTileSize = serializedObject.FindProperty("tileSize");
             serializedTileSet = serializedObject.FindProperty("tileInputSet");
             serializedTileInputs = serializedObject.FindProperty("allTileInputs");
-            serializedGridCellObject = serializedObject.FindProperty("gridCellObject");
-
+            
             serializedTileInputs.isExpanded = false;
             serializedObject.Update();
         }
@@ -39,11 +38,20 @@ namespace HelloWorld.Editor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            EditorGUILayout.BeginVertical();
 
-            EditorGUILayout.PropertyField(serializedGridCellObject);
-            EditorGUILayout.PropertyField(serializedTileSet);
-            EditorGUILayout.PropertyField(serializedSize);
-            EditorGUILayout.PropertyField(serializedTileSize);
+            if (tileGrid.IsDone())
+            {
+                EditorGUILayout.PropertyField(serializedTileSet);
+                EditorGUILayout.PropertyField(serializedSize);
+                EditorGUILayout.PropertyField(serializedTileSize);
+            }
+            else
+            {
+                EditorGUILayout.BeginVertical(GUILayout.Height(65));
+                EditorGUILayout.HelpBox("Drag mouse here after generation to show back controls", MessageType.Info);
+                EditorGUILayout.EndVertical();
+            }
 
             if (GUILayout.Button("Reload Tile set", GUILayout.Height(20)))
             {
@@ -60,18 +68,19 @@ namespace HelloWorld.Editor
                         serializedTileInputs.InsertArrayElementAtIndex(i);
                         serializedTileInputs.GetArrayElementAtIndex(i).objectReferenceValue = elementProperty.objectReferenceValue;
                     }
-
-                    serializedObject.ApplyModifiedProperties();
                 }
-                //tileGrid.ReLoadTileInputsFromSet();
             }
 
             EditorGUILayout.BeginHorizontal();
+
             if (GUILayout.Button("Generate", GUILayout.Height(25)))
             {
-                tileGrid.ClearCells();
-                tileGrid.InitializeGridCells();
-                tileGrid.InitializeWave();
+                tileGrid.EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
+                if (tileGrid.IsDone())
+                {
+                    tileGrid.RemoveGridCells();
+                    tileGrid.InitializeWave();
+                }
             }
             if (GUILayout.Button("Clear", GUILayout.Height(25)))
             {
@@ -96,8 +105,6 @@ namespace HelloWorld.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.Separator();
-
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Load File"))
             {
@@ -109,14 +116,14 @@ namespace HelloWorld.Editor
             }
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.EndVertical();
+
             EditorGUILayout.PropertyField(serializedTileInputs);
-            serializedTileInputs.serializedObject.ApplyModifiedProperties();
 
             if (!isdead)
             {
                 serializedObject.ApplyModifiedProperties();
             }
-            //EditorUtility.SetDirty(target);
         }
 
         private void Load()
@@ -136,8 +143,9 @@ namespace HelloWorld.Editor
                 int newSize = tileGridData.size;
                 float newTileSize = tileGridData.tileSize;
                 List<CellData> newCellData = tileGridData.cellData;
+                List<TileInput> newTileInputs = tileGridData.inputTiles;
 
-                tileGrid.ResetWave(newSize, newTileSize, newCellData);
+                tileGrid.LoadWaveFromData(newSize, newTileSize, newCellData, newTileInputs);
             }
         }
 
@@ -156,10 +164,6 @@ namespace HelloWorld.Editor
                 writer.Write(data);
 
                 Debug.Log("Grid data saved...");
-
-                //if (string.IsNullOrEmpty(filePath)) return;
-                //AssetDatabase.CreateAsset(scriptableObject, filePath);
-                //AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
         }
@@ -172,14 +176,14 @@ namespace HelloWorld.Editor
         public void GetCellData()
         {
             cells.Clear();
-            Debug.Log(tileGrid.gridCell);
+            //Debug.Log(tileGrid.gridCell);
             int newXIndex;
             int newYIndex;
             int newSelectedTileID;
-            foreach (var item in tileGrid.gridCell)
+            foreach (var item in tileGrid.GetCells())
             {
                 EditorGridCell cell = item.GetComponent<EditorGridCell>();
-                Debug.Log(cell);
+                //Debug.Log(cell);
                 newXIndex = cell.xIndex;
                 newYIndex = cell.yIndex;
                 newSelectedTileID = cell.selectedTileID;
