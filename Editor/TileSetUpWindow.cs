@@ -16,38 +16,6 @@ namespace HelloWorld.Editor
         #region Serialized Properties
 
         private SerializedProperty allInput;
-        private SerializedProperty foreground;
-        private SerializedProperty background;
-        private SerializedProperty four;
-        private SerializedProperty filled;
-        private SerializedProperty horizontal;
-        private SerializedProperty vertical;
-        private SerializedProperty edgeup;
-        private SerializedProperty edgedown;
-        private SerializedProperty edgeleft;
-        private SerializedProperty edgeright;
-        private SerializedProperty elbowUL;
-        private SerializedProperty elbowUR;
-        private SerializedProperty elbowDL;
-        private SerializedProperty elbowDR;
-        private SerializedProperty cornerUL;
-        private SerializedProperty cornerUR;
-        private SerializedProperty cornerDL;
-        private SerializedProperty cornerDR;
-        private SerializedProperty cornerULDR;
-        private SerializedProperty cornerURDL;
-        private SerializedProperty twoUL;
-        private SerializedProperty twoUR;
-        private SerializedProperty twoDL;
-        private SerializedProperty twoDR;
-        private SerializedProperty threeU;
-        private SerializedProperty threeD;
-        private SerializedProperty threeL;
-        private SerializedProperty threeR;
-        private SerializedProperty oneU;
-        private SerializedProperty oneD;
-        private SerializedProperty oneL;
-        private SerializedProperty oneR;
 
         #endregion Serialized Properties
 
@@ -143,38 +111,6 @@ namespace HelloWorld.Editor
         private void UpdateSerializedProperties()
         {
             allInput.serializedObject.ApplyModifiedProperties();
-            foreground.serializedObject.ApplyModifiedProperties();
-            background.serializedObject.ApplyModifiedProperties();
-            filled.serializedObject.ApplyModifiedProperties();
-            four.serializedObject.ApplyModifiedProperties();
-            vertical.serializedObject.ApplyModifiedProperties();
-            horizontal.serializedObject.ApplyModifiedProperties();
-            edgeup.serializedObject.ApplyModifiedProperties();
-            edgedown.serializedObject.ApplyModifiedProperties();
-            edgeleft.serializedObject.ApplyModifiedProperties();
-            edgeright.serializedObject.ApplyModifiedProperties();
-            elbowUL.serializedObject.ApplyModifiedProperties();
-            elbowUR.serializedObject.ApplyModifiedProperties();
-            elbowDL.serializedObject.ApplyModifiedProperties();
-            elbowDR.serializedObject.ApplyModifiedProperties();
-            cornerUL.serializedObject.ApplyModifiedProperties();
-            cornerUR.serializedObject.ApplyModifiedProperties();
-            cornerDL.serializedObject.ApplyModifiedProperties();
-            cornerDR.serializedObject.ApplyModifiedProperties();
-            cornerULDR.serializedObject.ApplyModifiedProperties();
-            cornerURDL.serializedObject.ApplyModifiedProperties();
-            twoUL.serializedObject.ApplyModifiedProperties();
-            twoUR.serializedObject.ApplyModifiedProperties();
-            twoDL.serializedObject.ApplyModifiedProperties();
-            twoDR.serializedObject.ApplyModifiedProperties();
-            threeU.serializedObject.ApplyModifiedProperties();
-            threeD.serializedObject.ApplyModifiedProperties();
-            threeL.serializedObject.ApplyModifiedProperties();
-            threeR.serializedObject.ApplyModifiedProperties();
-            oneU.serializedObject.ApplyModifiedProperties();
-            oneD.serializedObject.ApplyModifiedProperties();
-            oneL.serializedObject.ApplyModifiedProperties();
-            oneR.serializedObject.ApplyModifiedProperties();
 
             serializedTileSetObject.ApplyModifiedProperties();
         }
@@ -184,38 +120,6 @@ namespace HelloWorld.Editor
             serializedTileSetObject = new(selectedInputTileSet);
 
             allInput = serializedTileSetObject.FindProperty("AllInputTiles");
-            foreground = serializedTileSetObject.FindProperty("ForeGroundTiles");
-            background = serializedTileSetObject.FindProperty("BackGroundTiles");
-            filled = serializedTileSetObject.FindProperty("FilledTiles");
-            four = serializedTileSetObject.FindProperty("FourFaceTiles");
-            vertical = serializedTileSetObject.FindProperty("VerticalTiles");
-            horizontal = serializedTileSetObject.FindProperty("HorizontalTiles");
-            edgeup = serializedTileSetObject.FindProperty("EdgeUpTiles");
-            edgedown = serializedTileSetObject.FindProperty("EdgeDownTiles");
-            edgeleft = serializedTileSetObject.FindProperty("EdgeLeftTiles");
-            edgeright = serializedTileSetObject.FindProperty("EdgeRightTiles");
-            elbowUL = serializedTileSetObject.FindProperty("ElbowUpLeftTiles");
-            elbowUR = serializedTileSetObject.FindProperty("ElbowUpRightTiles");
-            elbowDL = serializedTileSetObject.FindProperty("ElbowDownLeftTiles");
-            elbowDR = serializedTileSetObject.FindProperty("ElbowDownRightTiles");
-            cornerUL = serializedTileSetObject.FindProperty("CornerUpLeftTiles");
-            cornerUR = serializedTileSetObject.FindProperty("CornerUpRightTiles");
-            cornerDL = serializedTileSetObject.FindProperty("CornerDownLeftTiles");
-            cornerDR = serializedTileSetObject.FindProperty("CornerDownRightTiles");
-            cornerULDR = serializedTileSetObject.FindProperty("CornerULDRTiles");
-            cornerURDL = serializedTileSetObject.FindProperty("CornerURDLTiles");
-            twoUL = serializedTileSetObject.FindProperty("TwoFaceUpLeftTiles");
-            twoUR = serializedTileSetObject.FindProperty("TwoFaceUpRightTiles");
-            twoDL = serializedTileSetObject.FindProperty("TwoFaceDownLeftTiles");
-            twoDR = serializedTileSetObject.FindProperty("TwoFaceDownRightTiles");
-            threeU = serializedTileSetObject.FindProperty("ThreeFaceUpTiles");
-            threeD = serializedTileSetObject.FindProperty("ThreeFaceDownTiles");
-            threeL = serializedTileSetObject.FindProperty("ThreeFaceLeftTiles");
-            threeR = serializedTileSetObject.FindProperty("ThreeFaceRightTiles");
-            oneU = serializedTileSetObject.FindProperty("OneFaceUpTiles");
-            oneD = serializedTileSetObject.FindProperty("OneFaceDownTiles");
-            oneL = serializedTileSetObject.FindProperty("OneFaceLeftTiles");
-            oneR = serializedTileSetObject.FindProperty("OneFaceRightTiles");
 
             serializedTileSetObject.Update();
         }
@@ -354,11 +258,7 @@ namespace HelloWorld.Editor
                         GUILayout.Label(previewTexture, GUILayout.Width(50), GUILayout.Height(50));
                         
                         CenterVerticalStart(50);
-                        EditorGUILayout.LabelField($"Item {i + 1}", EditorStyles.miniLabel, GUILayout.MaxWidth(60));
-                        CenterVerticalEnd();
-
-                        CenterVerticalStart(50);
-                        EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(175));
+                        EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(195));
                         CenterVerticalEnd();
 
                         CenterVerticalStart(50);
@@ -386,10 +286,8 @@ namespace HelloWorld.Editor
 
                         EditorGUILayout.BeginHorizontal();
 
-                        GUILayout.Label(textureAllInput, GUILayout.Width(50), GUILayout.Height(50));
-
                         CenterVerticalStart(50);
-                        EditorGUILayout.LabelField($"Item {i + 1}", EditorStyles.miniLabel, GUILayout.MaxWidth(60));
+                        EditorGUILayout.LabelField("Empty", EditorStyles.miniLabel, GUILayout.MaxWidth(50));
                         CenterVerticalEnd();
 
                         CenterVerticalStart(50);
@@ -521,8 +419,7 @@ namespace HelloWorld.Editor
                     GUILayout.Label(previewTexture, GUILayout.Width(80), GUILayout.Height(80));
                 }
 
-                EditorGUILayout.BeginVertical();
-                GUILayout.Space(20);
+                CenterVerticalStart(80);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("ID", GUILayout.Width(80));
                 EditorGUILayout.PropertyField(id, GUIContent.none);
@@ -531,7 +428,13 @@ namespace HelloWorld.Editor
                 EditorGUILayout.LabelField("GameObject", GUILayout.Width(80));
                 EditorGUILayout.PropertyField(gameObject, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
-                EditorGUILayout.EndVertical();
+                EditorGUILayout.BeginHorizontal();
+                if(GUILayout.Button("Propagate to Tiles", GUILayout.Height(30)))
+                {
+                    AddOrRemoveWindow.OpenWindow(selectedTileConstraints, allInput);
+                }
+                EditorGUILayout.EndHorizontal();
+                CenterVerticalEnd();
 
                 GUILayout.FlexibleSpace();
                 EditorGUILayout.EndHorizontal();
