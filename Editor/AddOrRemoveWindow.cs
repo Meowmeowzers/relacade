@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 namespace HelloWorld.Editor
@@ -158,6 +157,8 @@ namespace HelloWorld.Editor
 
                     if (item != null)
                     {
+                        SerializedObject itemSerializedObject = new SerializedObject(item);
+
                         if (togglesArray[i][0])
                         {
                             if (!item.compatibleTop.Contains(tileInput))
@@ -203,13 +204,23 @@ namespace HelloWorld.Editor
                         }
 
                         // Apply modifications to the item
-                        itemProperty.serializedObject.ApplyModifiedProperties();
+                        itemSerializedObject.ApplyModifiedProperties();
+                        itemSerializedObject.UpdateIfRequiredOrScript();
+
+                        EditorUtility.SetDirty(itemSerializedObject.targetObject); // Mark the item as dirty for serialization
                     }
                 }
 
                 // Apply modifications to the tile
                 tile.ApplyModifiedProperties();
+                tile.UpdateIfRequiredOrScript();
+
+                EditorUtility.SetDirty(tile.targetObject); // Mark the tile as dirty for serialization
             }
+
+            AssetDatabase.SaveAssets(); // Save the modified assets
+            AssetDatabase.Refresh(); // Refresh the Asset Database to reflect the changes
         }
+
     }
 }
