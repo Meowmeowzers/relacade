@@ -82,6 +82,7 @@ namespace HelloWorld.Editor
                 {
                     var x = selectedRandomCell.xIndex;
                     var y = selectedRandomCell.yIndex;
+                    isDone = true;
                     Debug.LogWarning("Conflict on cell " + x + " " + y);
                     //Stop();
                     //ResetWave();
