@@ -49,13 +49,13 @@ namespace HelloWorld.Editor
                         pos = new(tileSize * x - (size * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (size * tileSize / 2 - .5f) + transform.position.y);
 
                         tempGameObject = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
+                        
                         gridCell[x, y] = tempGameObject.GetComponent<EditorGridCell>();
                         gridCell[x, y].xIndex = x;
                         gridCell[x, y].yIndex = y;
                         gridCell[x, y].Initialize(allTileInputs);
                     }
                 }
-
                 coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(CollapseWave());
             }
             else

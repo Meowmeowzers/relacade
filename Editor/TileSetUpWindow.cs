@@ -429,9 +429,13 @@ namespace HelloWorld.Editor
                 EditorGUILayout.PropertyField(gameObject, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                if(GUILayout.Button("Propagate to Tiles", GUILayout.Height(30)))
+                if(GUILayout.Button("Send Tile", GUILayout.Height(30)))
                 {
-                    AddOrRemoveWindow.OpenWindow(selectedTileConstraints, allInput);
+                    PassConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
+                }
+                if (GUILayout.Button("Receive Constraints", GUILayout.Height(30)))
+                {
+                    ReceiveConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
                 }
                 EditorGUILayout.EndHorizontal();
                 CenterVerticalEnd();
@@ -736,6 +740,11 @@ namespace HelloWorld.Editor
                     }
                 }
             }
+        }
+        private void OnDestroy()
+        {
+            GetWindow<ReceiveConstraintsWindow>().Close();
+            GetWindow<PassConstraintsWindow>().Close();
         }
     }
 }

@@ -29,7 +29,10 @@ namespace HelloWorld.Editor
         public void SelectTile()
         {
             selectedTileInput = tileInputs[Random.Range(0, tileInputs.Count)];
-            Instantiate(selectedTileInput.gameObject, transform);
+            if(selectedTileInput.gameObject != null )
+            {
+                Instantiate(selectedTileInput.gameObject, transform);
+            }
 
             tileInputs.Clear();
             tileInputs.Add(selectedTileInput);

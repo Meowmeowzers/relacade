@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-    public class AddOrRemoveWindow : EditorWindow
+    public class PassConstraintsWindow : EditorWindow
     {
         private static SerializedProperty set;
         private static SerializedObject tile;
@@ -15,35 +13,34 @@ namespace HelloWorld.Editor
 
         public static void OpenWindow(SerializedObject newTile, SerializedProperty newSet)
         {
-            AddOrRemoveWindow window = (AddOrRemoveWindow)GetWindow(typeof(AddOrRemoveWindow));
-            //WindowSetup(window, newTile, newSet);
-            window.titleContent = new GUIContent("Add/Remove Constraints Window");
+            PassConstraintsWindow window = (PassConstraintsWindow)GetWindow(typeof(PassConstraintsWindow));
+            window.titleContent = new GUIContent("Pass constraints Window");
             window.minSize = new(300, 320);
+            window.maxSize = new(300, 320);
             set = newSet;
             tile = newTile;
             CheckExistingTiles();
             window.Show();
-
         }
-        
+
         private void OnGUI()
         {
-            EditorGUILayout.Space();
-
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, false, true, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(false));
-
-            EditorGUILayout.LabelField("- Mark the checkboxes you want to");
-            EditorGUILayout.LabelField("   propagate this tile to");
-
-            EditorGUILayout.Space();
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, false, false, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(false));
             
+            GUILayout.BeginVertical(GUILayout.ExpandWidth(false));
+
+            EditorGUILayout.LabelField("- Mark the checkboxes you want to propagate");
+            EditorGUILayout.LabelField("  this tile to as constraint for other tiles");
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(300));
+            GUILayout.FlexibleSpace();
+
             if (tile != null)
             {
                 GameObject tileGameObject = tile.FindProperty("gameObject").objectReferenceValue as GameObject;
-                
+
                 if (tileGameObject != null)
                 {
                     Texture2D previewTexture = AssetPreview.GetAssetPreview(tileGameObject);
@@ -58,7 +55,6 @@ namespace HelloWorld.Editor
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space();
-
 
             EditorGUILayout.BeginHorizontal(GUILayout.Width(position.width));
             EditorGUILayout.LabelField(GUIContent.none, EditorStyles.boldLabel, GUILayout.Width(80));
@@ -90,8 +86,8 @@ namespace HelloWorld.Editor
 
                     for (int j = 0; j < 4; j++)
                     {
-                        if(j != 0)
-                        GUILayout.Space(25);
+                        if (j != 0)
+                            GUILayout.Space(25);
                         togglesArray[i][j] = EditorGUILayout.Toggle(togglesArray[i][j], GUILayout.Width(20));
                     }
 
@@ -99,6 +95,7 @@ namespace HelloWorld.Editor
                 }
             }
 
+            GUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
 
             EditorGUILayout.Space();
@@ -221,6 +218,5 @@ namespace HelloWorld.Editor
             AssetDatabase.SaveAssets(); // Save the modified assets
             AssetDatabase.Refresh(); // Refresh the Asset Database to reflect the changes
         }
-
     }
 }
