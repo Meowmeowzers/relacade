@@ -64,9 +64,6 @@ namespace HelloWorld.Editor
         private Rect tileSetupSection;
         private Rect tileConstraintSetupSection;
 
-        private static readonly int windowMinWidth = 600;
-        private static readonly int windowMinHeight = 350;
-
         private Vector2 scrollPositionLeft = Vector2.zero;
         private Vector2 scrollPositionRight = Vector2.zero;
 
@@ -75,14 +72,6 @@ namespace HelloWorld.Editor
         private SerializedObject tempProperty;
 
         #endregion Window Variables
-
-        [MenuItem("Relacade/Manual Tile Set Configuration")]
-        private static void StartWindow()
-        {
-            TileSetupWindow window = (TileSetupWindow)GetWindow(typeof(TileSetupWindow));
-            window.minSize = new(windowMinWidth, windowMinHeight);
-            window.Show();
-        }
 
         private void OnEnable()
         {

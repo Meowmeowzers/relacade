@@ -5,8 +5,16 @@ namespace HelloWorld.Editor
 {
     public class MenuItems : EditorWindow
     {
-        [MenuItem("Relacade/Tile Set Data Generator")]
-        public static void StartWindow()
+        [MenuItem("Relacade/Input Tile Setup Window")]
+        private static void StartTileSetupWindow()
+        {
+            TileSetupWindow window = (TileSetupWindow)GetWindow(typeof(TileSetupWindow));
+            window.minSize = new(600, 350);
+            window.Show();
+        }
+
+        [MenuItem("Relacade/Input Tile Set Data Generator")]
+        public static void StartGenerateTileSetupWindow()
         {
             AutoTileSetUpWindow window = (AutoTileSetUpWindow)GetWindow(typeof(AutoTileSetUpWindow));
             window.minSize = new(600, 350);
@@ -16,7 +24,7 @@ namespace HelloWorld.Editor
         [MenuItem("Relacade/Create/Tile Set Configuration", priority = 1)]
         private static void CreateTileSetConfiguration()
         {
-            ScriptableObject scriptableObject = ScriptableObject.CreateInstance<TileInputSet>();
+            ScriptableObject scriptableObject = CreateInstance<TileInputSet>();
             string savePath = EditorUtility.SaveFilePanelInProject("Save tile input set", "Input Tile Set", "asset", "Choose a location to save the Tile Set Configuration.");
             if (string.IsNullOrEmpty(savePath)) return;
             AssetDatabase.CreateAsset(scriptableObject, savePath);
@@ -27,7 +35,7 @@ namespace HelloWorld.Editor
         [MenuItem("Relacade/Create/Input Tile Data", priority = 1)]
         private static void CreateInputTile()
         {
-            ScriptableObject scriptableObject = ScriptableObject.CreateInstance<TileInput>();
+            ScriptableObject scriptableObject = CreateInstance<TileInput>();
             string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", "Input Tile", "asset", "Choose a location to save the ScriptableObject.");
             if (string.IsNullOrEmpty(savePath)) return;
             AssetDatabase.CreateAsset(scriptableObject, savePath);
