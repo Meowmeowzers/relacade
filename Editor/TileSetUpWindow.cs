@@ -69,7 +69,6 @@ namespace HelloWorld.Editor
 
         private bool shouldClear = false;
         private int tempIndex = 0;
-        private SerializedObject tempProperty;
 
         #endregion Window Variables
 

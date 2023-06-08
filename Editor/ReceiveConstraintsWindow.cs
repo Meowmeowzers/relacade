@@ -1,23 +1,51 @@
 using HelloWorld.Editor;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class ReceiveConstraintsWindow: EditorWindow
+public class ReceiveConstraintsWindow : EditorWindow
 {
     private static SerializedProperty set;
     private static SerializedObject tile;
     private Vector2 scrollPosition;
 
+    private static bool[][] togglesArray;
+
     public static void OpenWindow(SerializedObject newTile, SerializedProperty newSet)
     {
         ReceiveConstraintsWindow window = (ReceiveConstraintsWindow)GetWindow(typeof(ReceiveConstraintsWindow));
         window.titleContent = new GUIContent("Add Constraints Window");
-        window.minSize = new(300, 320);
-        window.maxSize = new(300, 320);
+        window.minSize = new Vector2(300, 320);
+        window.maxSize = new Vector2(300, 320);
         tile = newTile;
         set = newSet;
+
+        InitializeTogglesArray();
+
         window.Show();
     }
+
+    private static void InitializeTogglesArray()
+    {
+        int setSize = set.arraySize;
+        togglesArray = new bool[setSize][];
+        for (int i = 0; i < setSize; i++)
+        {
+            togglesArray[i] = new bool[4];
+
+            SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
+            TileInput item = itemProperty.objectReferenceValue as TileInput;
+
+            if (item != null)
+            {
+                togglesArray[i][0] = IsItemContained(tile.FindProperty("compatibleTop"), item);
+                togglesArray[i][1] = IsItemContained(tile.FindProperty("compatibleBottom"), item);
+                togglesArray[i][2] = IsItemContained(tile.FindProperty("compatibleLeft"), item);
+                togglesArray[i][3] = IsItemContained(tile.FindProperty("compatibleRight"), item);
+            }
+        }
+    }
+
 
     private void OnGUI()
     {
@@ -65,31 +93,21 @@ public class ReceiveConstraintsWindow: EditorWindow
 
                 EditorGUILayout.LabelField(item != null ? item.name : "Unnamed", GUILayout.Width(85));
 
-                SerializedProperty compatibleTopProperty = tile.FindProperty("compatibleTop");
-                bool compatibleTop = IsItemContained(compatibleTopProperty, item);
-                compatibleTop = EditorGUILayout.Toggle(compatibleTop, GUILayout.Width(20));
-                UpdateCompatibility(compatibleTopProperty, item, compatibleTop);
+                for (int j = 0; j < 4; j++)
+                {
+                    SerializedProperty compatibilityProperty = GetCompatibilityProperty(j);
 
-                GUILayout.Space(25);
+                    if (compatibilityProperty != null && item != null)
+                    {
+                        bool compatible = togglesArray[i][j];
+                        compatible = EditorGUILayout.Toggle(compatible, GUILayout.Width(20));
+                        togglesArray[i][j] = compatible;
 
-                SerializedProperty compatibleBottomProperty = tile.FindProperty("compatibleBottom");
-                bool compatibleBottom = IsItemContained(compatibleBottomProperty, item);
-                compatibleBottom = EditorGUILayout.Toggle(compatibleBottom, GUILayout.Width(20));
-                UpdateCompatibility(compatibleBottomProperty, item, compatibleBottom);
+                        UpdateCompatibility(compatibilityProperty, item, compatible);
+                    }
 
-                GUILayout.Space(25);
-
-                SerializedProperty compatibleLeftProperty = tile.FindProperty("compatibleLeft");
-                bool compatibleLeft = IsItemContained(compatibleLeftProperty, item);
-                compatibleLeft = EditorGUILayout.Toggle(compatibleLeft, GUILayout.Width(20));
-                UpdateCompatibility(compatibleLeftProperty, item, compatibleLeft);
-
-                GUILayout.Space(25);
-
-                SerializedProperty compatibleRightProperty = tile.FindProperty("compatibleRight");
-                bool compatibleRight = IsItemContained(compatibleRightProperty, item);
-                compatibleRight = EditorGUILayout.Toggle(compatibleRight, GUILayout.Width(20));
-                UpdateCompatibility(compatibleRightProperty, item, compatibleRight);
+                    GUILayout.Space(25);
+                }
 
                 EditorGUILayout.EndHorizontal();
             }
@@ -105,20 +123,27 @@ public class ReceiveConstraintsWindow: EditorWindow
         }
     }
 
-    private bool IsItemContained(SerializedProperty property, TileInput item)
+    private SerializedProperty GetCompatibilityProperty(int index)
     {
-        if (property != null && item != null)
+        SerializedProperty property = null;
+
+        switch (index)
         {
-            for (int i = 0; i < property.arraySize; i++)
-            {
-                SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
-                if (elementProperty.objectReferenceValue == item)
-                {
-                    return true;
-                }
-            }
+            case 0:
+                property = tile.FindProperty("compatibleTop");
+                break;
+            case 1:
+                property = tile.FindProperty("compatibleBottom");
+                break;
+            case 2:
+                property = tile.FindProperty("compatibleLeft");
+                break;
+            case 3:
+                property = tile.FindProperty("compatibleRight");
+                break;
         }
-        return false;
+
+        return property;
     }
 
     private void UpdateCompatibility(SerializedProperty property, TileInput item, bool compatible)
@@ -146,16 +171,31 @@ public class ReceiveConstraintsWindow: EditorWindow
         }
     }
 
+    private static bool IsItemContained(SerializedProperty property, TileInput item)
+    {
+        if (property != null && item != null)
+        {
+            for (int i = 0; i < property.arraySize; i++)
+            {
+                SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
+                if (elementProperty.objectReferenceValue == item)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void ApplyModifications()
     {
         if (tile != null)
         {
             tile.ApplyModifiedProperties();
 
-            // Mark the modified tile as dirty to ensure the changes persist on restart
+            // Marked as dirty to ensure the changes persist on restart
             EditorUtility.SetDirty(tile.targetObject);
         }
     }
-
 
 }

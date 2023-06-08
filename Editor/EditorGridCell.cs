@@ -61,9 +61,12 @@ namespace HelloWorld.Editor
             propagatedTileInputs.Clear();
             foreach (var item in compatibleTiles)
             {
-                if (tileInputs.Contains(item))
+                foreach(var itemid in tileInputs)
                 {
-                    propagatedTileInputs.Add(item);
+                    if(itemid.id == item.id)
+                    {
+                        propagatedTileInputs.Add(item);
+                    }
                 }
             }
             tileInputs.Clear();

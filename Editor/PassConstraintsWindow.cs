@@ -25,7 +25,7 @@ namespace HelloWorld.Editor
 
         private void OnGUI()
         {
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, false, false, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(false));
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(false));
             
             GUILayout.BeginVertical(GUILayout.ExpandWidth(false));
 
