@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameObject: {fileID: 5494360012350107937, guid: 52572fa5e77848a4c8def850a28f204b, type: 3}
   id: 5
+  weight: 1
   compatibleTop:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 208f48073af5152439328cb34a068d1c, type: 2}

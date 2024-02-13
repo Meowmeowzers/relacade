@@ -1,5 +1,5 @@
 # Relacade / Hello World
-A prototype program to procedurally generate tile based game levels in Unity using our own implementation of WaveFunctionCollapse algorithm.
+A prototype program to procedurally generate tile based game levels in Unity Engine using my own implementation of WaveFunctionCollapse algorithm.
 
 ## How to install
 1. Copy this link.
@@ -9,20 +9,36 @@ Choose the "Add package from git URL..." option.
 3. Paste the copied link.
 4. Wait for the installation to finish.
 
+## Important components
+1. Input Tile
+	- Contains data for your tile.
+2. Input Tile Set
+	- An asset that contains a set of input tiles. Provides convenience.
+3. Tile Set Up Window
+	- A dedicated window for setting up input tiles. Provide an input tile set.
+
 ## How to use
 - TODO
 1. Plan and create your tiles
-2. Setup input tile's scriptable object
+2. Create and setup input tiles
 3. Open tile set up window
-4. Create tileset scritable object
-5. Add your tiles to corresponding direction/type
-6. Generate
+4. Create input tile set asset
+5. Add your tiles to the input tile set
+6. Set up compatible tiles for an input tile
+7. Generate
+
+## Update
+- 2024/2 - Now uses weighted random choice instead of randomly choosing tiles. This gives more control to the final output.
+
+## Main problems
+- UI problems(Ease of access, janky, flow, serialization, data persistence, inconsistency)
 
 ## Notes
-- It has a generator for tileset. Only good for initializing tiles at start.
+- A very simple implementation. Simple tiled model. No rotations. No backtracking
 - Made with Unity Engine as a custom package.
+- For Unity Engine only.
 - Doesn't use Unity tilemap.
-- No rotations. Simple constraints setup but higher complexity when a lot of input tiles exist.
+- It has a generator for tileset. Only good for initializing tiles at start. Not recommended.
 
 ## Related Sources:
 - [WFC(mxgmn)](https://github.com/mxgmn/WaveFunctionCollapse)

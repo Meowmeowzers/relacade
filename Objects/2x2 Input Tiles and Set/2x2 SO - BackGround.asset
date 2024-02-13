@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: 2x2 SO - BackGround
   m_EditorClassIdentifier: 
   gameObject: {fileID: 200094413327123030, guid: fb8bbddabc65c6c4e9211a0eb5718b6e, type: 3}
-  id: 1
+  id: 10
+  weight: 1
   compatibleTop:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 45114592cbefb4d459c60400cb81e3d2, type: 2}

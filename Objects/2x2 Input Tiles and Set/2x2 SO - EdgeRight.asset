@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: 2x2 SO - EdgeRight
   m_EditorClassIdentifier: 
   gameObject: {fileID: 200094413327123030, guid: 502463a39ada372499d3bf1cf575e30e, type: 3}
-  id: 9
+  id: 4
+  weight: 1
   compatibleTop:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 596b1a160b4bca341b9b07208bedeca3, type: 2}
