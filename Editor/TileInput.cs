@@ -10,6 +10,7 @@ namespace HelloWorld.Editor
     {
         [SerializeField] public GameObject gameObject;
         [SerializeField] public int id;
+        [SerializeField] public float weight = 1f;
 
         [SerializeField] public List<TileInput> compatibleTop = new();
         [SerializeField] public List<TileInput> compatibleBottom = new();

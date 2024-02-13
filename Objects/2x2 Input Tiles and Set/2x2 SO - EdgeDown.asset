@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: 2x2 SO - EdgeDown
   m_EditorClassIdentifier: 
   gameObject: {fileID: 200094413327123030, guid: ed709b21f24eb324385dd6a3180dbe4f, type: 3}
-  id: 12
+  id: 2
+  weight: 1
   compatibleTop:
   - {fileID: 11400000, guid: 45114592cbefb4d459c60400cb81e3d2, type: 2}
   - {fileID: 11400000, guid: 66245670a18d07a4b8c4792a308e06c5, type: 2}

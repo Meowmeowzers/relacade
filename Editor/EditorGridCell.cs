@@ -16,6 +16,10 @@ namespace HelloWorld.Editor
 
         public TileInput selectedTileInput;
 
+        private float totalWeight = 0f;
+        private float cumulutativeWeight = 0f;
+        private float randomChoice = 0f;
+
         //New script
         public void Initialize(List<TileInput> value)
         {
@@ -28,7 +32,26 @@ namespace HelloWorld.Editor
 
         public void SelectTile()
         {
-            selectedTileInput = tileInputs[Random.Range(0, tileInputs.Count)];
+            totalWeight = 0f;
+            cumulutativeWeight = 0f;
+
+            foreach(var tile in tileInputs)
+            {
+                totalWeight += tile.weight;
+            }
+
+            randomChoice = Random.Range(0f, totalWeight);
+
+            // selectedTileInput = tileInputs[Random.Range(0, tileInputs.Count)];
+            foreach(var tile in tileInputs)
+            {
+                cumulutativeWeight += tile.weight;
+                if(cumulutativeWeight >= randomChoice)
+                {
+                    selectedTileInput = tile;
+                    break;
+                }
+            }
             if(selectedTileInput.gameObject != null )
             {
                 Instantiate(selectedTileInput.gameObject, transform);

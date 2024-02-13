@@ -24,6 +24,7 @@ namespace HelloWorld.Editor
 
         private SerializedProperty id;
         private SerializedProperty gameObject;
+        private SerializedProperty weight;
         private SerializedProperty compatibleTopList;
         private SerializedProperty compatibleBottomList;
         private SerializedProperty compatibleLeftList;
@@ -390,6 +391,7 @@ namespace HelloWorld.Editor
 
                 id = selectedTileConstraints.FindProperty("id");
                 gameObject = selectedTileConstraints.FindProperty("gameObject");
+                weight = selectedTileConstraints.FindProperty("weight");
                 compatibleTopList = selectedTileConstraints.FindProperty("compatibleTop");
                 compatibleBottomList = selectedTileConstraints.FindProperty("compatibleBottom");
                 compatibleLeftList = selectedTileConstraints.FindProperty("compatibleLeft");
@@ -415,6 +417,10 @@ namespace HelloWorld.Editor
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("GameObject", GUILayout.Width(80));
                 EditorGUILayout.PropertyField(gameObject, GUIContent.none);
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Weight", GUILayout.Width(80));
+                EditorGUILayout.PropertyField(weight, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 if(GUILayout.Button("Send Tile", GUILayout.Height(30)))

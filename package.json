@@ -1,10 +1,10 @@
 {
   "name": "com.gatozhanya.relacade",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "displayName": "Relacade",
-  "description": "A prototype level generator for tile based levels using the WaveFunctionCollapse algorithm.\n\nNVSU BSCS-4A\n-Laureta, Leonardo B.\n-Cagurangan, Michael\n-Reyes, Remelene\n-Dela Cruz, Jeza Ritz",
-  "unity": "2022.2",
-  "unityRelease": "12f1",
+  "description": "A prototype level generator for tile based levels using the WaveFunctionCollapse algorithm",
+  "unity": "2023.3",
+  "unityRelease": "16f1",
   "documentationUrl": "https://#/",
   "changelogUrl": "https://#",
   "licensesUrl": "https://#",
@@ -12,11 +12,11 @@
 		"com.unity.editorcoroutines": "1.0.0"
  },
  "keywords": [
-    "level design",
-    "wave function collapse",
-    "level generator",
-    "procedural generation",
-    "tile-based levels"
+  "wave function collapse",
+	"procedural generation",
+	"tile-based levels",
+	"level generator",
+	"level design"
   ],
   "author": {
     "name": "GatoZhanya",

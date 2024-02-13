@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: 2x2 SO - ForeGround
   m_EditorClassIdentifier: 
   gameObject: {fileID: 200094413327123030, guid: 66d101fc2546c1d40bbe93b2b64e5e07, type: 3}
-  id: 0
+  id: 1
+  weight: 1
   compatibleTop:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 285b18e0be212394d96f063b41d4d004, type: 2}
