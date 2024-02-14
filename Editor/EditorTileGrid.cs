@@ -15,8 +15,12 @@ namespace HelloWorld.Editor
         [SerializeField] public TileInputSet tileInputSet;
         [SerializeField] public List<TileInput> allTileInputs;
 
-        [Range(2, 50)]
-        [SerializeField] public int size = 8;
+        [Range(2, 80)]
+        [HideInInspector] public int size = 8;
+        [Range(2, 80)]
+        [SerializeField] public int tileSizeX = 8;
+        [Range(2, 80)]
+        [SerializeField] public int tileSizeY = 8;
         [SerializeField] public float tileSize = 1;
 
         private GameObject gridCellObject;
@@ -25,7 +29,6 @@ namespace HelloWorld.Editor
         private EditorGridCell[,] gridCell;
         private EditorGridCell selectedRandomCell;
         private List<EditorGridCell> lowestEntropyCells = new();
-        private List<TileInput> uniqueTileInputs;
 
         private EditorCoroutine coroutine;
         private readonly EditorWaitForSeconds editorWait = new(0f);
@@ -40,13 +43,13 @@ namespace HelloWorld.Editor
             if (allTileInputs.Count != 0)
             {
                 Vector3 pos;
-                gridCell = new EditorGridCell[size, size];
+                gridCell = new EditorGridCell[tileSizeX, tileSizeY];
 
-                for (int y = 0; y < size; y++)
+                for (int y = 0; y < tileSizeY; y++)
                 {
-                    for (int x = 0; x < size; x++)
+                    for (int x = 0; x < tileSizeX; x++)
                     {
-                        pos = new(tileSize * x - (size * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (size * tileSize / 2 - .5f) + transform.position.y);
+                        pos = new(tileSize * x - (tileSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (tileSizeY * tileSize / 2 - .5f) + transform.position.y);
 
                         tempGameObject = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
                         
@@ -102,16 +105,16 @@ namespace HelloWorld.Editor
             int x = cell.xIndex;
             int y = cell.yIndex;
 
-            if (y + 1 > -1 && y + 1 < size)
+            if (y + 1 > -1 && y + 1 < tileSizeY)
                 PropagateToCell(x, y, cell.selectedTileInput, LookDirection.UP);
 
-            if (y - 1 > -1 && y - 1 < size)
+            if (y - 1 > -1 && y - 1 < tileSizeY)
                 PropagateToCell(x, y, cell.selectedTileInput, LookDirection.DOWN);
 
-            if (x + 1 > -1 && x + 1 < size)
+            if (x + 1 > -1 && x + 1 < tileSizeX)
                 PropagateToCell(x, y, cell.selectedTileInput, LookDirection.RIGHT);
 
-            if (x - 1 > -1 && x - 1 < size)
+            if (x - 1 > -1 && x - 1 < tileSizeX)
                 PropagateToCell(x, y, cell.selectedTileInput, LookDirection.LEFT);
         }
 
@@ -173,9 +176,9 @@ namespace HelloWorld.Editor
             int lowestEntropy = int.MaxValue;
             int entropy;
 
-            for (int y = 0; y < size; y++)
+            for (int y = 0; y < tileSizeY; y++)
             {
-                for (int x = 0; x < size; x++)
+                for (int x = 0; x < tileSizeX; x++)
                 {
                     if (gridCell[x, y].IsNotDefiniteState())
                     {
@@ -253,15 +256,15 @@ namespace HelloWorld.Editor
 
         private void CreateGridCellsAndInitialize()
         {
-            gridCell = new EditorGridCell[size, size];
+            gridCell = new EditorGridCell[tileSizeX, tileSizeY];
             if (gridCellObject != null)
             {
                 Vector3 pos;
-                for (int y = 0; y < size; y++)
+                for (int y = 0; y < tileSizeY; y++)
                 {
-                    for (int x = 0; x < size; x++)
+                    for (int x = 0; x < tileSizeX; x++)
                     {
-                        pos = new(tileSize * x - (size * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (size * tileSize / 2 - .5f) + transform.position.y);
+                        pos = new(tileSize * x - (tileSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (tileSizeY * tileSize / 2 - .5f) + transform.position.y);
 
                         tempGameObject = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
                         gridCell[x, y] = tempGameObject.GetComponent<EditorGridCell>();
@@ -275,7 +278,7 @@ namespace HelloWorld.Editor
 
         public void InitializeGridCells()
         {
-            gridCell = new EditorGridCell[size, size];
+            gridCell = new EditorGridCell[tileSizeX, tileSizeY];
         }
 
         public void SetGridSize(float value)

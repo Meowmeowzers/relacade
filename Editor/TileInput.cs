@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-    [CreateAssetMenu(fileName = "New Input Tile Data", menuName = "Relacade/Input Tile Data")]
+    [CreateAssetMenu(fileName = "New Input Tile", menuName = "Relacade/Input Tile")]
     [Serializable]
     public class TileInput : ScriptableObject
     {

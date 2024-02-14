@@ -5,7 +5,7 @@ namespace HelloWorld.Editor
 {
     public class MenuItems : EditorWindow
     {
-        [MenuItem("Relacade/Input Tile Setup Window")]
+        [MenuItem("Relacade/Input Tile Setup")]
         private static void StartTileSetupWindow()
         {
             TileSetupWindow window = (TileSetupWindow)GetWindow(typeof(TileSetupWindow));
@@ -13,6 +13,7 @@ namespace HelloWorld.Editor
             window.Show();
         }
 
+        /*
         [MenuItem("Relacade/Input Tile Set Data Generator")]
         public static void StartGenerateTileSetupWindow()
         {
@@ -20,8 +21,9 @@ namespace HelloWorld.Editor
             window.minSize = new(600, 350);
             window.Show();
         }
+        */
 
-        [MenuItem("Relacade/Create/Tile Set Configuration", priority = 1)]
+        [MenuItem("Relacade/Create/Input Tile Set", priority = 1)]
         private static void CreateTileSetConfiguration()
         {
             ScriptableObject scriptableObject = CreateInstance<TileInputSet>();
@@ -32,7 +34,7 @@ namespace HelloWorld.Editor
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Relacade/Create/Input Tile Data", priority = 1)]
+        [MenuItem("Relacade/Create/Input Tile", priority = 1)]
         private static void CreateInputTile()
         {
             ScriptableObject scriptableObject = CreateInstance<TileInput>();
@@ -59,7 +61,7 @@ namespace HelloWorld.Editor
             }
         }
 
-        [MenuItem("Relacade/Create Sample/Tile Set Configuration 3x3", priority = 3)]
+        [MenuItem("Relacade/Create/Sample/Tile Set Configuration 3x3", priority = 3)]
         private static void CreateSampleTileSetConfiguration()
         {
             ScriptableObject loadedAsset;
@@ -89,7 +91,7 @@ namespace HelloWorld.Editor
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Relacade/Create Sample/Tile Set Configuration 2x2", priority = 3)]
+        [MenuItem("Relacade/Create/Sample/Tile Set Configuration 2x2", priority = 3)]
         private static void CreateSampleTileSetConfiguration2()
         {
             string assetPath = "Packages/com.gatozhanya.relacade/Objects/2x2 Input Tiles and Set/2x2 Sample Tile Set Config.asset";

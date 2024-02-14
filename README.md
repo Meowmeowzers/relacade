@@ -14,31 +14,35 @@ Choose the "Add package from git URL..." option.
 	- Contains data for your tile.
 2. Input Tile Set
 	- An asset that contains a set of input tiles. Provides convenience.
-3. Tile Set Up Window
+3. Wave Tile Grid
+	- A game object that serves as a canvas for the level generation process. Only runs in Editor runtime.
+4. Tile Set Up Window
 	- A dedicated window for setting up input tiles. Provide an input tile set.
 
 ## How to use
-- TODO
-1. Plan and create your tiles
-2. Create and setup input tiles
-3. Open tile set up window
-4. Create input tile set asset
-5. Add your tiles to the input tile set
-6. Set up compatible tiles for an input tile
-7. Generate
+1. Design and create your tile-based level gameobjects
+2. Open TileSetUpWindow
+3. Create InputTileSet asset
+4. Create and setup InputTiles
+5. Add your InputTiles to the InputTileSet
+6. Set up compatible tiles for an InputTile
+7. Create a WaveTileGrid object in scene
+8. Plug in your InputTileSet to the WaveTileGrid
+9. Generate
 
 ## Update
-- 2024/2 - Now uses weighted random choice instead of randomly choosing tiles. This gives more control to the final output.
+- 2024/2 
+	- Now uses weighted random choice instead of randomly choosing tiles. This gives more control to the final output.
+	- Can now modify height and width of tile grid.
+- 2023
+	- Initial
 
-## Main problems
+## Issues
 - UI problems(Ease of access, janky, flow, serialization, data persistence, inconsistency)
 
 ## Notes
 - A very simple implementation. Simple tiled model. No rotations. No backtracking
-- Made with Unity Engine as a custom package.
-- For Unity Engine only.
 - Doesn't use Unity tilemap.
-- It has a generator for tileset. Only good for initializing tiles at start. Not recommended.
 
 ## Related Sources:
 - [WFC(mxgmn)](https://github.com/mxgmn/WaveFunctionCollapse)

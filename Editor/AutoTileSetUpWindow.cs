@@ -2668,7 +2668,6 @@ namespace HelloWorld.Editor
 				{
 					if (item == null)
 					{
-						//continue if item is null
 						continue;
 					}
 					else

@@ -10,7 +10,8 @@ namespace HelloWorld.Editor
     {
         private EditorTileGrid tileGrid;
 
-        private SerializedProperty serializedSize;
+        private SerializedProperty serializedSizeX;
+        private SerializedProperty serializedSizeY;
         private SerializedProperty serializedTileSize;
         private SerializedProperty serializedTileSet;
         private SerializedProperty serializedTileInputs;
@@ -26,7 +27,8 @@ namespace HelloWorld.Editor
         {
             tileGrid = (EditorTileGrid)target;
 
-            serializedSize = serializedObject.FindProperty("size");
+            serializedSizeX = serializedObject.FindProperty("tileSizeX");
+            serializedSizeY = serializedObject.FindProperty("tileSizeY");
             serializedTileSize = serializedObject.FindProperty("tileSize");
             serializedTileSet = serializedObject.FindProperty("tileInputSet");
             serializedTileInputs = serializedObject.FindProperty("allTileInputs");
@@ -43,7 +45,8 @@ namespace HelloWorld.Editor
             if (tileGrid.IsDone())
             {
                 EditorGUILayout.PropertyField(serializedTileSet);
-                EditorGUILayout.PropertyField(serializedSize);
+                EditorGUILayout.PropertyField(serializedSizeX);
+                EditorGUILayout.PropertyField(serializedSizeY);
                 EditorGUILayout.PropertyField(serializedTileSize);
             }
             else
@@ -55,20 +58,7 @@ namespace HelloWorld.Editor
 
             if (GUILayout.Button("Reload Tile set", GUILayout.Height(20)))
             {
-                if (serializedTileSet.objectReferenceValue != null)
-                {
-                    SerializedObject scriptableListObject = new(serializedTileSet.objectReferenceValue);
-
-                    SerializedProperty scriptableObjectListProperty = scriptableListObject.FindProperty("AllInputTiles");
-
-                    serializedTileInputs.ClearArray();
-                    for (int i = 0; i < scriptableObjectListProperty.arraySize; i++)
-                    {
-                        SerializedProperty elementProperty = scriptableObjectListProperty.GetArrayElementAtIndex(i);
-                        serializedTileInputs.InsertArrayElementAtIndex(i);
-                        serializedTileInputs.GetArrayElementAtIndex(i).objectReferenceValue = elementProperty.objectReferenceValue;
-                    }
-                }
+                Reload();
             }
 
             EditorGUILayout.BeginHorizontal();
@@ -105,6 +95,7 @@ namespace HelloWorld.Editor
 
             EditorGUILayout.EndHorizontal();
 
+            /*
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Load File"))
             {
@@ -115,7 +106,7 @@ namespace HelloWorld.Editor
                 SaveData();
             }
             EditorGUILayout.EndHorizontal();
-
+            */
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.PropertyField(serializedTileInputs);
@@ -123,6 +114,24 @@ namespace HelloWorld.Editor
             if (!isdead)
             {
                 serializedObject.ApplyModifiedProperties();
+            }
+        }
+
+        private void Reload()
+        {
+            if (serializedTileSet.objectReferenceValue != null)
+            {
+                SerializedObject scriptableListObject = new(serializedTileSet.objectReferenceValue);
+
+                SerializedProperty scriptableObjectListProperty = scriptableListObject.FindProperty("AllInputTiles");
+
+                serializedTileInputs.ClearArray();
+                for (int i = 0; i < scriptableObjectListProperty.arraySize; i++)
+                {
+                    SerializedProperty elementProperty = scriptableObjectListProperty.GetArrayElementAtIndex(i);
+                    serializedTileInputs.InsertArrayElementAtIndex(i);
+                    serializedTileInputs.GetArrayElementAtIndex(i).objectReferenceValue = elementProperty.objectReferenceValue;
+                }
             }
         }
 
