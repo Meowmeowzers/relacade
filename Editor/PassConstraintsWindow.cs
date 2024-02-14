@@ -16,7 +16,7 @@ namespace HelloWorld.Editor
             PassConstraintsWindow window = (PassConstraintsWindow)GetWindow(typeof(PassConstraintsWindow));
             window.titleContent = new GUIContent("Pass constraints Window");
             window.minSize = new(300, 320);
-            window.maxSize = new(300, 320);
+            window.maxSize = new(400, 600);
             set = newSet;
             tile = newTile;
             CheckExistingTiles();
@@ -26,7 +26,7 @@ namespace HelloWorld.Editor
         private void OnGUI()
         {
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(false));
-            
+
             GUILayout.BeginVertical(GUILayout.ExpandWidth(false));
 
             EditorGUILayout.LabelField("- Mark the checkboxes you want to propagate");
@@ -154,7 +154,7 @@ namespace HelloWorld.Editor
 
                     if (item != null)
                     {
-                        SerializedObject itemSerializedObject = new SerializedObject(item);
+                        SerializedObject itemSerializedObject = new(item);
 
                         if (togglesArray[i][0])
                         {

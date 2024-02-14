@@ -1,5 +1,4 @@
 using HelloWorld.Editor;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class ReceiveConstraintsWindow : EditorWindow
         ReceiveConstraintsWindow window = (ReceiveConstraintsWindow)GetWindow(typeof(ReceiveConstraintsWindow));
         window.titleContent = new GUIContent("Add Constraints Window");
         window.minSize = new Vector2(300, 320);
-        window.maxSize = new Vector2(300, 320);
+        window.maxSize = new Vector2(400, 600);
         tile = newTile;
         set = newSet;
 
@@ -45,7 +44,6 @@ public class ReceiveConstraintsWindow : EditorWindow
             }
         }
     }
-
 
     private void OnGUI()
     {
@@ -132,12 +130,15 @@ public class ReceiveConstraintsWindow : EditorWindow
             case 0:
                 property = tile.FindProperty("compatibleTop");
                 break;
+
             case 1:
                 property = tile.FindProperty("compatibleBottom");
                 break;
+
             case 2:
                 property = tile.FindProperty("compatibleLeft");
                 break;
+
             case 3:
                 property = tile.FindProperty("compatibleRight");
                 break;
@@ -197,5 +198,4 @@ public class ReceiveConstraintsWindow : EditorWindow
             EditorUtility.SetDirty(tile.targetObject);
         }
     }
-
 }

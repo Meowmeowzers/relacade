@@ -245,7 +245,7 @@ namespace HelloWorld.Editor
                         EditorGUILayout.BeginHorizontal();
 
                         GUILayout.Label(previewTexture, GUILayout.Width(50), GUILayout.Height(50));
-                        
+
                         CenterVerticalStart(50);
                         EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(195));
                         CenterVerticalEnd();
@@ -291,13 +291,10 @@ namespace HelloWorld.Editor
                         }
                         CenterVerticalEnd();
 
-
                         EditorGUILayout.EndHorizontal();
                     }
-
-
                 }
-                
+
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
 
@@ -353,7 +350,7 @@ namespace HelloWorld.Editor
 
                 EditorGUILayout.EndVertical();
             }
-            else if(allInput.arraySize == 0)
+            else if (allInput.arraySize == 0)
             {
                 EditorGUILayout.LabelField("* Press the + and - buttons to add new items");
                 EditorGUILayout.LabelField("* Then, select an item from the tile list by pressing the > button");
@@ -366,8 +363,8 @@ namespace HelloWorld.Editor
                 EditorGUILayout.BeginVertical(GUILayout.Width(100));
                 EditorGUILayout.LabelField("Load an input tile as value");
                 tempInputTile = (TileInput)EditorGUILayout.ObjectField(tempInputTile, typeof(TileInput), false, GUILayout.Height(30));
-                
-                if(tempInputTile != null)
+
+                if (tempInputTile != null)
                 {
                     SetLoadedInputTileButton();
                 }
@@ -399,7 +396,7 @@ namespace HelloWorld.Editor
                 previewTexture = AssetPreview.GetAssetPreview(gameObject.objectReferenceValue);
 
                 EditorGUILayout.BeginHorizontal();
-                    
+
                 if (previewTexture == null)
                 {
                     GUILayout.Label(Texture2D.blackTexture, GUILayout.Width(80), GUILayout.Height(80));
@@ -423,7 +420,7 @@ namespace HelloWorld.Editor
                 EditorGUILayout.PropertyField(weight, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                if(GUILayout.Button("Send Tile", GUILayout.Height(30)))
+                if (GUILayout.Button("Send Tile", GUILayout.Height(30)))
                 {
                     PassConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
                 }
@@ -501,67 +498,6 @@ namespace HelloWorld.Editor
             }
         }
 
-        private void GetAllUniqueInputTiles()
-        {
-            allInput.ClearArray();
-            UpdateSerializedProperties();
-            GetUniqueTiles(
-                selectedInputTileSet.ForeGroundTiles,
-                selectedInputTileSet.BackGroundTiles,
-                selectedInputTileSet.FilledTiles,
-                selectedInputTileSet.EdgeUpTiles,
-                selectedInputTileSet.EdgeDownTiles,
-                selectedInputTileSet.EdgeLeftTiles,
-                selectedInputTileSet.EdgeRightTiles,
-                selectedInputTileSet.ElbowUpLeftTiles,
-                selectedInputTileSet.ElbowUpRightTiles,
-                selectedInputTileSet.ElbowDownLeftTiles,
-                selectedInputTileSet.ElbowDownRightTiles,
-                selectedInputTileSet.CornerUpLeftTiles,
-                selectedInputTileSet.CornerUpRightTiles,
-                selectedInputTileSet.CornerDownLeftTiles,
-                selectedInputTileSet.CornerDownRightTiles,
-                selectedInputTileSet.CornerULDRTiles,
-                selectedInputTileSet.CornerURDLTiles,
-                selectedInputTileSet.FourFaceTiles,
-                selectedInputTileSet.VerticalTiles,
-                selectedInputTileSet.HorizontalTiles,
-                selectedInputTileSet.TwoFaceUpLeftTiles,
-                selectedInputTileSet.TwoFaceUpRightTiles,
-                selectedInputTileSet.TwoFaceDownLeftTiles,
-                selectedInputTileSet.TwoFaceDownRightTiles,
-                selectedInputTileSet.ThreeFaceUpTiles,
-                selectedInputTileSet.ThreeFaceDownTiles,
-                selectedInputTileSet.ThreeFaceLeftTiles,
-                selectedInputTileSet.ThreeFaceRightTiles,
-                selectedInputTileSet.OneFaceUpTiles,
-                selectedInputTileSet.OneFaceDownTiles,
-                selectedInputTileSet.OneFaceLeftTiles,
-                selectedInputTileSet.OneFaceRightTiles);
-
-            serializedTileSetObject.Update();
-        }
-
-        private void GetUniqueTiles(params List<TileInput>[] list)
-        {
-            int count = 0;
-            foreach (var set in list)
-            {
-                foreach (var item in set)
-                {
-                    serializedTileSetObject.Update();
-                    //Debug.Log(allInput.arraySize);
-                    if (!selectedInputTileSet.AllInputTiles.Contains(item))
-                    {
-                        allInput.InsertArrayElementAtIndex(count);
-                        allInput.GetArrayElementAtIndex(count).objectReferenceValue = item;
-                        count++;
-                        allInput.serializedObject.ApplyModifiedProperties();
-                    }
-                }
-            }
-        }
-
         private void GiveUniqueIDToTiles()
         {
             //serializeproperty.intValue doesnt work
@@ -619,41 +555,7 @@ namespace HelloWorld.Editor
 
         private void ClearAllInputTiles()
         {
-            ClearAllInputTilesInDirection(
-                selectedInputTileSet.AllInputTiles,
-                selectedInputTileSet.ForeGroundTiles,
-                selectedInputTileSet.BackGroundTiles,
-                selectedInputTileSet.FilledTiles,
-                selectedInputTileSet.EdgeUpTiles,
-                selectedInputTileSet.EdgeDownTiles,
-                selectedInputTileSet.EdgeLeftTiles,
-                selectedInputTileSet.EdgeRightTiles,
-                selectedInputTileSet.ElbowUpLeftTiles,
-                selectedInputTileSet.ElbowUpRightTiles,
-                selectedInputTileSet.ElbowDownLeftTiles,
-                selectedInputTileSet.ElbowDownRightTiles,
-                selectedInputTileSet.CornerUpLeftTiles,
-                selectedInputTileSet.CornerUpRightTiles,
-                selectedInputTileSet.CornerDownLeftTiles,
-                selectedInputTileSet.CornerDownRightTiles,
-                selectedInputTileSet.CornerULDRTiles,
-                selectedInputTileSet.CornerURDLTiles,
-                selectedInputTileSet.FourFaceTiles,
-                selectedInputTileSet.VerticalTiles,
-                selectedInputTileSet.HorizontalTiles,
-                selectedInputTileSet.TwoFaceUpLeftTiles,
-                selectedInputTileSet.TwoFaceUpRightTiles,
-                selectedInputTileSet.TwoFaceDownLeftTiles,
-                selectedInputTileSet.TwoFaceDownRightTiles,
-                selectedInputTileSet.ThreeFaceUpTiles,
-                selectedInputTileSet.ThreeFaceDownTiles,
-                selectedInputTileSet.ThreeFaceLeftTiles,
-                selectedInputTileSet.ThreeFaceRightTiles,
-                selectedInputTileSet.OneFaceUpTiles,
-                selectedInputTileSet.OneFaceDownTiles,
-                selectedInputTileSet.OneFaceLeftTiles,
-                selectedInputTileSet.OneFaceRightTiles
-            );
+            ClearAllInputTilesInDirection(selectedInputTileSet.AllInputTiles);
         }
 
         private void ClearAllInputTilesInDirection(params List<TileInput>[] tilesInDirectionList)
@@ -668,41 +570,7 @@ namespace HelloWorld.Editor
         {
             SerializedObject temp = new(selectedInputTileSet);
 
-            ClearAllInputTileConstraintsInDirection(
-                selectedInputTileSet.AllInputTiles,
-                selectedInputTileSet.ForeGroundTiles,
-                selectedInputTileSet.BackGroundTiles,
-                selectedInputTileSet.FilledTiles,
-                selectedInputTileSet.EdgeUpTiles,
-                selectedInputTileSet.EdgeDownTiles,
-                selectedInputTileSet.EdgeLeftTiles,
-                selectedInputTileSet.EdgeRightTiles,
-                selectedInputTileSet.ElbowUpLeftTiles,
-                selectedInputTileSet.ElbowUpRightTiles,
-                selectedInputTileSet.ElbowDownLeftTiles,
-                selectedInputTileSet.ElbowDownRightTiles,
-                selectedInputTileSet.CornerUpLeftTiles,
-                selectedInputTileSet.CornerUpRightTiles,
-                selectedInputTileSet.CornerDownLeftTiles,
-                selectedInputTileSet.CornerDownRightTiles,
-                selectedInputTileSet.CornerULDRTiles,
-                selectedInputTileSet.CornerURDLTiles,
-                selectedInputTileSet.FourFaceTiles,
-                selectedInputTileSet.VerticalTiles,
-                selectedInputTileSet.HorizontalTiles,
-                selectedInputTileSet.TwoFaceUpLeftTiles,
-                selectedInputTileSet.TwoFaceUpRightTiles,
-                selectedInputTileSet.TwoFaceDownLeftTiles,
-                selectedInputTileSet.TwoFaceDownRightTiles,
-                selectedInputTileSet.ThreeFaceUpTiles,
-                selectedInputTileSet.ThreeFaceDownTiles,
-                selectedInputTileSet.ThreeFaceLeftTiles,
-                selectedInputTileSet.ThreeFaceRightTiles,
-                selectedInputTileSet.OneFaceUpTiles,
-                selectedInputTileSet.OneFaceDownTiles,
-                selectedInputTileSet.OneFaceLeftTiles,
-                selectedInputTileSet.OneFaceRightTiles
-            );
+            ClearAllInputTileConstraintsInDirection(selectedInputTileSet.AllInputTiles);
 
             temp.ApplyModifiedProperties();
             temp.Update();
@@ -735,6 +603,7 @@ namespace HelloWorld.Editor
                 }
             }
         }
+
         private void OnDestroy()
         {
             GetWindow<ReceiveConstraintsWindow>().Close();

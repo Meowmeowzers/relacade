@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-    public class EditorGridCell : MonoBehaviour
+    public class EditorCell : MonoBehaviour
     {
         public int xIndex;
         public int yIndex;
@@ -20,7 +20,6 @@ namespace HelloWorld.Editor
         private float cumulutativeWeight = 0f;
         private float randomChoice = 0f;
 
-        //New script
         public void Initialize(List<TileInput> value)
         {
             tileInputs.Clear();
@@ -35,24 +34,23 @@ namespace HelloWorld.Editor
             totalWeight = 0f;
             cumulutativeWeight = 0f;
 
-            foreach(var tile in tileInputs)
+            foreach (var tile in tileInputs)
             {
                 totalWeight += tile.weight;
             }
 
             randomChoice = Random.Range(0f, totalWeight);
 
-            // selectedTileInput = tileInputs[Random.Range(0, tileInputs.Count)];
-            foreach(var tile in tileInputs)
+            foreach (var tile in tileInputs)
             {
                 cumulutativeWeight += tile.weight;
-                if(cumulutativeWeight >= randomChoice)
+                if (cumulutativeWeight >= randomChoice)
                 {
                     selectedTileInput = tile;
                     break;
                 }
             }
-            if(selectedTileInput.gameObject != null )
+            if (selectedTileInput.gameObject != null)
             {
                 Instantiate(selectedTileInput.gameObject, transform);
             }
@@ -84,9 +82,9 @@ namespace HelloWorld.Editor
             propagatedTileInputs.Clear();
             foreach (var item in compatibleTiles)
             {
-                foreach(var itemid in tileInputs)
+                foreach (var itemid in tileInputs)
                 {
-                    if(itemid.id == item.id)
+                    if (itemid.id == item.id)
                     {
                         propagatedTileInputs.Add(item);
                     }
@@ -104,8 +102,6 @@ namespace HelloWorld.Editor
             else
                 return false;
         }
-
-        //NewScript end
 
         public void ResetAndInitializeCell(List<TileInput> value)
         {

@@ -8,13 +8,13 @@ namespace HelloWorld.Editor
     [Serializable]
     public class TileInput : ScriptableObject
     {
-        [SerializeField] public GameObject gameObject;
-        [SerializeField] public int id;
-        [SerializeField] public float weight = 1f;
+        public GameObject gameObject;
+        public int id;
+        public float weight = 1f;
 
-        [SerializeField] public List<TileInput> compatibleTop = new();
-        [SerializeField] public List<TileInput> compatibleBottom = new();
-        [SerializeField] public List<TileInput> compatibleLeft = new();
-        [SerializeField] public List<TileInput> compatibleRight = new();
+        public List<TileInput> compatibleTop = new();
+        public List<TileInput> compatibleBottom = new();
+        public List<TileInput> compatibleLeft = new();
+        public List<TileInput> compatibleRight = new();
     }
 }

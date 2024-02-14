@@ -3,32 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
 #if UNITY_EDITOR
+
 using Unity.EditorCoroutines.Editor;
+
 #endif
 
 //Editor WFC tile grid
 namespace HelloWorld.Editor
 {
-    public class EditorTileGrid : MonoBehaviour
+    public class EditorWave : MonoBehaviour
     {
-        [SerializeField] public TileInputSet tileInputSet;
-        [SerializeField] public List<TileInput> allTileInputs;
+        public TileInputSet tileInputSet;
+        public List<TileInput> allTileInputs;
 
         [Range(2, 80)]
-        [HideInInspector] public int size = 8;
+        public int tileSizeX = 8;
+
         [Range(2, 80)]
-        [SerializeField] public int tileSizeX = 8;
-        [Range(2, 80)]
-        [SerializeField] public int tileSizeY = 8;
-        [SerializeField] public float tileSize = 1;
+        public int tileSizeY = 8;
+
+        public float tileSize = 1f;
 
         private GameObject gridCellObject;
         private GameObject tempGameObject;
 
-        private EditorGridCell[,] gridCell;
-        private EditorGridCell selectedRandomCell;
-        private List<EditorGridCell> lowestEntropyCells = new();
+        private EditorCell[,] gridCell;
+        private EditorCell selectedRandomCell;
+        private List<EditorCell> lowestEntropyCells = new();
 
         private EditorCoroutine coroutine;
         private readonly EditorWaitForSeconds editorWait = new(0f);
@@ -43,7 +46,7 @@ namespace HelloWorld.Editor
             if (allTileInputs.Count != 0)
             {
                 Vector3 pos;
-                gridCell = new EditorGridCell[tileSizeX, tileSizeY];
+                gridCell = new EditorCell[tileSizeX, tileSizeY];
 
                 for (int y = 0; y < tileSizeY; y++)
                 {
@@ -52,8 +55,8 @@ namespace HelloWorld.Editor
                         pos = new(tileSize * x - (tileSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (tileSizeY * tileSize / 2 - .5f) + transform.position.y);
 
                         tempGameObject = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
-                        
-                        gridCell[x, y] = tempGameObject.GetComponent<EditorGridCell>();
+
+                        gridCell[x, y] = tempGameObject.GetComponent<EditorCell>();
                         gridCell[x, y].xIndex = x;
                         gridCell[x, y].yIndex = y;
                         gridCell[x, y].Initialize(allTileInputs);
@@ -70,6 +73,9 @@ namespace HelloWorld.Editor
         private IEnumerator CollapseWave()
         {
             isDone = false;
+            
+            if (!CheckTiles()) yield break;
+
             while (!IsWaveCollapsed())
             {
                 //Observation Phase
@@ -100,7 +106,21 @@ namespace HelloWorld.Editor
             yield break;
         }
 
-        public void PropagateConstraints(EditorGridCell cell)
+        private bool CheckTiles()
+        {
+            foreach (var item in allTileInputs)
+            {
+                if (item == null)
+                {
+                    Stop();
+                    Debug.Log("A tile is null or not configured. Please check again before generating.....");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void PropagateConstraints(EditorCell cell)
         {
             int x = cell.xIndex;
             int y = cell.yIndex;
@@ -170,9 +190,9 @@ namespace HelloWorld.Editor
             return true;
         }
 
-        private List<EditorGridCell> GetLowestEntropyCells()
+        private List<EditorCell> GetLowestEntropyCells()
         {
-            List<EditorGridCell> lowestEntropyCellsSelected = new();
+            List<EditorCell> lowestEntropyCellsSelected = new();
             int lowestEntropy = int.MaxValue;
             int entropy;
 
@@ -208,47 +228,10 @@ namespace HelloWorld.Editor
             InitializeWave();
         }
 
-        public void LoadWaveFromData(int newSize, float newTileSize, List<CellData> newCellData, List<TileInput> newTileInputs)
-        {
-            Debug.Log("Resetting Wave...");
-            StopAllCoroutines();
-
-            tileInputSet = null;
-            size = newSize;
-            tileSize = newTileSize;
-            allTileInputs.Clear();
-            allTileInputs.AddRange(newTileInputs);
-
-            RemoveGridCells();
-            CreateGridCellsAndInitialize();
-
-            int yMax = size;
-            int xIndex = 0;
-            int yIndex = 0;
-
-            foreach (var item in newCellData)
-            {
-                if (yIndex >= yMax)
-                {
-                    xIndex++;
-                    yIndex = 0;
-                }
-                foreach (var tile in allTileInputs)
-                {
-                    if (item.selectedTileID == tile.id)
-                    {
-                        gridCell[xIndex, yIndex].SelectTile(tile);
-                    }
-                }
-                //Debug.Log(item + " " + xIndex + " " + yIndex);
-                yIndex++;
-            }
-        }
-        
         public void RemoveGridCells()
         {
-            EditorGridCell[] cell = GetComponentsInChildren<EditorGridCell>();
-            foreach(var item in cell)
+            EditorCell[] cell = GetComponentsInChildren<EditorCell>();
+            foreach (var item in cell)
             {
                 DestroyImmediate(item.gameObject);
             }
@@ -256,7 +239,7 @@ namespace HelloWorld.Editor
 
         private void CreateGridCellsAndInitialize()
         {
-            gridCell = new EditorGridCell[tileSizeX, tileSizeY];
+            gridCell = new EditorCell[tileSizeX, tileSizeY];
             if (gridCellObject != null)
             {
                 Vector3 pos;
@@ -267,7 +250,7 @@ namespace HelloWorld.Editor
                         pos = new(tileSize * x - (tileSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (tileSizeY * tileSize / 2 - .5f) + transform.position.y);
 
                         tempGameObject = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
-                        gridCell[x, y] = tempGameObject.GetComponent<EditorGridCell>();
+                        gridCell[x, y] = tempGameObject.GetComponent<EditorCell>();
                         gridCell[x, y].xIndex = x;
                         gridCell[x, y].yIndex = y;
                         gridCell[x, y].Initialize(allTileInputs);
@@ -278,16 +261,7 @@ namespace HelloWorld.Editor
 
         public void InitializeGridCells()
         {
-            gridCell = new EditorGridCell[tileSizeX, tileSizeY];
-        }
-
-        public void SetGridSize(float value)
-        {
-            Stop();
-            ResetAllCells();
-            size = Convert.ToInt32(value);
-            InitializeGridCells();
-            InitializeWave();
+            gridCell = new EditorCell[tileSizeX, tileSizeY];
         }
 
         private void ResetAllCells()
@@ -300,7 +274,7 @@ namespace HelloWorld.Editor
 
         public void Stop()
         {
-            if(coroutine != null)
+            if (coroutine != null)
                 EditorCoroutineUtility.StopCoroutine(coroutine);
             isDone = true;
         }
@@ -308,7 +282,7 @@ namespace HelloWorld.Editor
         public void ClearCells()
         {
             //Stop();
-            List<EditorGridCell> child = GetComponentsInChildren<EditorGridCell>().ToList();
+            List<EditorCell> child = GetComponentsInChildren<EditorCell>().ToList();
             foreach (var item in child)
             {
                 DestroyImmediate(item.gameObject);
@@ -347,7 +321,6 @@ namespace HelloWorld.Editor
 
         private void DeleteEditorGameObjects()
         {
-            //Delete the editor gameobjects
             DestroyImmediate(this.gameObject);
         }
 
@@ -361,9 +334,5 @@ namespace HelloWorld.Editor
             gridCellObject = newGridCellObject;
         }
 
-        public EditorGridCell[,] GetCells()
-        {
-            return gridCell;
-        }
     }
 }

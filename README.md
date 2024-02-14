@@ -34,6 +34,12 @@ Choose the "Add package from git URL..." option.
 - 2024/2 
 	- Now uses weighted random choice instead of randomly choosing tiles. This gives more control to the final output.
 	- Can now modify height and width of tile grid.
+	- Remove features that are useless or broken.
+		- input tile generator
+			- its not flexible and its broken
+		- save/load
+			- its not really needed since it can be regenerated again.
+	- Code cleanup
 - 2023
 	- Initial
 
