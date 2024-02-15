@@ -13,6 +13,14 @@ namespace HelloWorld.Editor
             window.Show();
         }
 
+        [MenuItem("Relacade/Test Window")]
+        private static void StartTestWindow()
+        {
+            TestWindow window = (TestWindow)GetWindow(typeof(TestWindow));
+            window.minSize = new(600, 350);
+            window.Show();
+        }
+
         /*
         [MenuItem("Relacade/Input Tile Set Data Generator")]
         public static void StartGenerateTileSetupWindow()

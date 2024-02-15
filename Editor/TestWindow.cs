@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-    public class TileSetupWindow : EditorWindow
+    public class TestWindow : EditorWindow
     {
         //Left
         private TileInputSet selectedInputTileSet;
@@ -22,6 +22,7 @@ namespace HelloWorld.Editor
         //Right
         private SerializedObject selectedTileConstraints;
 
+        private SerializedProperty tileName;
         private SerializedProperty id;
         private SerializedProperty gameObject;
         private SerializedProperty weight;
@@ -34,6 +35,10 @@ namespace HelloWorld.Editor
         private TileInput tempInputTile;
         private string assetName = "New Tile Set Configuration Data";
         private string inputTileName = "New Input Tile";
+        private string inputTileSetLocation = "";
+        private string inpuTileSetGuid = "";
+        private string guidFolderPath = "";
+        private string tempString = "";
 
         #region Window Variables
 
@@ -73,7 +78,7 @@ namespace HelloWorld.Editor
             {
                 SerializeProperties();
             }
-
+            
             DrawLayouts();
             DrawHeader();
             DrawLeft();
@@ -145,7 +150,6 @@ namespace HelloWorld.Editor
 
             GUI.DrawTexture(headerSection, headerBackgroundTexture);
             GUI.DrawTexture(tileSetupSection, leftBackgroundTexture);
-            //GUI.DrawTexture(tileConstraintSetupSection, rightBackgroundTexture);
         }
 
         private void DrawHeader()
@@ -190,6 +194,7 @@ namespace HelloWorld.Editor
 
             if (selectedInputTileSet != null)
             {
+                inputTileSetLocation = GetContainingFolder();
                 SerializeProperties();
                 ShowTileSets(true, allInput, textureAllInput);
             }
@@ -235,7 +240,7 @@ namespace HelloWorld.Editor
                         GUILayout.Label(previewTexture, GUILayout.Width(50), GUILayout.Height(50));
 
                         CenterVerticalStart(50);
-                        EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(195));
+                        EditorGUILayout.LabelField(selectedInputTileSet.AllInputTiles[i].tileName, EditorStyles.boldLabel);
                         CenterVerticalEnd();
 
                         CenterVerticalStart(50);
@@ -243,7 +248,7 @@ namespace HelloWorld.Editor
                         {
                             if (elementProperty.objectReferenceValue != null)
                             {
-                                Object elementReference = elementProperty.objectReferenceValue;
+                                UnityEngine.Object elementReference = elementProperty.objectReferenceValue;
                                 selectedTileConstraints = new(elementReference);
                                 tempIndex = i;
                             }
@@ -289,14 +294,24 @@ namespace HelloWorld.Editor
                 if (GUILayout.Button("+", GUILayout.Width(35), GUILayout.Height(35)))
                 {
                     property.arraySize++;
+                    CreateAndAddTile(property.GetArrayElementAtIndex(property.arraySize - 1));
+                    CheckListForNull(property);
                     property.serializedObject.ApplyModifiedProperties();
                 }
                 if (GUILayout.Button("-", GUILayout.Width(35), GUILayout.Height(35)))
                 {
                     if (property.arraySize > 0)
                     {
+                        RemoveAndDeleteTile(property.GetArrayElementAtIndex(property.arraySize - 1));
                         property.arraySize--;
                         property.serializedObject.ApplyModifiedProperties();
+                    }
+                }
+                if (GUILayout.Button("Reload", GUILayout.Width(65), GUILayout.Height(35)))
+                {
+                    if (property.arraySize > 0)
+                    {
+                        CheckListForNull(property);
                     }
                 }
                 GUILayout.FlexibleSpace();
@@ -304,7 +319,69 @@ namespace HelloWorld.Editor
 
                 EditorGUILayout.Space(5);
                 property.serializedObject.ApplyModifiedProperties();
+                
             }
+        }
+
+        private void CreateAndAddTile(SerializedProperty serializedProperty)
+        {
+            selectedTileConstraints = null;
+            string location = GetAssetPathWithUniqueName(inputTileSetLocation + "/" +
+                System.IO.Path.GetFileNameWithoutExtension(inputTileSetLocation) + ".asset");
+
+            TileInput newTileInput = CreateInstance<TileInput>();
+            newTileInput.tileName = System.IO.Path.GetFileNameWithoutExtension(location);
+            newTileInput.id = allInput.arraySize - 1;
+
+            AssetDatabase.CreateAsset(newTileInput, location);
+            AssetDatabase.SaveAssets();
+
+            serializedProperty.objectReferenceValue = newTileInput;
+        }
+
+        private void RemoveAndDeleteTile(SerializedProperty serializedProperty)
+        {
+            selectedTileConstraints = null;
+            tempString = AssetDatabase.GetAssetPath(serializedProperty.objectReferenceValue);
+            if (AssetDatabase.LoadAssetAtPath<Object>(tempString) != null)
+            {
+                AssetDatabase.DeleteAsset(tempString);
+                AssetDatabase.Refresh();
+                AssetDatabase.SaveAssets();
+            }
+        }
+
+        private bool CheckListForNull(SerializedProperty serializedProperty)
+        {
+            bool result = false;
+            for (int i = serializedProperty.arraySize - 1; i >= 0; i--)
+            {
+                if (serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue == null)
+                {
+                    serializedProperty.DeleteArrayElementAtIndex(i);
+                    result = true;
+                }
+            }
+            return result;
+        }
+        private string GetContainingFolder()
+        {
+            inpuTileSetGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(selectedInputTileSet));
+            guidFolderPath = AssetDatabase.GUIDToAssetPath(inpuTileSetGuid);
+
+            return System.IO.Path.GetDirectoryName(guidFolderPath);
+        }
+
+        private string GetAssetPathWithUniqueName(string originalPath)
+        {
+            int suffix = 1;
+            string newPath = originalPath;
+            while (AssetDatabase.LoadAssetAtPath<Object>(newPath) != null)
+            {
+                newPath = originalPath.Replace(".asset", "_" + suffix + ".asset");
+                suffix++;
+            }
+            return newPath;
         }
 
         private static void CenterVerticalStart(int height)
@@ -345,36 +422,19 @@ namespace HelloWorld.Editor
             }
             else if (selectedTileConstraints == null)
             {
-                EditorGUILayout.LabelField("* Fill the item with an input tile by loading an existing tile or creating a new one");
-
                 GUILayout.Space(15);
-                EditorGUILayout.BeginVertical(GUILayout.Width(100));
-                EditorGUILayout.LabelField("Load an input tile as value");
-                tempInputTile = (TileInput)EditorGUILayout.ObjectField(tempInputTile, typeof(TileInput), false, GUILayout.Height(30));
-
-                if (tempInputTile != null)
-                {
-                    SetLoadedInputTileButton();
-                }
-
-                GUILayout.Space(10);
-                EditorGUILayout.LabelField("or");
-                GUILayout.Space(10);
-
-                EditorGUILayout.LabelField("Create a new input tile as value");
-                inputTileName = EditorGUILayout.TextField(inputTileName, GUILayout.Width(250));
-
-                SetCreatedInputTileButton();
-
+                EditorGUILayout.BeginVertical();
+                EditorGUILayout.LabelField("Select an Input Tile");
                 EditorGUILayout.EndVertical();
             }
             else
             {
-                selectedTileConstraints.Update();
+                if(selectedTileConstraints != null) selectedTileConstraints.Update();
 
                 EditorGUILayout.Space(5);
 
                 id = selectedTileConstraints.FindProperty("id");
+                tileName = selectedTileConstraints.FindProperty("tileName");
                 gameObject = selectedTileConstraints.FindProperty("gameObject");
                 weight = selectedTileConstraints.FindProperty("weight");
                 compatibleTopList = selectedTileConstraints.FindProperty("compatibleTop");
@@ -395,6 +455,10 @@ namespace HelloWorld.Editor
                 }
 
                 CenterVerticalStart(80);
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Name", GUILayout.Width(80));
+                EditorGUILayout.PropertyField(tileName, GUIContent.none);
+                EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("ID", GUILayout.Width(80));
                 EditorGUILayout.PropertyField(id, GUIContent.none);
@@ -461,7 +525,7 @@ namespace HelloWorld.Editor
                 if (tempInputTile != null)
                 {
                     allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue = tempInputTile;
-                    Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
+                    UnityEngine.Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
                     selectedTileConstraints = new(elementReference);
                     tempInputTile = null;
                 }
@@ -472,15 +536,16 @@ namespace HelloWorld.Editor
         {
             if (GUILayout.Button("Create InputTile", GUILayout.Height(30)))
             {
-                ScriptableObject scriptableObject = ScriptableObject.CreateInstance<TileInput>();
-                string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", inputTileName, "asset", "Choose a location to save the Input Tile.");
-                if (string.IsNullOrEmpty(savePath)) return;
-                AssetDatabase.CreateAsset(scriptableObject, savePath);
+                ScriptableObject scriptableObject = CreateInstance<TileInput>();
+                //string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", inputTileName, "asset", "Choose a location to save the Input Tile.", inputTileSetLocation);
+                //if (string.IsNullOrEmpty(savePath)) return;
+
+                AssetDatabase.CreateAsset(scriptableObject, inputTileSetLocation + "/" + inputTileName + ".asset");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
                 allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue = scriptableObject as TileInput;
-                Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
+                UnityEngine.Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
                 selectedTileConstraints = new(elementReference);
                 tempInputTile = null;
             }
@@ -539,19 +604,6 @@ namespace HelloWorld.Editor
             }
 
             return list;
-        }
-
-        private void ClearAllInputTiles()
-        {
-            ClearAllInputTilesInDirection(selectedInputTileSet.AllInputTiles);
-        }
-
-        private void ClearAllInputTilesInDirection(params List<TileInput>[] tilesInDirectionList)
-        {
-            foreach (var item in tilesInDirectionList)
-            {
-                item.Clear();
-            }
         }
 
         private void ClearAllInputTileConstraints()

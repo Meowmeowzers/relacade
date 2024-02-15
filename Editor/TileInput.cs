@@ -8,8 +8,9 @@ namespace HelloWorld.Editor
     [Serializable]
     public class TileInput : ScriptableObject
     {
+        public string tileName = "";
         public GameObject gameObject;
-        public int id;
+        public int id = 0;
         public float weight = 1f;
 
         public List<TileInput> compatibleTop = new();
