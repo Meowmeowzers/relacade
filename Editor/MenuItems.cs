@@ -17,7 +17,7 @@ namespace HelloWorld.Editor
         private static void StartTestWindow()
         {
             TestWindow window = (TestWindow)GetWindow(typeof(TestWindow));
-            window.minSize = new(600, 350);
+            window.minSize = new(690, 350);
             window.Show();
         }
 
