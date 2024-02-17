@@ -194,9 +194,8 @@ namespace HelloWorld.Editor
 
             if (selectedInputTileSet != null)
             {
-                inputTileSetLocation = GetContainingFolder();
                 SerializeProperties();
-                ShowTileSets(true, allInput, textureAllInput);
+                ShowTileSets(allInput, textureAllInput);
             }
 
             EditorGUILayout.EndVertical();
@@ -206,165 +205,156 @@ namespace HelloWorld.Editor
             GUILayout.EndArea();
         }
 
-        private void ShowTileSets(bool showTileset, SerializedProperty property, Texture2D pic)
+        private void ShowTileSets(SerializedProperty property, Texture2D pic)
         {
-            if (showTileset)
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(pic);
+            EditorGUILayout.LabelField("All Input Tiles", EditorStyles.boldLabel, GUILayout.MaxWidth(170));
+
+            int currentArraySize = property.arraySize;
+            int newArraySize = EditorGUILayout.IntField(currentArraySize, GUILayout.Width(40));
+            if (newArraySize != currentArraySize)
             {
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.Label(pic);
-                EditorGUILayout.LabelField("All Input Tiles", EditorStyles.boldLabel, GUILayout.MaxWidth(170));
+                property.arraySize = newArraySize;
+            }
 
-                // Array size field
-                int currentArraySize = property.arraySize;
-                int newArraySize = EditorGUILayout.IntField(currentArraySize, GUILayout.Width(40));
-                if (newArraySize != currentArraySize)
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Space(5);
+
+            for (int i = 0; i < property.arraySize; i++)
+            {
+                if (property.GetArrayElementAtIndex(i).objectReferenceValue != null)
                 {
-                    property.arraySize = newArraySize;
-                }
+                    SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
+                    SerializedObject gameObjectProperty = new(property.GetArrayElementAtIndex(i).objectReferenceValue);
+                    SerializedProperty texture = gameObjectProperty.FindProperty("gameObject");
+                    Texture2D previewTexture = AssetPreview.GetAssetPreview(texture.objectReferenceValue);
 
-                EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
 
-                EditorGUILayout.Space(5);
+                    GUILayout.Label(previewTexture, GUILayout.Width(50), GUILayout.Height(50));
 
-                for (int i = 0; i < property.arraySize; i++)
-                {
-                    if (property.GetArrayElementAtIndex(i).objectReferenceValue != null)
+                    CenterVerticalStart(50);
+                    EditorGUILayout.LabelField(selectedInputTileSet.AllInputTiles[i].tileName, EditorStyles.boldLabel);
+                    CenterVerticalEnd();
+
+                    CenterVerticalStart(50);
+                    if (GUILayout.Button(">", EditorStyles.toolbarButton, GUILayout.Width(30)))
                     {
-                        SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
-                        SerializedObject gameObjectProperty = new(property.GetArrayElementAtIndex(i).objectReferenceValue);
-                        SerializedProperty texture = gameObjectProperty.FindProperty("gameObject");
-                        Texture2D previewTexture = AssetPreview.GetAssetPreview(texture.objectReferenceValue);
-
-                        EditorGUILayout.BeginHorizontal();
-
-                        GUILayout.Label(previewTexture, GUILayout.Width(50), GUILayout.Height(50));
-
-                        CenterVerticalStart(50);
-                        EditorGUILayout.LabelField(selectedInputTileSet.AllInputTiles[i].tileName, EditorStyles.boldLabel);
-                        CenterVerticalEnd();
-
-                        CenterVerticalStart(50);
-                        if (GUILayout.Button(">", EditorStyles.toolbarButton, GUILayout.Width(30)))
+                        if (elementProperty.objectReferenceValue != null)
                         {
-                            if (elementProperty.objectReferenceValue != null)
-                            {
-                                UnityEngine.Object elementReference = elementProperty.objectReferenceValue;
-                                selectedTileConstraints = new(elementReference);
-                                tempIndex = i;
-                            }
-                            else
-                            {
-                                selectedTileConstraints = null;
-                                tempIndex = i;
-                            }
+                            Object elementReference = elementProperty.objectReferenceValue;
+                            selectedTileConstraints = new(elementReference);
+                            tempIndex = i;
                         }
-                        CenterVerticalEnd();
-
-                        EditorGUILayout.EndHorizontal();
-                    }
-                    else
-                    {
-                        SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
-
-                        EditorGUILayout.BeginHorizontal();
-
-                        CenterVerticalStart(50);
-                        EditorGUILayout.LabelField("Empty", EditorStyles.miniLabel, GUILayout.MaxWidth(50));
-                        CenterVerticalEnd();
-
-                        CenterVerticalStart(50);
-                        EditorGUILayout.PropertyField(elementProperty, GUIContent.none, GUILayout.MaxWidth(175));
-                        CenterVerticalEnd();
-
-                        CenterVerticalStart(50);
-                        if (GUILayout.Button(">", EditorStyles.toolbarButton, GUILayout.Width(30)))
+                        else
                         {
                             selectedTileConstraints = null;
                             tempIndex = i;
                         }
-                        CenterVerticalEnd();
-
-                        EditorGUILayout.EndHorizontal();
                     }
-                }
+                    CenterVerticalEnd();
 
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-
-                if (GUILayout.Button("+", GUILayout.Width(35), GUILayout.Height(35)))
-                {
-                    property.arraySize++;
-                    CreateAndAddTile(property.GetArrayElementAtIndex(property.arraySize - 1));
-                    CheckListForNull(property);
-                    property.serializedObject.ApplyModifiedProperties();
+                    EditorGUILayout.EndHorizontal();
                 }
-                if (GUILayout.Button("-", GUILayout.Width(35), GUILayout.Height(35)))
+                else
                 {
-                    if (property.arraySize > 0)
+                    EditorGUILayout.BeginHorizontal();
+
+                    CenterVerticalStart(50);
+                    EditorGUILayout.LabelField("Empty", EditorStyles.miniLabel, GUILayout.MaxWidth(50));
+                    CenterVerticalEnd();
+
+                    CenterVerticalStart(50);
+                    if (GUILayout.Button(">", EditorStyles.toolbarButton, GUILayout.Width(30)))
                     {
-                        RemoveAndDeleteTile(property.GetArrayElementAtIndex(property.arraySize - 1));
-                        property.arraySize--;
-                        property.serializedObject.ApplyModifiedProperties();
+                        selectedTileConstraints = null;
+                        tempIndex = i;
                     }
-                }
-                if (GUILayout.Button("Reload", GUILayout.Width(65), GUILayout.Height(35)))
-                {
-                    if (property.arraySize > 0)
-                    {
-                        CheckListForNull(property);
-                    }
-                }
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.EndHorizontal();
+                    CenterVerticalEnd();
 
-                EditorGUILayout.Space(5);
-                property.serializedObject.ApplyModifiedProperties();
-                
+                    EditorGUILayout.EndHorizontal();
+                }
             }
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button("+", GUILayout.Width(35), GUILayout.Height(35)))
+            {
+                CreateAndAddTile(property);
+                CheckListForNull(property);
+            }
+            if (GUILayout.Button("-", GUILayout.Width(35), GUILayout.Height(35)))
+            {
+                if (property.arraySize > 0)
+                {
+                    RemoveAndDeleteLastTile(property);
+                    CheckListForNull(property);
+                    
+                }
+            }
+            if (GUILayout.Button("Reload", GUILayout.Width(65), GUILayout.Height(35)))
+            {
+                if (property.arraySize > 0)
+                {
+                    CheckListForNull(property);
+
+                }
+            }
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Space(5);
+            property.serializedObject.ApplyModifiedProperties();
         }
 
-        private void CreateAndAddTile(SerializedProperty serializedProperty)
+        private void CreateAndAddTile(SerializedProperty property)
         {
-            selectedTileConstraints = null;
-            string location = GetAssetPathWithUniqueName(inputTileSetLocation + "/" +
-                System.IO.Path.GetFileNameWithoutExtension(inputTileSetLocation) + ".asset");
+            property.arraySize++;
 
             TileInput newTileInput = CreateInstance<TileInput>();
-            newTileInput.tileName = System.IO.Path.GetFileNameWithoutExtension(location);
+            newTileInput.tileName = "New Input Tile";
             newTileInput.id = allInput.arraySize - 1;
-
-            AssetDatabase.CreateAsset(newTileInput, location);
+            newTileInput.name = selectedInputTileSet.name + newTileInput.id;
+            
+            AssetDatabase.AddObjectToAsset(newTileInput, selectedInputTileSet);
             AssetDatabase.SaveAssets();
 
-            serializedProperty.objectReferenceValue = newTileInput;
-        }
-
-        private void RemoveAndDeleteTile(SerializedProperty serializedProperty)
-        {
+            property.GetArrayElementAtIndex(property.arraySize - 1).objectReferenceValue = newTileInput;
             selectedTileConstraints = null;
-            tempString = AssetDatabase.GetAssetPath(serializedProperty.objectReferenceValue);
-            if (AssetDatabase.LoadAssetAtPath<Object>(tempString) != null)
-            {
-                AssetDatabase.DeleteAsset(tempString);
-                AssetDatabase.Refresh();
-                AssetDatabase.SaveAssets();
-            }
+            property.serializedObject.ApplyModifiedProperties();
         }
 
-        private bool CheckListForNull(SerializedProperty serializedProperty)
+        private void RemoveAndDeleteLastTile(SerializedProperty property)
+        {
+            TileInput tileToDelete = (TileInput)property.GetArrayElementAtIndex(property.arraySize -1).objectReferenceValue;
+            property.DeleteArrayElementAtIndex(property.arraySize - 1);
+
+            AssetDatabase.RemoveObjectFromAsset(tileToDelete);
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+
+            selectedTileConstraints = null;
+            property.serializedObject.ApplyModifiedProperties();
+        }
+
+        private bool CheckListForNull(SerializedProperty property)
         {
             bool result = false;
-            for (int i = serializedProperty.arraySize - 1; i >= 0; i--)
+            for (int i = property.arraySize - 1; i >= 0; i--)
             {
-                if (serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue == null)
+                if (property.GetArrayElementAtIndex(i).objectReferenceValue == null)
                 {
-                    serializedProperty.DeleteArrayElementAtIndex(i);
+                    property.DeleteArrayElementAtIndex(i);
                     result = true;
                 }
             }
+            property.serializedObject.ApplyModifiedProperties();
             return result;
         }
-        private string GetContainingFolder()
+        private string GetContainingFolderLocation()
         {
             inpuTileSetGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(selectedInputTileSet));
             guidFolderPath = AssetDatabase.GUIDToAssetPath(inpuTileSetGuid);
@@ -409,7 +399,7 @@ namespace HelloWorld.Editor
                 GUILayout.Space(10);
                 EditorGUILayout.LabelField("or");
                 GUILayout.Space(10);
-                EditorGUILayout.LabelField("Create a tile set configuration");
+                EditorGUILayout.LabelField("Create a new input tile set");
 
                 CreateTileSetConfigButton();
 
@@ -505,12 +495,12 @@ namespace HelloWorld.Editor
         {
             assetName = EditorGUILayout.TextField(assetName, GUILayout.Width(250));
 
-            if (GUILayout.Button("Create Tile Set Configuration", GUILayout.Height(30)))
+            if (GUILayout.Button("Create New Input Tile Set", GUILayout.Height(30)))
             {
-                ScriptableObject scriptableObject = ScriptableObject.CreateInstance<TileInputSet>();
-                string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", assetName, "asset", "Choose a location to save the ScriptableObject.");
-                if (string.IsNullOrEmpty(savePath)) return;
-                AssetDatabase.CreateAsset(scriptableObject, savePath);
+                ScriptableObject scriptableObject = CreateInstance<TileInputSet>();
+                string location = EditorUtility.SaveFilePanelInProject("Choose location", assetName, "asset", "?Insert message?");
+
+                AssetDatabase.CreateAsset(scriptableObject, location);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
@@ -525,31 +515,31 @@ namespace HelloWorld.Editor
                 if (tempInputTile != null)
                 {
                     allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue = tempInputTile;
-                    UnityEngine.Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
+                    Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
                     selectedTileConstraints = new(elementReference);
                     tempInputTile = null;
                 }
             }
         }
 
-        private void SetCreatedInputTileButton()
-        {
-            if (GUILayout.Button("Create InputTile", GUILayout.Height(30)))
-            {
-                ScriptableObject scriptableObject = CreateInstance<TileInput>();
-                //string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", inputTileName, "asset", "Choose a location to save the Input Tile.", inputTileSetLocation);
-                //if (string.IsNullOrEmpty(savePath)) return;
+        //private void SetCreatedInputTileButton()
+        //{
+        //    if (GUILayout.Button("Create InputTile", GUILayout.Height(30)))
+        //    {
+        //        ScriptableObject scriptableObject = CreateInstance<TileInput>();
+        //        //string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", inputTileName, "asset", "Choose a location to save the Input Tile.", inputTileSetLocation);
+        //        //if (string.IsNullOrEmpty(savePath)) return;
 
-                AssetDatabase.CreateAsset(scriptableObject, inputTileSetLocation + "/" + inputTileName + ".asset");
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
+        //        AssetDatabase.CreateAsset(scriptableObject, inputTileSetLocation + "/" + inputTileName + ".asset");
+        //        AssetDatabase.SaveAssets();
+        //        AssetDatabase.Refresh();
 
-                allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue = scriptableObject as TileInput;
-                UnityEngine.Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
-                selectedTileConstraints = new(elementReference);
-                tempInputTile = null;
-            }
-        }
+        //        allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue = scriptableObject as TileInput;
+        //        UnityEngine.Object elementReference = allInput.GetArrayElementAtIndex(tempIndex).objectReferenceValue;
+        //        selectedTileConstraints = new(elementReference);
+        //        tempInputTile = null;
+        //    }
+        //}
 
         private void GiveUniqueIDToTiles()
         {
