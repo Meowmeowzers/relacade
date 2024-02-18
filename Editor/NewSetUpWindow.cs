@@ -29,12 +29,12 @@ namespace HelloWorld.Editor
         private int tempIndex = 0;
         private GUIStyle customStyle = new();
 
-        private GenericMenu DeletesDropdown = new GenericMenu();
+        private GenericMenu DeletesDropdown = new();
         private bool shouldClear = false;
 
         #region Window Variables
 
-        private readonly int headerSectionHeight = 30;
+        private readonly int headerSectionHeight = 26;
         private readonly int tileSetupSectionWidth = 312;
 
         private Texture2D headerBackgroundTexture;
@@ -225,7 +225,7 @@ namespace HelloWorld.Editor
         private void DrawLeft()
         {
             GUILayout.BeginArea(tileSetupSection);
-            scrollPositionLeft = EditorGUILayout.BeginScrollView(scrollPositionLeft, GUILayout.ExpandWidth(true), GUILayout.Height(position.height));
+            
 
             EditorGUILayout.BeginVertical();
 
@@ -236,20 +236,31 @@ namespace HelloWorld.Editor
             }
 
             EditorGUILayout.EndVertical();
-            EditorGUILayout.Space(100);
-            EditorGUILayout.EndScrollView();
-            EditorGUILayout.Space(20);
             GUILayout.EndArea();
         }
 
         private void ShowTileSets(SerializedProperty property)
         {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(property.arraySize.ToString() + " Input Tile/s", EditorStyles.boldLabel, GUILayout.ExpandWidth(true));
+            EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+            EditorGUILayout.LabelField("Input Tiles", EditorStyles.boldLabel, GUILayout.ExpandWidth(false));
+            
+            if (GUILayout.Button("+", EditorStyles.toolbarButton))
+            {
+                CreateAndAddTile(property);
+                GiveUniqueIDToTiles();
+            }
+            if (GUILayout.Button("-", EditorStyles.toolbarButton))
+            {
+                if (property.arraySize > 0)
+                {
+                    RemoveAndDeleteLastTile(property);
+                    GiveUniqueIDToTiles();
+                }
+            }
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.Space(5);
-
+            scrollPositionLeft = EditorGUILayout.BeginScrollView(scrollPositionLeft, GUILayout.ExpandWidth(false), GUILayout.Height(position.height - 50));
+       
             SerializedProperty elementProperty;
             SerializedObject gameObjectProperty;
             SerializedProperty texture;
@@ -309,41 +320,13 @@ namespace HelloWorld.Editor
                 }
             }
 
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-
-            if (GUILayout.Button("+", GUILayout.Width(35), GUILayout.Height(35)))
-            {
-                CreateAndAddTile(property);
-                GiveUniqueIDToTiles();
-            }
-            if (GUILayout.Button("-", GUILayout.Width(35), GUILayout.Height(35)))
-            {
-                if (property.arraySize > 0)
-                {
-                    RemoveAndDeleteLastTile(property);
-                    GiveUniqueIDToTiles();
-                }
-            }
-            if (GUILayout.Button("Reload", GUILayout.Width(65), GUILayout.Height(35)))
-            {
-                if (property.arraySize > 0)
-                {
-                    CheckListForNull(property);
-                    GiveUniqueIDToTiles();
-                }
-            }
-
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
-
+            EditorGUILayout.EndScrollView();
             property.serializedObject.ApplyModifiedProperties();
         }
 
         private void DrawRight()
         {
             GUILayout.BeginArea(tileConstraintSetupSection);
-            scrollPositionRight = EditorGUILayout.BeginScrollView(scrollPositionRight);
 
             GUILayout.BeginHorizontal(EditorStyles.toolbar);
             EditorGUILayout.LabelField("Tile Set Up", EditorStyles.boldLabel);
@@ -375,7 +358,7 @@ namespace HelloWorld.Editor
             }
             else
             {
-                if (selectedTileConstraints != null) selectedTileConstraints.Update();
+                selectedTileConstraints?.Update();
 
                 EditorGUILayout.Space(5);
 
@@ -428,7 +411,7 @@ namespace HelloWorld.Editor
 
                 GUILayout.FlexibleSpace();
                 EditorGUILayout.EndHorizontal();
-
+                scrollPositionRight = EditorGUILayout.BeginScrollView(scrollPositionRight);
                 EditorGUILayout.BeginVertical(GUILayout.MaxWidth(390));
 
                 showCompatibleTiles[0] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[0], compatibleTopLabel, EditorStyles.foldoutHeader);
@@ -457,12 +440,10 @@ namespace HelloWorld.Editor
                 EditorGUILayout.EndFoldoutHeaderGroup();
 
                 EditorGUILayout.EndVertical();
-
+                EditorGUILayout.EndScrollView();
                 selectedTileConstraints.ApplyModifiedProperties();
             }
 
-            EditorGUILayout.EndScrollView();
-            EditorGUILayout.Space(20);
             GUILayout.EndArea();
         }
 

@@ -10,13 +10,11 @@ Choose the "Add package from git URL..." option.
 4. Wait for the installation to finish.
 
 ## Important components
-1. Input Tile
-	- Contains data for your tile.
-2. Input Tile Set
-	- An asset that contains a set of input tiles. Provides convenience.
-3. Wave Tile Grid
-	- A game object that serves as a canvas for the level generation process. Only runs in Editor runtime.
-4. Tile Set Up Window
+1. Input Tile Set
+	- An asset that contains a set of input tiles.
+2. Wave Tile Grid
+	- A game object that serves as a canvas for the level generation process.
+3. Tile Set Up Window
 	- A dedicated window for setting up input tiles. Provide an input tile set.
 
 ## How to use
@@ -24,22 +22,20 @@ Choose the "Add package from git URL..." option.
 2. Open TileSetUpWindow
 3. Create InputTileSet asset
 4. Create and setup InputTiles
-5. Add your InputTiles to the InputTileSet
-6. Set up compatible tiles for an InputTile
-7. Create a WaveTileGrid object in scene
-8. Plug in your InputTileSet to the WaveTileGrid
-9. Generate
+5. Set up compatible tiles for an InputTile
+6. Create a WaveTileGrid object in scene
+7. Plug in your InputTileSet to the WaveTileGrid
+8. Generate
 
 ## Update
 - 2024/2 
 	- Now uses weighted random choice instead of randomly choosing tiles. This gives more control to the final output.
+	- No need to create input tile assets.
+	- UI improvements
 	- Can now modify height and width of tile grid.
 	- Remove features that are useless or broken.
 		- input tile generator
-			- its not flexible and its broken
 		- save/load
-			- its not really needed since it can be regenerated again.
-	- Code cleanup
 - 2023
 	- Initial
 
