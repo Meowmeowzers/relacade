@@ -25,6 +25,12 @@ namespace HelloWorld.Editor
         private TileInput tempInputTile;
         private string assetName = "New Tile Set";
 
+        private bool shouldClear = false;
+        private bool shouldDeleteTile = false;
+        private bool[] showCompatibleTiles = { false, false, false, false, false, false};
+        private int tempIndex = 0;
+        GUIStyle customStyle = new();
+
         #region Window Variables
 
         private readonly int headerSectionHeight = 35;
@@ -33,10 +39,14 @@ namespace HelloWorld.Editor
         private Texture2D headerBackgroundTexture;
         private Texture2D leftBackgroundTexture;
         private Texture2D rightBackgroundTexture;
+        private Texture2D listItemTexture;
+        private Texture2D listItemLightTexture;
 
         private Color headerBackgroundColor = new(30f / 255f, 30f / 255f, 30f / 255f, 0.5f);
         private Color leftBackgroundColor = new(30f / 255f, 30f / 255f, 30f / 255f, 0.5f);
         private Color rightBackgroundColor = new(0.6f, .2f, 0.7f, 0.7f);
+        private Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
+        private Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
 
         private Rect headerSection;
         private Rect tileSetupSection;
@@ -45,10 +55,16 @@ namespace HelloWorld.Editor
         private Vector2 scrollPositionLeft = Vector2.zero;
         private Vector2 scrollPositionRight = Vector2.zero;
 
-        private bool shouldClear = false;
-        private bool shouldDeleteTile = false;
-        private bool[] showCompatibleTiles = { false, false, false, false, false, false};
-        private int tempIndex = 0;
+        GUIContent weightLabel = new("Weight", "Higher weight means more chance to spawn");
+        GUIContent gameObjectLabel = new("GameObject", "GameObject to spawn");
+        GUIContent sendToLabel = new("Send To", "Send this tile as constraints for other tiles");
+        GUIContent receiveFromLabel = new("Receive From", "Receive constraints from other tile");
+        GUIContent compatibleTopLabel = new("Compatible Top", "Compatible tiles for adjacent top");
+        GUIContent compatibleBottomLabel = new("Compatible Bottom", "Compatible tiles for adjacent bottom");
+        GUIContent compatibleLeftLabel = new("Compatible Left", "Compatible tiles for adjacent left");
+        GUIContent compatibleRightLabel = new("Compatible Right", "Compatible tiles for adjacent right");
+
+
 
         #endregion Window Variables
 
@@ -95,6 +111,17 @@ namespace HelloWorld.Editor
             rightBackgroundTexture = new Texture2D(1, 1);
             rightBackgroundTexture.SetPixel(0, 0, rightBackgroundColor);
             rightBackgroundTexture.Apply();
+
+            listItemTexture = new Texture2D(1, 1);
+            listItemTexture.SetPixel(0, 0, listItemColor);
+            listItemTexture.Apply();
+
+            listItemLightTexture = new Texture2D(1, 1);
+            listItemLightTexture.SetPixel(0, 0, listItemLightColor);
+            listItemLightTexture.Apply();
+
+            customStyle.normal.background = listItemTexture;
+            customStyle.hover.background = listItemLightTexture;
         }
 
         private void InitData()
@@ -353,19 +380,19 @@ namespace HelloWorld.Editor
                 EditorGUILayout.PropertyField(tileName, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("GameObject", GUILayout.Width(80));
+                EditorGUILayout.LabelField(gameObjectLabel, GUILayout.Width(80));
                 EditorGUILayout.PropertyField(gameObject, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Weight", GUILayout.Width(80));
+                EditorGUILayout.LabelField(weightLabel, GUILayout.Width(80));
                 EditorGUILayout.PropertyField(weight, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Send Tile", GUILayout.Height(30)))
+                if (GUILayout.Button(sendToLabel, GUILayout.Height(30)))
                 {
                     PassConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
                 }
-                if (GUILayout.Button("Receive Constraints", GUILayout.Height(30)))
+                if (GUILayout.Button(receiveFromLabel, GUILayout.Height(30)))
                 {
                     ReceiveConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
                 }
@@ -378,25 +405,25 @@ namespace HelloWorld.Editor
                 EditorGUILayout.BeginVertical(GUILayout.MaxWidth(390));
 
 
-                showCompatibleTiles[0] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[0], "Compatile Top", EditorStyles.foldoutHeader);
+                showCompatibleTiles[0] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[0], compatibleTopLabel, EditorStyles.foldoutHeader);
                 if (showCompatibleTiles[0])
                 {
                     ShowCompatibleTilesList(compatibleTopList);
                 }
                 EditorGUILayout.EndFoldoutHeaderGroup();
-                showCompatibleTiles[1] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[1], "Compatible Bottom", EditorStyles.foldoutHeader);
+                showCompatibleTiles[1] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[1], compatibleBottomLabel, EditorStyles.foldoutHeader);
                 if (showCompatibleTiles[1])
                 {
                     ShowCompatibleTilesList(compatibleBottomList);
                 }
                 EditorGUILayout.EndFoldoutHeaderGroup();
-                showCompatibleTiles[2] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[2], "Compatible Left", EditorStyles.foldoutHeader);
+                showCompatibleTiles[2] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[2], compatibleLeftLabel, EditorStyles.foldoutHeader);
                 if (showCompatibleTiles[2])
                 {
                     ShowCompatibleTilesList(compatibleLeftList);
                 }
                 EditorGUILayout.EndFoldoutHeaderGroup();
-                showCompatibleTiles[3] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[3], "Compatible Right", EditorStyles.foldoutHeader);
+                showCompatibleTiles[3] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[3], compatibleRightLabel, EditorStyles.foldoutHeader);
                 if (showCompatibleTiles[3])
                 {
                     ShowCompatibleTilesList(compatibleRightList);
@@ -419,7 +446,7 @@ namespace HelloWorld.Editor
             {
                 tempInputTile = property.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
                 previewTexture = AssetPreview.GetAssetPreview(tempInputTile.gameObject);
-                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginHorizontal(customStyle);
                 GUILayout.Label(previewTexture, GUILayout.Height(30), GUILayout.Width(30));
                 EditorGUILayout.LabelField(tempInputTile.tileName, GUILayout.Height(30));
                 EditorGUILayout.EndHorizontal();
