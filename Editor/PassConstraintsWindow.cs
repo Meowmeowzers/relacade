@@ -16,15 +16,19 @@ namespace HelloWorld.Editor
         private static Texture2D listItemTexture;
         private static Texture2D listItemLightTexture;
         private static GUIStyle listItemStyle = new();
+        private static GUIStyle previewStyle = new();
         private static Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
         private static Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
         private bool showHelp = false;
 
+        static Texture2D previewTexture;
+        static Texture2D constraintTexture;
+
         public static void OpenWindow(SerializedObject newTile, SerializedProperty newSet)
         {
             PassConstraintsWindow window = (PassConstraintsWindow)GetWindow(typeof(PassConstraintsWindow));
-            window.titleContent = new GUIContent("Pass constraints Window");
-            window.minSize = new(330, 350);
+            window.titleContent = new GUIContent("Send Constraints");
+            window.minSize = new(330, 500);
             window.maxSize = new(330, 1080);
             set = newSet;
             tile = newTile;
@@ -43,17 +47,27 @@ namespace HelloWorld.Editor
             listItemLightTexture.SetPixel(0, 0, listItemLightColor);
             listItemLightTexture.Apply();
 
+            previewTexture = new Texture2D(1, 1);
+            previewTexture.SetPixel(0, 0, listItemLightColor);
+            previewTexture.Apply();
+
+            constraintTexture = new Texture2D(1, 1);
+            constraintTexture.SetPixel(0, 0, Color.black);
+            constraintTexture.Apply();
+
             listItemStyle.normal.background = listItemTexture;
             listItemStyle.hover.background = listItemLightTexture;
+            previewStyle.padding = new();
+            previewStyle.margin = new();
+
         }
 
         private void OnGUI()
         {
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
-
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
 
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
+            GUILayout.FlexibleSpace();
             if (GUILayout.Button("Help", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false))) showHelp = !showHelp;
             EditorGUILayout.EndHorizontal();
             if (showHelp)
@@ -61,7 +75,6 @@ namespace HelloWorld.Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(320));
-            GUILayout.FlexibleSpace();
 
             if (tile != null)
             {
@@ -69,26 +82,45 @@ namespace HelloWorld.Editor
 
                 if (tileGameObject != null)
                 {
-                    Texture2D previewTexture = AssetPreview.GetAssetPreview(tileGameObject);
+                    previewTexture = AssetPreview.GetAssetPreview(tileGameObject);
 
                     if (previewTexture != null)
                     {
-                        GUILayout.Label(previewTexture, GUILayout.Width(60), GUILayout.Height(60));
+                        EditorGUILayout.BeginVertical();
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                        GUILayout.FlexibleSpace();
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                        GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                        GUILayout.FlexibleSpace();
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                        GUILayout.FlexibleSpace();
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
                     }
                 }
             }
-            GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(GUIContent.none, EditorStyles.boldLabel, GUILayout.Width(120));
+            EditorGUILayout.LabelField(GUIContent.none, EditorStyles.boldLabel, GUILayout.Width(125));
             EditorGUILayout.LabelField("Top", EditorStyles.boldLabel, GUILayout.Width(35));
             EditorGUILayout.LabelField("Bottom", EditorStyles.boldLabel, GUILayout.Width(55));
             EditorGUILayout.LabelField("Left", EditorStyles.boldLabel, GUILayout.Width(40));
             EditorGUILayout.LabelField("Right", EditorStyles.boldLabel, GUILayout.Width(35));
             EditorGUILayout.EndHorizontal();
+
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
 
             if (tile != null && set != null)
             {
@@ -97,14 +129,16 @@ namespace HelloWorld.Editor
                     SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
                     TileInput tileInput = itemProperty.objectReferenceValue as TileInput;
 
-                    if (tileInput.gameObject != null)
-                        tilePreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
+                    tilePreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
 
                     itemName = tileInput != null ? tileInput.tileName : "No tile";
 
                     EditorGUILayout.BeginHorizontal(listItemStyle);
-                    GUILayout.Label(tilePreview, GUILayout.Width(30), GUILayout.Height(30));
-                    EditorGUILayout.LabelField(itemName, GUILayout.Width(90), GUILayout.Height(30), GUILayout.ExpandWidth(false));
+                    if (GUILayout.Button(tilePreview, GUILayout.Width(40), GUILayout.Height(40)))
+                    {
+                        constraintTexture = AssetPreview.GetAssetPreview(tileInput.gameObject);
+                    }
+                    EditorGUILayout.LabelField(itemName, GUILayout.Width(90), GUILayout.Height(40), GUILayout.ExpandWidth(false));
 
                     if (togglesArray[i] == null)
                         togglesArray[i] = new bool[4];
@@ -113,7 +147,7 @@ namespace HelloWorld.Editor
                     {
                         if (j != 0)
                             GUILayout.Space(25);
-                        togglesArray[i][j] = EditorGUILayout.Toggle(togglesArray[i][j], GUILayout.Width(20), GUILayout.Height(30));
+                        togglesArray[i][j] = EditorGUILayout.Toggle(togglesArray[i][j], GUILayout.Width(20), GUILayout.Height(40));
                     }
 
                     EditorGUILayout.EndHorizontal();
@@ -201,7 +235,7 @@ namespace HelloWorld.Editor
         }
 
         private void UpdateTile(TileInput tileToModify, TileInput tile, bool value, int index)
-        {
+        {// Improve this
             switch (index)
             {
                 case 0:
