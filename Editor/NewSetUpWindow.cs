@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-    public class TestWindow : EditorWindow
-    { 
+    public class NewSetUpWindow : EditorWindow
+    {
         private TileInputSet selectedInputTileSet;
         private SerializedObject serializedTileSetObject;
         private SerializedProperty allInput;
@@ -25,15 +25,16 @@ namespace HelloWorld.Editor
         private TileInput tempInputTile;
         private string assetName = "New Tile Set";
 
-        private bool shouldClear = false;
-        private bool shouldDeleteTile = false;
-        private bool[] showCompatibleTiles = { false, false, false, false, false, false};
+        private bool[] showCompatibleTiles = { true, true, true, true, true, true };
         private int tempIndex = 0;
-        GUIStyle customStyle = new();
+        private GUIStyle customStyle = new();
+
+        private GenericMenu DeletesDropdown = new GenericMenu();
+        private bool shouldClear = false;
 
         #region Window Variables
 
-        private readonly int headerSectionHeight = 35;
+        private readonly int headerSectionHeight = 30;
         private readonly int tileSetupSectionWidth = 312;
 
         private Texture2D headerBackgroundTexture;
@@ -55,16 +56,14 @@ namespace HelloWorld.Editor
         private Vector2 scrollPositionLeft = Vector2.zero;
         private Vector2 scrollPositionRight = Vector2.zero;
 
-        GUIContent weightLabel = new("Weight", "Higher weight means more chance to spawn");
-        GUIContent gameObjectLabel = new("GameObject", "GameObject to spawn");
-        GUIContent sendToLabel = new("Send To", "Send this tile as constraints for other tiles");
-        GUIContent receiveFromLabel = new("Receive From", "Receive constraints from other tile");
-        GUIContent compatibleTopLabel = new("Compatible Top", "Compatible tiles for adjacent top");
-        GUIContent compatibleBottomLabel = new("Compatible Bottom", "Compatible tiles for adjacent bottom");
-        GUIContent compatibleLeftLabel = new("Compatible Left", "Compatible tiles for adjacent left");
-        GUIContent compatibleRightLabel = new("Compatible Right", "Compatible tiles for adjacent right");
-
-
+        private GUIContent weightLabel = new("Weight", "Higher weight means more chance to spawn");
+        private GUIContent gameObjectLabel = new("GameObject", "GameObject to spawn");
+        private GUIContent sendToLabel = new("Send To", "Send this tile as constraints for other tiles");
+        private GUIContent receiveFromLabel = new("Receive From", "Receive constraints from other tile");
+        private GUIContent compatibleTopLabel = new("Compatible Top", "Compatible tiles for adjacent top");
+        private GUIContent compatibleBottomLabel = new("Compatible Bottom", "Compatible tiles for adjacent bottom");
+        private GUIContent compatibleLeftLabel = new("Compatible Left", "Compatible tiles for adjacent left");
+        private GUIContent compatibleRightLabel = new("Compatible Right", "Compatible tiles for adjacent right");
 
         #endregion Window Variables
 
@@ -72,6 +71,7 @@ namespace HelloWorld.Editor
         {
             InitTextures();
             InitData();
+            InitDeletesMenu();
         }
 
         private void OnDestroy()
@@ -86,7 +86,7 @@ namespace HelloWorld.Editor
             {
                 SerializeProperties();
             }
-            
+
             DrawLayouts();
             DrawHeader();
             DrawLeft();
@@ -153,6 +153,47 @@ namespace HelloWorld.Editor
             GUI.DrawTexture(tileSetupSection, leftBackgroundTexture);
         }
 
+        private void InitDeletesMenu()
+        {
+            DeletesDropdown.AddItem(new GUIContent("Delete this tile"), false, () =>
+            {
+                if (shouldClear && selectedTileConstraints != null)
+                {
+                    RemoveAndDeleteTile(allInput, tempIndex);
+                    GiveUniqueIDToTiles();
+                    selectedTileConstraints = null;
+                    shouldClear = false;
+                }
+            });
+            DeletesDropdown.AddItem(new GUIContent("Clear tile constraints"), false, () =>
+            {
+                if (shouldClear && selectedTileConstraints != null)
+                {
+                    ClearInputTileConstraints();
+                    selectedTileConstraints = null;
+                    shouldClear = false;
+                }
+            });
+            DeletesDropdown.AddSeparator("/");
+            DeletesDropdown.AddItem(new GUIContent("Delete all tiles"), false, () =>
+            {
+                if (shouldClear && allInput != null)
+                {
+                    RemoveAndDeleteAllTiles(allInput);
+                    GiveUniqueIDToTiles();
+                    shouldClear = false;
+                }
+            });
+            DeletesDropdown.AddItem(new GUIContent("Clear all tile constraints"), false, () =>
+            {
+                if (shouldClear && allInput != null)
+                {
+                    ClearAllInputTileConstraints();
+                    shouldClear = false;
+                }
+            });
+        }
+
         private void DrawHeader()
         {
             GUILayout.BeginArea(headerSection);
@@ -162,27 +203,22 @@ namespace HelloWorld.Editor
             EditorGUILayout.LabelField("Tile Set Config", GUILayout.Width(100), GUILayout.MaxWidth(100));
             selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.MaxWidth(200));
 
-            if (GUILayout.Button("Auto Set ID", EditorStyles.toolbarButton, GUILayout.MaxWidth(200)))
+            if (GUILayout.Button("Auto Set ID", EditorStyles.toolbarButton, GUILayout.MaxWidth(100), GUILayout.ExpandWidth(false)))
             {
-                if (selectedInputTileSet != null /*& serializedTileSetObject != null*/)
+                if (selectedInputTileSet != null)
                 {
                     GiveUniqueIDToTiles();
                     UpdateSerializedProperties();
                 }
             }
+            GUILayout.FlexibleSpace();
+            shouldClear = EditorGUILayout.Toggle("", shouldClear, GUILayout.Width(15));
 
-            shouldClear = EditorGUILayout.ToggleLeft("Clear?", shouldClear, GUILayout.Width(60));
-            if (GUILayout.Button("Clear", GUILayout.MaxWidth(100)))
+            if (GUILayout.Button("Options", EditorStyles.toolbarDropDown))
             {
-                if (selectedInputTileSet != null && serializedTileSetObject != null && shouldClear)
-                {
-                    Debug.Log("Constraints Cleared");
-                    ClearAllInputTileConstraints();
-                }
+                DeletesDropdown.ShowAsContext();
             }
-
             EditorGUILayout.EndHorizontal();
-
             GUILayout.EndArea();
         }
 
@@ -311,46 +347,35 @@ namespace HelloWorld.Editor
 
             GUILayout.BeginHorizontal(EditorStyles.toolbar);
             EditorGUILayout.LabelField("Tile Set Up", EditorStyles.boldLabel);
-            shouldDeleteTile = EditorGUILayout.ToggleLeft("Delete?", shouldDeleteTile, GUILayout.Width(60));
-            if (GUILayout.Button("Delete Tile", GUILayout.MaxWidth(100)))
-            {
-                if (selectedTileConstraints != null && serializedTileSetObject != null && shouldDeleteTile)
-                {
-                    RemoveAndDeleteTile(allInput, tempIndex);
-                    GiveUniqueIDToTiles();
-                    shouldDeleteTile = false;
-                }
-            }
             GUILayout.EndHorizontal();
 
             if (selectedInputTileSet == null)
             {
                 EditorGUILayout.BeginVertical(GUILayout.Width(100));
-                EditorGUILayout.LabelField("Load a tile set configuration");
+                EditorGUILayout.LabelField("Load an input tile set");
                 selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.Height(30));
                 GUILayout.Space(10);
                 EditorGUILayout.LabelField("or");
                 GUILayout.Space(10);
                 EditorGUILayout.LabelField("Create a new input tile set");
-
                 CreateTileSetButton();
-
                 EditorGUILayout.EndVertical();
             }
             else if (allInput.arraySize == 0)
             {
-                EditorGUILayout.LabelField("* Press the + and - buttons to add new items", "* Then, select an item from the tile list by pressing the > button");
+                GUILayout.Space(15);
+                EditorGUILayout.HelpBox("* Press the + and - buttons to add new items  \n* Then, select an item from the tile list by pressing the > button", MessageType.Info);
             }
             else if (selectedTileConstraints == null)
             {
                 GUILayout.Space(15);
                 EditorGUILayout.BeginVertical();
-                EditorGUILayout.LabelField("Select an Input Tile");
+                EditorGUILayout.HelpBox("Select an Input Tile", MessageType.Info);
                 EditorGUILayout.EndVertical();
             }
             else
             {
-                if(selectedTileConstraints != null) selectedTileConstraints.Update();
+                if (selectedTileConstraints != null) selectedTileConstraints.Update();
 
                 EditorGUILayout.Space(5);
 
@@ -387,6 +412,7 @@ namespace HelloWorld.Editor
                 EditorGUILayout.LabelField(weightLabel, GUILayout.Width(80));
                 EditorGUILayout.PropertyField(weight, GUIContent.none);
                 EditorGUILayout.EndHorizontal();
+
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button(sendToLabel, GUILayout.Height(30)))
                 {
@@ -397,13 +423,13 @@ namespace HelloWorld.Editor
                     ReceiveConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
                 }
                 EditorGUILayout.EndHorizontal();
+
                 CenterVerticalEnd();
 
                 GUILayout.FlexibleSpace();
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginVertical(GUILayout.MaxWidth(390));
-
 
                 showCompatibleTiles[0] = EditorGUILayout.BeginFoldoutHeaderGroup(showCompatibleTiles[0], compatibleTopLabel, EditorStyles.foldoutHeader);
                 if (showCompatibleTiles[0])
@@ -523,6 +549,25 @@ namespace HelloWorld.Editor
             property.serializedObject.ApplyModifiedProperties();
         }
 
+        private void RemoveAndDeleteAllTiles(SerializedProperty tiles)
+        {
+            TileInput tileToDelete;
+
+            for (int i = allInput.arraySize - 1; i >= 0; i--)
+            {
+                tileToDelete = tiles.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+                tiles.DeleteArrayElementAtIndex(i);
+                AssetDatabase.RemoveObjectFromAsset(tileToDelete);
+            }
+
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+
+            selectedTileConstraints = null;
+            CheckListForNull(tiles);
+            tiles.serializedObject.ApplyModifiedProperties();
+        }
+
         private bool CheckListForNull(SerializedProperty property)
         {
             bool result = false;
@@ -569,6 +614,21 @@ namespace HelloWorld.Editor
                         item.compatibleRight.Clear();
                     }
                 }
+            }
+        }
+
+        private void ClearInputTileConstraints()
+        {
+            TileInput item = selectedTileConstraints.targetObject as TileInput;
+            if (item == null) return;
+            else
+            {
+                SerializedObject temp = new(item);
+                temp.FindProperty("compatibleTop").ClearArray();
+                temp.FindProperty("compatibleBottom").ClearArray();
+                temp.FindProperty("compatibleLeft").ClearArray();
+                temp.FindProperty("compatibleRight").ClearArray();
+                temp.ApplyModifiedProperties();
             }
         }
 

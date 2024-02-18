@@ -11,30 +11,56 @@ namespace HelloWorld.Editor
 
         private static bool[][] togglesArray;
 
+        private string itemName = "";
+        private static Texture2D tilePreview;
+        private static Texture2D listItemTexture;
+        private static Texture2D listItemLightTexture;
+        private static GUIStyle listItemStyle = new();
+        private static Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
+        private static Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
+        private bool showHelp = false;
+
         public static void OpenWindow(SerializedObject newTile, SerializedProperty newSet)
         {
             PassConstraintsWindow window = (PassConstraintsWindow)GetWindow(typeof(PassConstraintsWindow));
             window.titleContent = new GUIContent("Pass constraints Window");
-            window.minSize = new(300, 320);
-            window.maxSize = new(400, 600);
+            window.minSize = new(330, 350);
+            window.maxSize = new(330, 1080);
             set = newSet;
             tile = newTile;
             CheckExistingTiles();
+            InitWindow();
             window.Show();
+        }
+
+        private static void InitWindow()
+        {
+            listItemTexture = new Texture2D(1, 1);
+            listItemTexture.SetPixel(0, 0, listItemColor);
+            listItemTexture.Apply();
+
+            listItemLightTexture = new Texture2D(1, 1);
+            listItemLightTexture.SetPixel(0, 0, listItemLightColor);
+            listItemLightTexture.Apply();
+
+            listItemStyle.normal.background = listItemTexture;
+            listItemStyle.hover.background = listItemLightTexture;
         }
 
         private void OnGUI()
         {
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(false));
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
 
-            GUILayout.BeginVertical(GUILayout.ExpandWidth(false));
+            GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
 
-            EditorGUILayout.LabelField("- Mark the checkboxes you want to propagate");
-            EditorGUILayout.LabelField("  this tile to as constraint for other tiles");
-
+            EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
+            if (GUILayout.Button("Help", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false))) showHelp = !showHelp;
+            EditorGUILayout.EndHorizontal();
+            if (showHelp)
+                EditorGUILayout.HelpBox("Mark the checkboxes of the input tiles you want to propagate this tile to as constraint", MessageType.Info);
             EditorGUILayout.Space();
 
-            EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(300));
+            EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(320));
             GUILayout.FlexibleSpace();
 
             if (tile != null)
@@ -56,30 +82,29 @@ namespace HelloWorld.Editor
 
             EditorGUILayout.Space();
 
-            EditorGUILayout.BeginHorizontal(GUILayout.Width(position.width));
-            EditorGUILayout.LabelField(GUIContent.none, EditorStyles.boldLabel, GUILayout.Width(80));
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(GUIContent.none, EditorStyles.boldLabel, GUILayout.Width(120));
             EditorGUILayout.LabelField("Top", EditorStyles.boldLabel, GUILayout.Width(35));
             EditorGUILayout.LabelField("Bottom", EditorStyles.boldLabel, GUILayout.Width(55));
             EditorGUILayout.LabelField("Left", EditorStyles.boldLabel, GUILayout.Width(40));
             EditorGUILayout.LabelField("Right", EditorStyles.boldLabel, GUILayout.Width(35));
             EditorGUILayout.EndHorizontal();
 
-            if (set != null)
+            if (tile != null && set != null)
             {
                 for (int i = 0; i < set.arraySize; i++)
                 {
                     SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
                     TileInput tileInput = itemProperty.objectReferenceValue as TileInput;
 
-                    string itemName = "Unnamed";
-                    if (tileInput != null)
-                    {
-                        itemName = tileInput.name;
-                    }
+                    if (tileInput.gameObject != null)
+                        tilePreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
 
-                    EditorGUILayout.BeginHorizontal();
+                    itemName = tileInput != null ? tileInput.tileName : "No tile";
 
-                    EditorGUILayout.LabelField(itemName, GUILayout.Width(85));
+                    EditorGUILayout.BeginHorizontal(listItemStyle);
+                    GUILayout.Label(tilePreview, GUILayout.Width(30), GUILayout.Height(30));
+                    EditorGUILayout.LabelField(itemName, GUILayout.Width(90), GUILayout.Height(30), GUILayout.ExpandWidth(false));
 
                     if (togglesArray[i] == null)
                         togglesArray[i] = new bool[4];
@@ -88,7 +113,7 @@ namespace HelloWorld.Editor
                     {
                         if (j != 0)
                             GUILayout.Space(25);
-                        togglesArray[i][j] = EditorGUILayout.Toggle(togglesArray[i][j], GUILayout.Width(20));
+                        togglesArray[i][j] = EditorGUILayout.Toggle(togglesArray[i][j], GUILayout.Width(20), GUILayout.Height(30));
                     }
 
                     EditorGUILayout.EndHorizontal();
@@ -97,10 +122,9 @@ namespace HelloWorld.Editor
 
             GUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
-
             EditorGUILayout.Space();
 
-            if (GUILayout.Button("Apply"))
+            if (GUILayout.Button("Apply", GUILayout.Height(40)))
             {
                 ApplyModifications();
                 Close();
@@ -113,18 +137,16 @@ namespace HelloWorld.Editor
             {
                 TileInput tileInput = tile.targetObject as TileInput;
 
-                int setSize = set.arraySize;
-                togglesArray = new bool[setSize][];
+                togglesArray = new bool[set.arraySize][];
 
                 for (int i = 0; i < set.arraySize; i++)
                 {
                     SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
                     TileInput item = itemProperty.objectReferenceValue as TileInput;
 
+                    togglesArray[i] = new bool[4];
                     if (item != null)
                     {
-                        togglesArray[i] = new bool[4];
-
                         if (item.compatibleTop.Contains(tileInput))
                             togglesArray[i][0] = true;
 
@@ -155,49 +177,9 @@ namespace HelloWorld.Editor
                     if (item != null)
                     {
                         SerializedObject itemSerializedObject = new(item);
-
-                        if (togglesArray[i][0])
+                        for (int j = 0; j < 4; j++)
                         {
-                            if (!item.compatibleTop.Contains(tileInput))
-                                item.compatibleTop.Add(tileInput);
-                        }
-                        else
-                        {
-                            if (item.compatibleTop.Contains(tileInput))
-                                item.compatibleTop.Remove(tileInput);
-                        }
-
-                        if (togglesArray[i][1])
-                        {
-                            if (!item.compatibleBottom.Contains(tileInput))
-                                item.compatibleBottom.Add(tileInput);
-                        }
-                        else
-                        {
-                            if (item.compatibleBottom.Contains(tileInput))
-                                item.compatibleBottom.Remove(tileInput);
-                        }
-
-                        if (togglesArray[i][2])
-                        {
-                            if (!item.compatibleLeft.Contains(tileInput))
-                                item.compatibleLeft.Add(tileInput);
-                        }
-                        else
-                        {
-                            if (item.compatibleLeft.Contains(tileInput))
-                                item.compatibleLeft.Remove(tileInput);
-                        }
-
-                        if (togglesArray[i][3])
-                        {
-                            if (!item.compatibleRight.Contains(tileInput))
-                                item.compatibleRight.Add(tileInput);
-                        }
-                        else
-                        {
-                            if (item.compatibleRight.Contains(tileInput))
-                                item.compatibleRight.Remove(tileInput);
+                            UpdateTile(item, tileInput, togglesArray[i][j], j);
                         }
 
                         // Apply modifications to the item
@@ -207,16 +189,73 @@ namespace HelloWorld.Editor
                         EditorUtility.SetDirty(itemSerializedObject.targetObject); // Mark the item as dirty for serialization
                     }
                 }
-
-                // Apply modifications to the tile
-                tile.ApplyModifiedProperties();
-                tile.UpdateIfRequiredOrScript();
-
-                EditorUtility.SetDirty(tile.targetObject); // Mark the tile as dirty for serialization
             }
 
-            AssetDatabase.SaveAssets(); // Save the modified assets
-            AssetDatabase.Refresh(); // Refresh the Asset Database to reflect the changes
+            // Making sure it persists
+            tile.ApplyModifiedProperties();
+            tile.UpdateIfRequiredOrScript();
+
+            EditorUtility.SetDirty(tile.targetObject);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        private void UpdateTile(TileInput tileToModify, TileInput tile, bool value, int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    if (value)
+                    {
+                        if (!tileToModify.compatibleTop.Contains(tile))
+                            tileToModify.compatibleTop.Add(tile);
+                    }
+                    else
+                    {
+                        if (tileToModify.compatibleTop.Contains(tile))
+                            tileToModify.compatibleTop.Remove(tile);
+                    }
+                    break;
+
+                case 1:
+                    if (value)
+                    {
+                        if (!tileToModify.compatibleBottom.Contains(tile))
+                            tileToModify.compatibleBottom.Add(tile);
+                    }
+                    else
+                    {
+                        if (tileToModify.compatibleBottom.Contains(tile))
+                            tileToModify.compatibleBottom.Remove(tile);
+                    }
+                    break;
+
+                case 2:
+                    if (value)
+                    {
+                        if (!tileToModify.compatibleLeft.Contains(tile))
+                            tileToModify.compatibleLeft.Add(tile);
+                    }
+                    else
+                    {
+                        if (tileToModify.compatibleLeft.Contains(tile))
+                            tileToModify.compatibleLeft.Remove(tile);
+                    }
+                    break;
+
+                case 3:
+                    if (value)
+                    {
+                        if (!tileToModify.compatibleRight.Contains(tile))
+                            tileToModify.compatibleRight.Add(tile);
+                    }
+                    else
+                    {
+                        if (tileToModify.compatibleRight.Contains(tile))
+                            tileToModify.compatibleRight.Remove(tile);
+                    }
+                    break;
+            }
         }
     }
 }

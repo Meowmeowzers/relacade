@@ -5,31 +5,21 @@ namespace HelloWorld.Editor
 {
     public class MenuItems : EditorWindow
     {
-        [MenuItem("Relacade/Input Tile Setup")]
-        private static void StartTileSetupWindow()
-        {
-            TileSetupWindow window = (TileSetupWindow)GetWindow(typeof(TileSetupWindow));
-            window.minSize = new(600, 350);
-            window.Show();
-        }
+        //[MenuItem("Relacade/Input Tile Setup")]
+        //private static void StartTileSetupWindow()
+        //{
+        //    TileSetupWindow window = (TileSetupWindow)GetWindow(typeof(TileSetupWindow));
+        //    window.minSize = new(600, 350);
+        //    window.Show();
+        //}
 
-        [MenuItem("Relacade/Test Window")]
+        [MenuItem("Relacade/Configure Input TileSet")]
         private static void StartTestWindow()
         {
-            TestWindow window = (TestWindow)GetWindow(typeof(TestWindow));
+            NewSetUpWindow window = (NewSetUpWindow)GetWindow(typeof(NewSetUpWindow));
             window.minSize = new(690, 350);
             window.Show();
         }
-
-        /*
-        [MenuItem("Relacade/Input Tile Set Data Generator")]
-        public static void StartGenerateTileSetupWindow()
-        {
-            AutoTileSetUpWindow window = (AutoTileSetUpWindow)GetWindow(typeof(AutoTileSetUpWindow));
-            window.minSize = new(600, 350);
-            window.Show();
-        }
-        */
 
         [MenuItem("Relacade/Create/Input Tile Set", priority = 1)]
         private static void CreateTileSetConfiguration()

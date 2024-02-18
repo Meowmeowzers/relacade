@@ -21,6 +21,7 @@
         "Switch",
         "tvOS",
         "WSA",
+        "VisionOS",
         "WebGL",
         "WindowsStandalone32",
         "WindowsStandalone64",
