@@ -8,6 +8,9 @@ namespace HelloWorld.Editor
     [Serializable]
     public class TileInputSet : ScriptableObject
     {
-        public List<TileInput> AllInputTiles = new();
+        //[HideInInspector]
+        public List<TileInput> allInputTiles = new();
+        //[HideInInspector]
+        public List<TileInput> tileReferences = new();
     }
 }

@@ -103,7 +103,7 @@ namespace HelloWorld.Editor
             {
                 SerializedObject scriptableListObject = new(serializedTileSet.objectReferenceValue);
 
-                SerializedProperty scriptableObjectListProperty = scriptableListObject.FindProperty("AllInputTiles");
+                SerializedProperty scriptableObjectListProperty = scriptableListObject.FindProperty("allInputTiles");
 
                 serializedTileInputs.ClearArray();
                 for (int i = 0; i < scriptableObjectListProperty.arraySize; i++)
