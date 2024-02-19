@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -69,7 +68,7 @@ namespace HelloWorld.Editor
         private GUIContent cleanUpTileConstraintsLabel = new("Clean/Clean up all tile constraints", "Clean up missing/corrupted constraints from selected tile");
         private GUIContent cleanUpSetLabel = new("Clean/Clean up tile set", "Clean up missing/corrupted tile from all tiles in set");
         private GUIContent reloadSetLabel = new("Clean/Reload set", "Attempt to clean the set and its tile's constraints then reload");
-        private GUIContent autoSetIDLabel = new("Set IDs for all tile");
+        private GUIContent autoSetIDLabel = new("Clean/Set IDs for all tile");
         private GUIContent deleteOneLabel = new("Delete this tile");
         private GUIContent deleteAllLabel = new("Delete all tiles");
         private GUIContent clearOneLabel = new("Clear this tile's constraints");
@@ -166,14 +165,6 @@ namespace HelloWorld.Editor
 
         private void InitDeletesMenu()
         {
-            DeletesDropdown.AddItem(autoSetIDLabel, false, () =>
-            {
-                if (selectedInputTileSet != null)
-                {
-                    GiveUniqueIDToTiles();
-                }
-            });
-            DeletesDropdown.AddSeparator("");
             DeletesDropdown.AddItem(cleanUpTileConstraintsLabel, false, () =>
             {
                 if (selectedInputTileSet != null)
@@ -195,6 +186,14 @@ namespace HelloWorld.Editor
                     CleanUpSet();
                     CleanUpAllTileConstraints();
                 }
+            }); 
+            DeletesDropdown.AddSeparator("Clean/");
+            DeletesDropdown.AddItem(autoSetIDLabel, false, () =>
+            {
+                if (selectedInputTileSet != null)
+                {
+                    GiveUniqueIDToTiles();
+                }
             });
             DeletesDropdown.AddSeparator("");
             DeletesDropdown.AddItem(deleteOneLabel, false, () =>
@@ -210,7 +209,6 @@ namespace HelloWorld.Editor
                 if (shouldClear && selectedTileConstraints != null)
                 {
                     ClearInputTileConstraints();
-                    selectedTileConstraints = null;
                 }
             });
             DeletesDropdown.AddSeparator("");

@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
+// I think this can now be combined with the other one
+// Having mutual option makes them both the same, revise
 namespace HelloWorld.Editor
 {
     public class ReceiveConstraintsWindow : EditorWindow
@@ -9,7 +11,6 @@ namespace HelloWorld.Editor
         private static SerializedObject tile;
         private Vector2 scrollPosition;
 
-        private string itemName = "";
         private static bool[][] togglesArray;
         private bool showHelp = false;
         private bool isMutual = false;
@@ -21,9 +22,8 @@ namespace HelloWorld.Editor
         private static GUIStyle previewStyle = new();
         private static Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
         private static Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
-        private GUIContent isMutualLabel = new("Mutual", "Not functional yet");
-
-        private SerializedProperty compatibilityProperty;
+        private GUIContent isMutualLabel = new("Mutual", "When receiving tile constraint, send this tile back as constraint for the sending tile");
+        private string itemName = "";
 
         static Texture2D previewTexture;
         static Texture2D constraintTexture;
@@ -54,8 +54,8 @@ namespace HelloWorld.Editor
             listItemStyle.normal.background = listItemTexture;
             listItemStyle.hover.background = listItemLightTexture;
 
-            previewStyle.padding = new();
-            previewStyle.margin = new();
+            previewStyle.padding = new(0, 0, 0, 0); //unused i think
+            previewStyle.margin = new(); //unused i think
         }
 
         private void OnGUI()
@@ -166,111 +166,139 @@ namespace HelloWorld.Editor
 
         private static void CheckExistingTiles()
         {
-            int setSize = set.arraySize;
-            togglesArray = new bool[setSize][];
-            for (int i = 0; i < setSize; i++)
+            if (tile != null)
             {
-                SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
-                TileInput item = itemProperty.objectReferenceValue as TileInput;
+                TileInput tileInput = tile.targetObject as TileInput;
 
-                togglesArray[i] = new bool[4];
+                togglesArray = new bool[set.arraySize][];
 
-                if (item != null)
+                for (int i = 0; i < set.arraySize; i++)
                 {
-                    togglesArray[i][0] = IsItemContained(tile.FindProperty("compatibleTop"), item);
-                    togglesArray[i][1] = IsItemContained(tile.FindProperty("compatibleBottom"), item);
-                    togglesArray[i][2] = IsItemContained(tile.FindProperty("compatibleLeft"), item);
-                    togglesArray[i][3] = IsItemContained(tile.FindProperty("compatibleRight"), item);
-                }
-            }
-        }
+                    SerializedProperty selectedTile = set.GetArrayElementAtIndex(i);
+                    TileInput item = selectedTile.objectReferenceValue as TileInput;
 
-        private void UpdateCompatibility(SerializedProperty property, TileInput item, bool compatible)
-        {
-            SerializedProperty elementProperty;
+                    togglesArray[i] = new bool[4];
 
-            if (property != null && item != null)
-            {
-                if (compatible && !IsItemContained(property, item))
-                {
-                    property.arraySize++;
-                    elementProperty = property.GetArrayElementAtIndex(property.arraySize - 1);
-                    elementProperty.objectReferenceValue = item;
-                }
-                else if (!compatible && IsItemContained(property, item))
-                {
-                    for (int i = 0; i < property.arraySize; i++)
+                    if (item != null)
                     {
-                        elementProperty = property.GetArrayElementAtIndex(i);
-                        if (elementProperty.objectReferenceValue == item)
-                        {
-                            property.DeleteArrayElementAtIndex(i);
-                            break;
-                        }
+                        if (tileInput.compatibleTop.Contains(item))
+                            togglesArray[i][0] = true;
+
+                        if (tileInput.compatibleBottom.Contains(item))
+                            togglesArray[i][1] = true;
+
+                        if (tileInput.compatibleLeft.Contains(item))
+                            togglesArray[i][2] = true;
+
+                        if (tileInput.compatibleRight.Contains(item))
+                            togglesArray[i][3] = true;
                     }
                 }
             }
         }
-
         private void ApplyModifications()
         {
+            SerializedProperty selectedTileToReceiveFrom;
+            TileInput tileToReceiveFrom;
+
             if (tile != null)
             {
+                TileInput targetTile = tile.targetObject as TileInput;
+
                 for (int i = 0; i < set.arraySize; i++)
                 {
-                    SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
-                    TileInput tileInput = itemProperty.objectReferenceValue as TileInput;
+                    selectedTileToReceiveFrom = set.GetArrayElementAtIndex(i);
+                    tileToReceiveFrom = selectedTileToReceiveFrom.objectReferenceValue as TileInput;
+
+                    if (tileToReceiveFrom == null) continue;
 
                     for (int j = 0; j < 4; j++)
                     {
-                        compatibilityProperty = GetCompatibilityProperty(j);
-                        UpdateCompatibility(compatibilityProperty, tileInput, togglesArray[i][j]);
+                        UpdateTile(targetTile, tileToReceiveFrom, togglesArray[i][j], j);
                     }
-                }
-                // Making sure it saves
-                tile.ApplyModifiedProperties();
-                tile.UpdateIfRequiredOrScript();
 
-                EditorUtility.SetDirty(tile.targetObject);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-        }
-
-        private static bool IsItemContained(SerializedProperty property, TileInput item)
-        {
-            SerializedProperty elementProperty;
-
-            if (property != null && item != null)
-            {
-                for (int i = 0; i < property.arraySize; i++)
-                {
-                    elementProperty = property.GetArrayElementAtIndex(i);
-                    if (elementProperty.objectReferenceValue == item) return true;
+                    selectedTileToReceiveFrom.serializedObject.ApplyModifiedProperties();
                 }
             }
-            return false;
+
+            tile.ApplyModifiedProperties();
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
-        private SerializedProperty GetCompatibilityProperty(int index)
-        {
+        private void UpdateTile(TileInput targetTile, TileInput tileToReceiveFrom, bool isCompatible, int index)
+        {// Improve this?
             switch (index)
             {
                 case 0:
-                    return tile.FindProperty("compatibleTop");
+                    if (isCompatible)
+                    {
+                        if (!targetTile.compatibleTop.Contains(tileToReceiveFrom))
+                            targetTile.compatibleTop.Add(tileToReceiveFrom);
+                        if (isMutual && !tileToReceiveFrom.compatibleTop.Contains(targetTile))
+                            tileToReceiveFrom.compatibleTop.Add(targetTile);
+                    }
+                    else
+                    {
+                        if (targetTile.compatibleTop.Contains(tileToReceiveFrom))
+                            targetTile.compatibleTop.Remove(tileToReceiveFrom);
+                        if (isMutual && tileToReceiveFrom.compatibleTop.Contains(targetTile))
+                            tileToReceiveFrom.compatibleTop.Remove(targetTile);
+                    }
+                    break;
 
                 case 1:
-                    return tile.FindProperty("compatibleBottom");
+                    if (isCompatible)
+                    {
+                        if (!targetTile.compatibleBottom.Contains(tileToReceiveFrom))
+                            targetTile.compatibleBottom.Add(tileToReceiveFrom);
+                        if (isMutual && !tileToReceiveFrom.compatibleBottom.Contains(targetTile))
+                            tileToReceiveFrom.compatibleBottom.Add(targetTile);
+                    }
+                    else
+                    {
+                        if (targetTile.compatibleBottom.Contains(tileToReceiveFrom))
+                            targetTile.compatibleBottom.Remove(tileToReceiveFrom);
+                        if (isMutual && tileToReceiveFrom.compatibleBottom.Contains(targetTile))
+                            tileToReceiveFrom.compatibleBottom.Remove(targetTile);
+                    }
+                    break;
 
                 case 2:
-                    return tile.FindProperty("compatibleLeft");
+                    if (isCompatible)
+                    {
+                        if (!targetTile.compatibleLeft.Contains(tileToReceiveFrom))
+                            targetTile.compatibleLeft.Add(tileToReceiveFrom);
+                        if (isMutual && !tileToReceiveFrom.compatibleLeft.Contains(targetTile))
+                            tileToReceiveFrom.compatibleLeft.Add(targetTile);
+                    }
+                    else
+                    {
+                        if (targetTile.compatibleLeft.Contains(tileToReceiveFrom))
+                            targetTile.compatibleLeft.Remove(tileToReceiveFrom);
+                        if (isMutual && tileToReceiveFrom.compatibleLeft.Contains(targetTile))
+                            tileToReceiveFrom.compatibleLeft.Remove(targetTile);
+                    }
+                    break;
 
                 case 3:
-                    return tile.FindProperty("compatibleRight");
-
-                default:
-                    return null;
+                    if (isCompatible)
+                    {
+                        if (!targetTile.compatibleRight.Contains(tileToReceiveFrom))
+                            targetTile.compatibleRight.Add(tileToReceiveFrom);
+                        if (isMutual && !tileToReceiveFrom.compatibleRight.Contains(targetTile))
+                            tileToReceiveFrom.compatibleRight.Add(targetTile);
+                    }
+                    else
+                    {
+                        if (targetTile.compatibleRight.Contains(tileToReceiveFrom))
+                            targetTile.compatibleRight.Remove(tileToReceiveFrom);
+                        if (isMutual && tileToReceiveFrom.compatibleRight.Contains(targetTile))
+                            tileToReceiveFrom.compatibleRight.Remove(targetTile);
+                    }
+                    break;            
             }
         }
+
     }
 }

@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
+// I think this can now be combined with the other one
+// Having mutual option makes them both the same, revise
 namespace HelloWorld.Editor
 {
     public class PassConstraintsWindow : EditorWindow
@@ -10,8 +12,9 @@ namespace HelloWorld.Editor
         private Vector2 scrollPosition;
 
         private static bool[][] togglesArray;
+        private bool showHelp = false;
+        private bool isMutual = false;
 
-        private string itemName = "";
         private static Texture2D tilePreview;
         private static Texture2D listItemTexture;
         private static Texture2D listItemLightTexture;
@@ -19,9 +22,8 @@ namespace HelloWorld.Editor
         private static GUIStyle previewStyle = new();
         private static Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
         private static Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
-        private GUIContent isMutualLabel = new("Mutual", "Not functional yet");
-        private bool showHelp = false;
-        private bool isMutual = false;
+        private GUIContent isMutualLabel = new("Mutual", "When sending this tile, receive the tile you sent this from as constraint");
+        private string itemName = "";
 
         static Texture2D previewTexture;
         static Texture2D constraintTexture;
@@ -59,8 +61,9 @@ namespace HelloWorld.Editor
 
             listItemStyle.normal.background = listItemTexture;
             listItemStyle.hover.background = listItemLightTexture;
-            previewStyle.padding = new();
-            previewStyle.margin = new();
+
+            previewStyle.padding = new(0,0,0,0); //unused i think
+            previewStyle.margin = new(); //unused i think
 
         }
 
@@ -74,7 +77,9 @@ namespace HelloWorld.Editor
             if (GUILayout.Button("Help", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false))) showHelp = !showHelp;
             EditorGUILayout.EndHorizontal();
             if (showHelp)
-                EditorGUILayout.HelpBox("Mark the checkboxes of the input tiles you want to propagate this tile to as constraint", MessageType.Info);
+                EditorGUILayout.HelpBox("Mark the checkboxes of the input tiles you want to propagate this tileToSend to as constraint" +
+                    "\n\nYou can click the image on the left side of the toggles to have a better preview of the tileToSend" +
+                    "\n\nMutual - the tile is sent as constraint for other tiles, the tile which is sent to will also serve as a constraint for this tile", MessageType.Info);
             EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(320));
@@ -137,7 +142,7 @@ namespace HelloWorld.Editor
                     else
                         tilePreview = Texture2D.blackTexture;
 
-                    itemName = tileInput != null ? tileInput.tileName : "No tile";
+                    itemName = tileInput != null ? tileInput.tileName : "No tileToSend";
 
                     EditorGUILayout.BeginHorizontal(listItemStyle);
                     if (GUILayout.Button(tilePreview, GUILayout.Width(40), GUILayout.Height(40)))
@@ -188,6 +193,7 @@ namespace HelloWorld.Editor
                     TileInput item = itemProperty.objectReferenceValue as TileInput;
 
                     togglesArray[i] = new bool[4];
+
                     if (item != null)
                     {
                         if (item.compatibleTop.Contains(tileInput))
@@ -208,94 +214,103 @@ namespace HelloWorld.Editor
 
         private void ApplyModifications()
         {
+            SerializedProperty selectedTileProperty;
+            TileInput selectedTile;
+
             if (tile != null)
             {
-                TileInput tileInput = tile.targetObject as TileInput;
+                TileInput tileToSend = tile.targetObject as TileInput;
 
                 for (int i = 0; i < set.arraySize; i++)
                 {
-                    SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
-                    TileInput item = itemProperty.objectReferenceValue as TileInput;
+                    selectedTileProperty = set.GetArrayElementAtIndex(i);
+                    selectedTile = selectedTileProperty.objectReferenceValue as TileInput;
 
-                    if (item != null)
+                    if (selectedTile == null) continue;
+                    
+                    for (int j = 0; j < 4; j++)
                     {
-                        SerializedObject itemSerializedObject = new(item);
-                        for (int j = 0; j < 4; j++)
-                        {
-                            UpdateTile(item, tileInput, togglesArray[i][j], j);
-                        }
-
-                        // Apply modifications to the item
-                        itemSerializedObject.ApplyModifiedProperties();
-                        itemSerializedObject.UpdateIfRequiredOrScript();
-
-                        EditorUtility.SetDirty(itemSerializedObject.targetObject); // Mark the item as dirty for serialization
+                        UpdateTile(selectedTile, tileToSend, togglesArray[i][j], j);
                     }
+
+                    selectedTileProperty.serializedObject.ApplyModifiedProperties();
                 }
             }
 
-            // Making sure it persists
             tile.ApplyModifiedProperties();
-            tile.UpdateIfRequiredOrScript();
-
-            EditorUtility.SetDirty(tile.targetObject);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
 
-        private void UpdateTile(TileInput tileToModify, TileInput tile, bool value, int index)
-        {// Improve this
+        private void UpdateTile(TileInput tileToModify, TileInput tileToSend, bool isCompatible, int index)
+        {// Improve this?
             switch (index)
             {
                 case 0:
-                    if (value)
+                    if (isCompatible)
                     {
-                        if (!tileToModify.compatibleTop.Contains(tile))
-                            tileToModify.compatibleTop.Add(tile);
+                        if (!tileToModify.compatibleTop.Contains(tileToSend))
+                            tileToModify.compatibleTop.Add(tileToSend);
+                        if (isMutual && !tileToSend.compatibleTop.Contains(tileToModify))
+                            tileToSend.compatibleTop.Add(tileToModify);
                     }
                     else
                     {
-                        if (tileToModify.compatibleTop.Contains(tile))
-                            tileToModify.compatibleTop.Remove(tile);
+                        if (tileToModify.compatibleTop.Contains(tileToSend))
+                            tileToModify.compatibleTop.Remove(tileToSend);
+                        if (isMutual && tileToSend.compatibleTop.Contains(tileToModify))
+                            tileToSend.compatibleTop.Remove(tileToModify);
                     }
                     break;
 
                 case 1:
-                    if (value)
+                    if (isCompatible)
                     {
-                        if (!tileToModify.compatibleBottom.Contains(tile))
-                            tileToModify.compatibleBottom.Add(tile);
+                        if (!tileToModify.compatibleBottom.Contains(tileToSend))
+                            tileToModify.compatibleBottom.Add(tileToSend);
+                        if (isMutual && !tileToSend.compatibleBottom.Contains(tileToModify))
+                            tileToSend.compatibleBottom.Add(tileToModify);
                     }
                     else
                     {
-                        if (tileToModify.compatibleBottom.Contains(tile))
-                            tileToModify.compatibleBottom.Remove(tile);
+                        if (tileToModify.compatibleBottom.Contains(tileToSend))
+                            tileToModify.compatibleBottom.Remove(tileToSend);
+                        if (isMutual && tileToSend.compatibleBottom.Contains(tileToModify))
+                            tileToSend.compatibleBottom.Remove(tileToModify);
                     }
                     break;
 
                 case 2:
-                    if (value)
+                    if (isCompatible)
                     {
-                        if (!tileToModify.compatibleLeft.Contains(tile))
-                            tileToModify.compatibleLeft.Add(tile);
+                        if (!tileToModify.compatibleLeft.Contains(tileToSend))
+                            tileToModify.compatibleLeft.Add(tileToSend);
+                        if (isMutual && !tileToSend.compatibleLeft.Contains(tileToModify))
+                            tileToSend.compatibleLeft.Add(tileToModify);
                     }
                     else
                     {
-                        if (tileToModify.compatibleLeft.Contains(tile))
-                            tileToModify.compatibleLeft.Remove(tile);
+                        if (tileToModify.compatibleLeft.Contains(tileToSend))
+                            tileToModify.compatibleLeft.Remove(tileToSend);
+                        if (isMutual && tileToSend.compatibleLeft.Contains(tileToModify))
+                            tileToSend.compatibleLeft.Remove(tileToModify);
                     }
                     break;
 
                 case 3:
-                    if (value)
+                    if (isCompatible)
                     {
-                        if (!tileToModify.compatibleRight.Contains(tile))
-                            tileToModify.compatibleRight.Add(tile);
+                        if (!tileToModify.compatibleRight.Contains(tileToSend))
+                            tileToModify.compatibleRight.Add(tileToSend);
+                        if (isMutual && !tileToSend.compatibleRight.Contains(tileToModify))
+                            tileToSend.compatibleRight.Add(tileToModify);
                     }
                     else
                     {
-                        if (tileToModify.compatibleRight.Contains(tile))
-                            tileToModify.compatibleRight.Remove(tile);
+                        if (tileToModify.compatibleRight.Contains(tileToSend))
+                            tileToModify.compatibleRight.Remove(tileToSend);
+                        if (isMutual && tileToSend.compatibleRight.Contains(tileToModify))
+                            tileToSend.compatibleRight.Remove(tileToModify);
                     }
                     break;
             }
