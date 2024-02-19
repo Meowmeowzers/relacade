@@ -96,7 +96,7 @@ namespace HelloWorld.Editor
         {
             serializedTileSetObject = new(selectedInputTileSet);
 
-            allInput = serializedTileSetObject.FindProperty("AllInputTiles");
+            allInput = serializedTileSetObject.FindProperty("allInputTiles");
 
             serializedTileSetObject.Update();
         }
@@ -494,7 +494,7 @@ namespace HelloWorld.Editor
             //Could it be that object reference value passes the reference?
             serializedTileSetObject.Update();
 
-            SerializedProperty listProperty = serializedTileSetObject.FindProperty("AllInputTiles");
+            SerializedProperty listProperty = serializedTileSetObject.FindProperty("allInputTiles");
             if (listProperty != null && listProperty.isArray)
             {
                 List<TileInput> tileList = GetListFromSerializedProperty(listProperty);
@@ -543,7 +543,7 @@ namespace HelloWorld.Editor
 
         private void ClearAllInputTiles()
         {
-            ClearAllInputTilesInDirection(selectedInputTileSet.AllInputTiles);
+            ClearAllInputTilesInDirection(selectedInputTileSet.allInputTiles);
         }
 
         private void ClearAllInputTilesInDirection(params List<TileInput>[] tilesInDirectionList)
@@ -558,7 +558,7 @@ namespace HelloWorld.Editor
         {
             SerializedObject temp = new(selectedInputTileSet);
 
-            ClearAllInputTileConstraintsInDirection(selectedInputTileSet.AllInputTiles);
+            ClearAllInputTileConstraintsInDirection(selectedInputTileSet.allInputTiles);
 
             temp.ApplyModifiedProperties();
             temp.Update();

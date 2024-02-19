@@ -19,7 +19,9 @@ namespace HelloWorld.Editor
         private static GUIStyle previewStyle = new();
         private static Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
         private static Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
+        private GUIContent isMutualLabel = new("Mutual", "Not functional yet");
         private bool showHelp = false;
+        private bool isMutual = false;
 
         static Texture2D previewTexture;
         static Texture2D constraintTexture;
@@ -67,6 +69,7 @@ namespace HelloWorld.Editor
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
 
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
+            isMutual = EditorGUILayout.ToggleLeft(isMutualLabel, isMutual, GUILayout.ExpandWidth(false), GUILayout.MaxWidth(60));
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Help", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false))) showHelp = !showHelp;
             EditorGUILayout.EndHorizontal();
@@ -89,19 +92,19 @@ namespace HelloWorld.Editor
                         EditorGUILayout.BeginVertical();
                         EditorGUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
-                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                            GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
                         GUILayout.FlexibleSpace();
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
-                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
-                        GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
-                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                            GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                            GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                            GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
                         GUILayout.FlexibleSpace();
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
-                        GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+                            GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
                         GUILayout.FlexibleSpace();
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.EndVertical();
@@ -113,11 +116,11 @@ namespace HelloWorld.Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(GUIContent.none, EditorStyles.boldLabel, GUILayout.Width(125));
+            GUILayout.FlexibleSpace();
             EditorGUILayout.LabelField("Top", EditorStyles.boldLabel, GUILayout.Width(35));
             EditorGUILayout.LabelField("Bottom", EditorStyles.boldLabel, GUILayout.Width(55));
             EditorGUILayout.LabelField("Left", EditorStyles.boldLabel, GUILayout.Width(40));
-            EditorGUILayout.LabelField("Right", EditorStyles.boldLabel, GUILayout.Width(35));
+            EditorGUILayout.LabelField("Right", EditorStyles.boldLabel, GUILayout.Width(55));
             EditorGUILayout.EndHorizontal();
 
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
@@ -129,14 +132,20 @@ namespace HelloWorld.Editor
                     SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
                     TileInput tileInput = itemProperty.objectReferenceValue as TileInput;
 
-                    tilePreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
+                    if (tileInput != null)
+                        tilePreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
+                    else
+                        tilePreview = Texture2D.blackTexture;
 
                     itemName = tileInput != null ? tileInput.tileName : "No tile";
 
                     EditorGUILayout.BeginHorizontal(listItemStyle);
                     if (GUILayout.Button(tilePreview, GUILayout.Width(40), GUILayout.Height(40)))
                     {
-                        constraintTexture = AssetPreview.GetAssetPreview(tileInput.gameObject);
+                        if(tileInput != null)
+                            constraintTexture = AssetPreview.GetAssetPreview(tileInput.gameObject);
+                        else
+                            constraintTexture = Texture2D.blackTexture;
                     }
                     EditorGUILayout.LabelField(itemName, GUILayout.Width(90), GUILayout.Height(40), GUILayout.ExpandWidth(false));
 
