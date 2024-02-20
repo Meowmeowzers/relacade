@@ -57,7 +57,7 @@ namespace HelloWorld.Editor
         //{
         //    ScriptableObject loadedAsset;
 
-        //    string assetPath = "Packages/com.gatozhanya.relacade/Objects/3x3 Input Tiles and Set/3x3 Sample tile set config.asset";
+        //    string assetPath = "Packages/com.gatozhanya.relacade/Objects/Sample/Sample 2.asset";
         //    loadedAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath);
 
         //    if (loadedAsset == null)
@@ -85,7 +85,7 @@ namespace HelloWorld.Editor
         //[MenuItem("Relacade/Create/Sample/Tile Set Configuration 2x2", priority = 3)]
         //private static void CreateSampleTileSetConfiguration2()
         //{
-        //    string assetPath = "Packages/com.gatozhanya.relacade/Objects/2x2 Input Tiles and Set/2x2 Sample Tile Set Config.asset";
+        //    string assetPath = "Packages/com.gatozhanya.relacade/Objects/Sample/Sample 1.asset";
         //    ScriptableObject loadedAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath);
 
         //    if (loadedAsset == null)
