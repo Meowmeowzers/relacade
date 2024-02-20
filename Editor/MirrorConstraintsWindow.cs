@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-	public class MutualConstraintsWindow : EditorWindow
+	public class MirrorConstraintsWindow : EditorWindow
 	{
 		private static SerializedProperty set;
 		private static SerializedObject tile;
@@ -26,8 +26,8 @@ namespace HelloWorld.Editor
 
 		public static void OpenWindow(SerializedObject newTile, SerializedProperty newSet)
 		{
-			MutualConstraintsWindow window = (MutualConstraintsWindow)GetWindow(typeof(MutualConstraintsWindow));
-			window.titleContent = new GUIContent("Mutual Constraints");
+			MirrorConstraintsWindow window = (MirrorConstraintsWindow)GetWindow(typeof(MirrorConstraintsWindow));
+			window.titleContent = new GUIContent("Mirror Constraints");
 			window.minSize = new(330, 500);
 			window.maxSize = new(330, 1080);
 			tile = newTile;
@@ -63,11 +63,11 @@ namespace HelloWorld.Editor
 			if (GUILayout.Button("Help", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false))) showHelp = !showHelp;
 			EditorGUILayout.EndHorizontal();
 			if (showHelp)
-                EditorGUILayout.HelpBox(
-                    "Check the tiles you want to be compatible with each other." +
-                    "\n\nClick the preview image on the left side of a row to preview the tile side by side",
-                    MessageType.Info);
-            EditorGUILayout.Space();
+				EditorGUILayout.HelpBox(
+					"Check the tiles you want to be compatible with each other." +
+					"\n\nClick the preview image on the left side of a row to preview the tile side by side",
+					MessageType.Info);
+			EditorGUILayout.Space();
 
 			EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(320));
 			GUILayout.FlexibleSpace();
@@ -178,12 +178,12 @@ namespace HelloWorld.Editor
 					togglesArray[i] = new bool[4];
 
 					if (item != null)
-                    {
-                        togglesArray[i][0] = item.compatibleTop.Contains(tileInput) && tileInput.compatibleBottom.Contains(item);
-                        togglesArray[i][1] = item.compatibleBottom.Contains(tileInput) && tileInput.compatibleTop.Contains(item);
-                        togglesArray[i][2] = item.compatibleLeft.Contains(tileInput) && tileInput.compatibleRight.Contains(item);
-                        togglesArray[i][3] = item.compatibleRight.Contains(tileInput) && tileInput.compatibleLeft.Contains(item);
-                    }
+					{
+						togglesArray[i][0] = item.compatibleTop.Contains(tileInput) && tileInput.compatibleBottom.Contains(item);
+						togglesArray[i][1] = item.compatibleBottom.Contains(tileInput) && tileInput.compatibleTop.Contains(item);
+						togglesArray[i][2] = item.compatibleLeft.Contains(tileInput) && tileInput.compatibleRight.Contains(item);
+						togglesArray[i][3] = item.compatibleRight.Contains(tileInput) && tileInput.compatibleLeft.Contains(item);
+					}
 				}
 			}
 		}

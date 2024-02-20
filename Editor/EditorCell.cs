@@ -3,122 +3,122 @@ using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-    public class EditorCell : MonoBehaviour
-    {
-        public int xIndex;
-        public int yIndex;
-        public int entropy;
-        public int selectedTileID;
-        private bool isDefinite = false;
+	public class EditorCell : MonoBehaviour
+	{
+		public int xIndex;
+		public int yIndex;
+		public int entropy;
+		public int selectedTileID;
+		private bool isDefinite = false;
 
-        public List<TileInput> tileInputs;
-        public List<TileInput> propagatedTileInputs = new();
+		public List<TileInput> tileInputs;
+		public List<TileInput> propagatedTileInputs = new();
 
-        public TileInput selectedTileInput;
+		public TileInput selectedTileInput;
 
-        private float totalWeight = 0f;
-        private float cumulutativeWeight = 0f;
-        private float randomChoice = 0f;
+		private float totalWeight = 0f;
+		private float cumulutativeWeight = 0f;
+		private float randomChoice = 0f;
 
-        public void Initialize(List<TileInput> value)
-        {
-            tileInputs.Clear();
-            tileInputs.AddRange(value);
-            propagatedTileInputs.Clear();
-            isDefinite = false;
-            entropy = tileInputs.Count;
-        }
+		public void Initialize(List<TileInput> value)
+		{
+			tileInputs.Clear();
+			tileInputs.AddRange(value);
+			propagatedTileInputs.Clear();
+			isDefinite = false;
+			entropy = tileInputs.Count;
+		}
 
-        public void SelectTile()
-        {
-            totalWeight = 0f;
-            cumulutativeWeight = 0f;
+		public void SelectTile()
+		{
+			totalWeight = 0f;
+			cumulutativeWeight = 0f;
 
-            foreach (var tile in tileInputs)
-            {
-                totalWeight += tile.weight;
-            }
+			foreach (var tile in tileInputs)
+			{
+				totalWeight += tile.weight;
+			}
 
-            randomChoice = Random.Range(0f, totalWeight);
+			randomChoice = Random.Range(0f, totalWeight);
 
-            foreach (var tile in tileInputs)
-            {
-                cumulutativeWeight += tile.weight;
-                if (cumulutativeWeight >= randomChoice)
-                {
-                    selectedTileInput = tile;
-                    break;
-                }
-            }
-            if (selectedTileInput.gameObject != null)
-            {
-                Instantiate(selectedTileInput.gameObject, transform);
-            }
+			foreach (var tile in tileInputs)
+			{
+				cumulutativeWeight += tile.weight;
+				if (cumulutativeWeight >= randomChoice)
+				{
+					selectedTileInput = tile;
+					break;
+				}
+			}
+			if (selectedTileInput.gameObject != null)
+			{
+				Instantiate(selectedTileInput.gameObject, transform);
+			}
 
-            tileInputs.Clear();
-            tileInputs.Add(selectedTileInput);
+			tileInputs.Clear();
+			tileInputs.Add(selectedTileInput);
 
-            selectedTileID = selectedTileInput.id;
-            isDefinite = true;
-            entropy = 1;
+			selectedTileID = selectedTileInput.id;
+			isDefinite = true;
+			entropy = 1;
 
-            //Debug.Log("Selected Cell: " + xIndex + " " + yIndex
-            //  + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
-        }
+			//Debug.Log("Selected Cell: " + xIndex + " " + yIndex
+			//  + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
+		}
 
-        public void SelectTile(TileInput tileInput)
-        {
-            selectedTileID = tileInput.id;
-            selectedTileInput = tileInput;
-            Instantiate(tileInput.gameObject, transform);
-            tileInputs.Clear();
-            tileInputs.Add(selectedTileInput);
-            isDefinite = true;
-            entropy = 1;
-        }
+		public void SelectTile(TileInput tileInput)
+		{
+			selectedTileID = tileInput.id;
+			selectedTileInput = tileInput;
+			Instantiate(tileInput.gameObject, transform);
+			tileInputs.Clear();
+			tileInputs.Add(selectedTileInput);
+			isDefinite = true;
+			entropy = 1;
+		}
 
-        public void Propagate(List<TileInput> compatibleTiles)
-        {
-            propagatedTileInputs.Clear();
-            foreach (var item in compatibleTiles)
-            {
-                foreach (var itemid in tileInputs)
-                {
-                    if (itemid.id == item.id)
-                    {
-                        propagatedTileInputs.Add(item);
-                    }
-                }
-            }
-            tileInputs.Clear();
-            tileInputs.AddRange(propagatedTileInputs);
-            entropy = tileInputs.Count;
-        }
+		public void Propagate(List<TileInput> compatibleTiles)
+		{
+			propagatedTileInputs.Clear();
+			foreach (var item in compatibleTiles)
+			{
+				foreach (var itemid in tileInputs)
+				{
+					if (itemid.id == item.id)
+					{
+						propagatedTileInputs.Add(item);
+					}
+				}
+			}
+			tileInputs.Clear();
+			tileInputs.AddRange(propagatedTileInputs);
+			entropy = tileInputs.Count;
+		}
 
-        public bool IsCellNotConflict()
-        {
-            if (tileInputs.Count > 0)
-                return true;
-            else
-                return false;
-        }
+		public bool IsCellNotConflict()
+		{
+			if (tileInputs.Count > 0)
+				return true;
+			else
+				return false;
+		}
 
-        public void ResetAndInitializeCell(List<TileInput> value)
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                DestroyImmediate(transform.GetChild(i).gameObject);
-            }
+		public void ResetAndInitializeCell(List<TileInput> value)
+		{
+			for (int i = 0; i < transform.childCount; i++)
+			{
+				DestroyImmediate(transform.GetChild(i).gameObject);
+			}
 
-            Initialize(value);
-        }
+			Initialize(value);
+		}
 
-        public bool IsNotDefiniteState()
-        {
-            if (!isDefinite)
-                return true;
-            else
-                return false;
-        }
-    }
+		public bool IsNotDefiniteState()
+		{
+			if (!isDefinite)
+				return true;
+			else
+				return false;
+		}
+	}
 }

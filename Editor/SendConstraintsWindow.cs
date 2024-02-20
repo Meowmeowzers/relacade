@@ -75,7 +75,7 @@ namespace HelloWorld.Editor
 			EditorGUILayout.EndHorizontal();
 			if (showHelp)
 				EditorGUILayout.HelpBox(
-                    "Check the tiles you want to mark as compatible with this tile." +
+					"Check the tiles you want to mark as compatible with this tile." +
 					"\n\nClick the preview image on the left side of a row to preview the tile side by side",
 					MessageType.Info);
 			EditorGUILayout.Space();
