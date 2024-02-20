@@ -25,17 +25,6 @@ namespace HelloWorld.Editor
             AssetDatabase.Refresh();
         }
 
-        //[MenuItem("Relacade/Create/Input Tile", priority = 1)]
-        //private static void CreateInputTile()
-        //{
-        //    ScriptableObject scriptableObject = CreateInstance<TileInput>();
-        //    string savePath = EditorUtility.SaveFilePanelInProject("Save Scriptable Object", "Input Tile", "asset", "Choose a location to save the ScriptableObject.");
-        //    if (string.IsNullOrEmpty(savePath)) return;
-        //    AssetDatabase.CreateAsset(scriptableObject, savePath);
-        //    AssetDatabase.SaveAssets();
-        //    AssetDatabase.Refresh();
-        //}
-
         [MenuItem("Relacade/Create WaveTileGrid Object", priority = 1)]
         private static void CreateWave()
         {
