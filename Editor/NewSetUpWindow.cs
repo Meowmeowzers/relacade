@@ -23,12 +23,8 @@ namespace HelloWorld.Editor
 
 		private TileInput tempInputTile;
 		private string assetName = "New Tile Set";
-
 		private bool[] showCompatibleTiles = { true, true, true, true, true, true };
 		private int selectedTileIndex = 0;
-		private GUIStyle customStyle = new();
-
-		private GenericMenu DeletesDropdown = new();
 		private bool shouldClear = false;
 
 		#region Window Variables
@@ -54,6 +50,10 @@ namespace HelloWorld.Editor
 
 		private Vector2 scrollPositionLeft = Vector2.zero;
 		private Vector2 scrollPositionRight = Vector2.zero;
+
+		private GenericMenu DeletesDropdown = new();
+
+		private GUIStyle customStyle = new();
 
 		private GUIContent weightLabel = new("Weight", "Higher weight means more chance to spawn");
 		private GUIContent gameObjectLabel = new("GameObject", "GameObject to spawn");
@@ -656,6 +656,10 @@ namespace HelloWorld.Editor
 			//Converted the serialized allTiles into a list, directly modified the list
 			//IDK what happened it did not modified the serialized allTiles directly but it still works
 			//Could it be that object reference value passes the reference?
+			//im dumb lol
+			//If automatic handling of multi - object editing, undo, and Prefab overrides is not needed,
+			//the script variables can be modified directly by the editor without using the SerializedObject and SerializedProperty system
+			//revise next time
 			serializedTileSetObject.Update();
 
 			SerializedProperty listProperty = serializedTileSetObject.FindProperty("allInputTiles");

@@ -9,12 +9,13 @@ namespace HelloWorld.Editor
 		public int yIndex;
 		public int entropy;
 		public int selectedTileID;
-		private bool isDefinite = false;
+		[SerializeField] private bool isDefinite = false;
 
 		public List<TileInput> tileInputs;
 		public List<TileInput> propagatedTileInputs = new();
 
-		public TileInput selectedTileInput;
+		public TileInput selectedTile;
+		public TileInput fixedTile;
 
 		private float totalWeight = 0f;
 		private float cumulutativeWeight = 0f;
@@ -46,33 +47,33 @@ namespace HelloWorld.Editor
 				cumulutativeWeight += tile.weight;
 				if (cumulutativeWeight >= randomChoice)
 				{
-					selectedTileInput = tile;
+					selectedTile = tile;
 					break;
 				}
 			}
-			if (selectedTileInput.gameObject != null)
+			if (selectedTile.gameObject != null)
 			{
-				Instantiate(selectedTileInput.gameObject, transform);
+				Instantiate(selectedTile.gameObject, transform);
 			}
 
 			tileInputs.Clear();
-			tileInputs.Add(selectedTileInput);
+			tileInputs.Add(selectedTile);
 
-			selectedTileID = selectedTileInput.id;
+			selectedTileID = selectedTile.id;
 			isDefinite = true;
 			entropy = 1;
 
 			//Debug.Log("Selected Cell: " + xIndex + " " + yIndex
-			//  + ", Selected Tile: " + selectedTileInput + ", ID: " + selectedTileInput.id);
+			//  + ", Selected Tile: " + selectedTile + ", ID: " + selectedTile.id);
 		}
 
 		public void SelectTile(TileInput tileInput)
 		{
 			selectedTileID = tileInput.id;
-			selectedTileInput = tileInput;
+			selectedTile = tileInput;
 			Instantiate(tileInput.gameObject, transform);
 			tileInputs.Clear();
-			tileInputs.Add(selectedTileInput);
+			tileInputs.Add(selectedTile);
 			isDefinite = true;
 			entropy = 1;
 		}

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace HelloWorld.Editor
 {
 	[CustomEditor(typeof(EditorWave))]
-	public class TileGridInspector : UnityEditor.Editor
+	public class EditorWaveInspector : UnityEditor.Editor
 	{
 		private EditorWave tileGrid;
 
@@ -14,12 +14,18 @@ namespace HelloWorld.Editor
 		private SerializedProperty serializedTileSet;
 		private SerializedProperty serializedTileInputs;
 
+		private GUIContent gridSizeXLabel = new("Grid Size X", "Set the width of the tile grid");
+		private GUIContent gridSizeYLabel = new("Grid Size Y", "Set the height of the tile grid");
+		private GUIContent cellSizeLabel = new("Cell Size", "Set the size of the grid cells");
+		private GUIContent tileSetLabel = new("Tile Set");
+
 		private bool shouldFinalize = false;
 		private bool isdead = false; // Used to suppress null reference error on destroy
+		private bool isMoreShown = false;
 
 		private void OnEnable()
 		{
-			tileGrid = (EditorWave)target;
+			tileGrid = target as EditorWave;
 
 			serializedSizeX = serializedObject.FindProperty("tileSizeX");
 			serializedSizeY = serializedObject.FindProperty("tileSizeY");
@@ -34,14 +40,15 @@ namespace HelloWorld.Editor
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
+
 			EditorGUILayout.BeginVertical();
 
 			if (tileGrid.IsDone())
 			{
-				EditorGUILayout.PropertyField(serializedTileSet);
-				EditorGUILayout.PropertyField(serializedSizeX);
-				EditorGUILayout.PropertyField(serializedSizeY);
-				EditorGUILayout.PropertyField(serializedTileSize);
+				EditorGUILayout.PropertyField(serializedTileSet, tileSetLabel);
+				EditorGUILayout.PropertyField(serializedSizeX, gridSizeXLabel);
+				EditorGUILayout.PropertyField(serializedSizeY, gridSizeYLabel);
+				EditorGUILayout.PropertyField(serializedTileSize, cellSizeLabel);
 			}
 			else
 			{
@@ -50,15 +57,11 @@ namespace HelloWorld.Editor
 				EditorGUILayout.EndVertical();
 			}
 
-			if (GUILayout.Button("Reload Tile set", GUILayout.Height(20)))
-			{
-				Reload();
-			}
-
 			EditorGUILayout.BeginHorizontal();
 
 			if (GUILayout.Button("Generate", GUILayout.Height(25)))
 			{
+				Reload();
 				tileGrid.EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
 				if (tileGrid.IsDone())
 				{
@@ -80,16 +83,31 @@ namespace HelloWorld.Editor
 			{
 				if (GUILayout.Button("Finalize", GUILayout.Height(20)))
 				{
-					//Fix/suppress errors
-					Debug.Log("Finalize game objects");
 					isdead = true;
 					tileGrid.FinalizeGrid();
 				}
 			}
 
 			EditorGUILayout.EndHorizontal();
+
+			isMoreShown = EditorGUILayout.Foldout(isMoreShown, "More", true, EditorStyles.foldout);
+			if (isMoreShown)
+			{
+				EditorGUI.indentLevel++;
+
+				EditorGUI.BeginDisabledGroup(true);
+
+				EditorGUILayout.BeginVertical();
+				GUILayout.Label("More info");
+				//EditorGUILayout.PropertyField(entropy);
+				EditorGUILayout.EndVertical();
+
+				EditorGUI.EndDisabledGroup();
+
+				EditorGUI.indentLevel--;
+			}
+
 			EditorGUILayout.EndVertical();
-			//EditorGUILayout.PropertyField(serializedTileInputs);
 
 			if (!isdead)
 			{
@@ -97,6 +115,7 @@ namespace HelloWorld.Editor
 			}
 		}
 
+		// Auto reload before generating
 		private void Reload()
 		{
 			if (serializedTileSet.objectReferenceValue != null)
@@ -112,6 +131,7 @@ namespace HelloWorld.Editor
 					serializedTileInputs.InsertArrayElementAtIndex(i);
 					serializedTileInputs.GetArrayElementAtIndex(i).objectReferenceValue = elementProperty.objectReferenceValue;
 				}
+				serializedObject.ApplyModifiedProperties();
 			}
 		}
 	}

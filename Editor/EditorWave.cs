@@ -5,12 +5,9 @@ using System.Linq;
 using UnityEngine;
 
 #if UNITY_EDITOR
-
 using Unity.EditorCoroutines.Editor;
-
 #endif
 
-//Editor WFC tile grid
 namespace HelloWorld.Editor
 {
 	public class EditorWave : MonoBehaviour
@@ -80,7 +77,7 @@ namespace HelloWorld.Editor
 			{
 				//Observation Phase
 				lowestEntropyCells = GetLowestEntropyCells();
-				selectedRandomCell = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Count - 1)];
+				selectedRandomCell = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Count)];
 
 				//Collapse Tile
 				if (selectedRandomCell.IsCellNotConflict())
@@ -126,16 +123,16 @@ namespace HelloWorld.Editor
 			int y = cell.yIndex;
 
 			if (y + 1 > -1 && y + 1 < tileSizeY)
-				PropagateToCell(x, y, cell.selectedTileInput, LookDirection.UP);
+				PropagateToCell(x, y, cell.selectedTile, LookDirection.UP);
 
 			if (y - 1 > -1 && y - 1 < tileSizeY)
-				PropagateToCell(x, y, cell.selectedTileInput, LookDirection.DOWN);
+				PropagateToCell(x, y, cell.selectedTile, LookDirection.DOWN);
 
 			if (x + 1 > -1 && x + 1 < tileSizeX)
-				PropagateToCell(x, y, cell.selectedTileInput, LookDirection.RIGHT);
+				PropagateToCell(x, y, cell.selectedTile, LookDirection.RIGHT);
 
 			if (x - 1 > -1 && x - 1 < tileSizeX)
-				PropagateToCell(x, y, cell.selectedTileInput, LookDirection.LEFT);
+				PropagateToCell(x, y, cell.selectedTile, LookDirection.LEFT);
 		}
 
 		public void PropagateToCell(int x, int y, TileInput item, LookDirection direction)
