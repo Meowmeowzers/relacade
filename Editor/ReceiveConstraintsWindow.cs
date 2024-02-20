@@ -13,7 +13,6 @@ namespace HelloWorld.Editor
 
         private static bool[][] togglesArray;
         private bool showHelp = false;
-        private bool isMutual = false;
 
         private static Texture2D tilePreview;
         private static Texture2D listItemTexture;
@@ -22,7 +21,6 @@ namespace HelloWorld.Editor
         private static GUIStyle previewStyle = new();
         private static Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
         private static Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
-        private GUIContent isMutualLabel = new("Mutual", "When receiving tile constraint, send this tile back as constraint for the sending tile");
         private string itemName = "";
 
         static Texture2D previewTexture;
@@ -32,7 +30,7 @@ namespace HelloWorld.Editor
         {
             ReceiveConstraintsWindow window = (ReceiveConstraintsWindow)GetWindow(typeof(ReceiveConstraintsWindow));
             window.titleContent = new GUIContent("Receive Constraints");
-            window.minSize = new(330, 350);
+            window.minSize = new(330, 500);
             window.maxSize = new(330, 1080);
             tile = newTile;
             set = newSet;
@@ -63,12 +61,14 @@ namespace HelloWorld.Editor
             GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
 
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-            isMutual = EditorGUILayout.ToggleLeft(isMutualLabel, isMutual, GUILayout.ExpandWidth(false), GUILayout.MaxWidth(60));
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Help", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false))) showHelp = !showHelp;
             EditorGUILayout.EndHorizontal();
             if (showHelp)
-                EditorGUILayout.HelpBox("Mark the checkboxes of the input tiles you want to make as a constraint for this tile", MessageType.Info);
+                EditorGUILayout.HelpBox(
+                    "Check the tiles you want to mark this tile as compatible with." +
+                    "\n\nClick the preview image on the left side of a row to preview the tile side by side",
+                    MessageType.Info);
             EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(320));
@@ -181,17 +181,10 @@ namespace HelloWorld.Editor
 
                     if (item != null)
                     {
-                        if (tileInput.compatibleTop.Contains(item))
-                            togglesArray[i][0] = true;
-
-                        if (tileInput.compatibleBottom.Contains(item))
-                            togglesArray[i][1] = true;
-
-                        if (tileInput.compatibleLeft.Contains(item))
-                            togglesArray[i][2] = true;
-
-                        if (tileInput.compatibleRight.Contains(item))
-                            togglesArray[i][3] = true;
+                        togglesArray[i][0] = tileInput.compatibleTop.Contains(item);
+                        togglesArray[i][1] = tileInput.compatibleBottom.Contains(item);
+                        togglesArray[i][2] = tileInput.compatibleLeft.Contains(item);
+                        togglesArray[i][3] = tileInput.compatibleRight.Contains(item);
                     }
                 }
             }
@@ -235,15 +228,11 @@ namespace HelloWorld.Editor
                     {
                         if (!targetTile.compatibleTop.Contains(tileToReceiveFrom))
                             targetTile.compatibleTop.Add(tileToReceiveFrom);
-                        if (isMutual && !tileToReceiveFrom.compatibleTop.Contains(targetTile))
-                            tileToReceiveFrom.compatibleTop.Add(targetTile);
                     }
                     else
                     {
                         if (targetTile.compatibleTop.Contains(tileToReceiveFrom))
                             targetTile.compatibleTop.Remove(tileToReceiveFrom);
-                        if (isMutual && tileToReceiveFrom.compatibleTop.Contains(targetTile))
-                            tileToReceiveFrom.compatibleTop.Remove(targetTile);
                     }
                     break;
 
@@ -252,15 +241,11 @@ namespace HelloWorld.Editor
                     {
                         if (!targetTile.compatibleBottom.Contains(tileToReceiveFrom))
                             targetTile.compatibleBottom.Add(tileToReceiveFrom);
-                        if (isMutual && !tileToReceiveFrom.compatibleBottom.Contains(targetTile))
-                            tileToReceiveFrom.compatibleBottom.Add(targetTile);
                     }
                     else
                     {
                         if (targetTile.compatibleBottom.Contains(tileToReceiveFrom))
                             targetTile.compatibleBottom.Remove(tileToReceiveFrom);
-                        if (isMutual && tileToReceiveFrom.compatibleBottom.Contains(targetTile))
-                            tileToReceiveFrom.compatibleBottom.Remove(targetTile);
                     }
                     break;
 
@@ -269,15 +254,11 @@ namespace HelloWorld.Editor
                     {
                         if (!targetTile.compatibleLeft.Contains(tileToReceiveFrom))
                             targetTile.compatibleLeft.Add(tileToReceiveFrom);
-                        if (isMutual && !tileToReceiveFrom.compatibleLeft.Contains(targetTile))
-                            tileToReceiveFrom.compatibleLeft.Add(targetTile);
                     }
                     else
                     {
                         if (targetTile.compatibleLeft.Contains(tileToReceiveFrom))
                             targetTile.compatibleLeft.Remove(tileToReceiveFrom);
-                        if (isMutual && tileToReceiveFrom.compatibleLeft.Contains(targetTile))
-                            tileToReceiveFrom.compatibleLeft.Remove(targetTile);
                     }
                     break;
 
@@ -286,15 +267,11 @@ namespace HelloWorld.Editor
                     {
                         if (!targetTile.compatibleRight.Contains(tileToReceiveFrom))
                             targetTile.compatibleRight.Add(tileToReceiveFrom);
-                        if (isMutual && !tileToReceiveFrom.compatibleRight.Contains(targetTile))
-                            tileToReceiveFrom.compatibleRight.Add(targetTile);
                     }
                     else
                     {
                         if (targetTile.compatibleRight.Contains(tileToReceiveFrom))
                             targetTile.compatibleRight.Remove(tileToReceiveFrom);
-                        if (isMutual && tileToReceiveFrom.compatibleRight.Contains(targetTile))
-                            tileToReceiveFrom.compatibleRight.Remove(targetTile);
                     }
                     break;            
             }

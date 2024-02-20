@@ -1,6 +1,6 @@
 {
   "name": "com.gatozhanya.relacade",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "displayName": "Relacade",
   "description": "A prototype level generator for tile based levels using the WaveFunctionCollapse algorithm",
   "unity": "2023.2",

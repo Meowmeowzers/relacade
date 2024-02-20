@@ -59,20 +59,21 @@ namespace HelloWorld.Editor
 
         private GUIContent weightLabel = new("Weight", "Higher weight means more chance to spawn");
         private GUIContent gameObjectLabel = new("GameObject", "GameObject to spawn");
-        private GUIContent sendToLabel = new("Send To", "Send this tile as constraints for other tiles");
-        private GUIContent receiveFromLabel = new("Receive From", "Receive constraints from other tile");
+        private GUIContent mutualLabel = new("Mutual", "Make this tile and the selected tiles be compatible with each other");
+        private GUIContent sendToLabel = new("Send", "Make the selected tiles compatible with this tile");
+        private GUIContent receiveFromLabel = new("Receive", "Make this tile compatible with other tiles");
         private GUIContent compatibleTopLabel = new("Compatible Top", "Compatible tiles for adjacent top");
         private GUIContent compatibleBottomLabel = new("Compatible Bottom", "Compatible tiles for adjacent bottom");
         private GUIContent compatibleLeftLabel = new("Compatible Left", "Compatible tiles for adjacent left");
         private GUIContent compatibleRightLabel = new("Compatible Right", "Compatible tiles for adjacent right");
-        private GUIContent cleanUpTileConstraintsLabel = new("Clean/Clean up all tile constraints", "Clean up missing/corrupted constraints from selected tile");
+        private GUIContent cleanUpTileConstraintsLabel = new("Clean/Clean up all tile compatibilities", "Clean missing/corrupted constraints from selected tile");
         private GUIContent cleanUpSetLabel = new("Clean/Clean up tile set", "Clean up missing/corrupted tile from all tiles in set");
         private GUIContent reloadSetLabel = new("Clean/Reload set", "Attempt to clean the set and its tile's constraints then reload");
         private GUIContent autoSetIDLabel = new("Clean/Set IDs for all tile");
         private GUIContent deleteOneLabel = new("Delete this tile");
         private GUIContent deleteAllLabel = new("Delete all tiles");
-        private GUIContent clearOneLabel = new("Clear this tile's constraints");
-        private GUIContent clearAllLabel = new("Clear all tile constraints");
+        private GUIContent clearOneLabel = new("Clear this tile's compatibilites");
+        private GUIContent clearAllLabel = new("Clear all tile compatibilities");
         private GUIContent enableClearAndDeleteLabel = new("Clear/Delete?", "Enables deleting and clearing of tiles");
 
         #endregion Window Variables
@@ -87,7 +88,7 @@ namespace HelloWorld.Editor
         private void OnDestroy()
         {
             GetWindow<ReceiveConstraintsWindow>().Close();
-            GetWindow<PassConstraintsWindow>().Close();
+            GetWindow<SendConstraintsWindow>().Close();
         }
 
         private void OnGUI()
@@ -417,9 +418,13 @@ namespace HelloWorld.Editor
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button(mutualLabel, GUILayout.Height(30)))
+                {
+                    MutualConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
+                }
                 if (GUILayout.Button(sendToLabel, GUILayout.Height(30)))
                 {
-                    PassConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
+                    SendConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
                 }
                 if (GUILayout.Button(receiveFromLabel, GUILayout.Height(30)))
                 {
