@@ -9,7 +9,6 @@ namespace HelloWorld.Editor
 		public int yIndex;
 		public int entropy;
 		public int selectedTileID;
-		[SerializeField] private bool isDefinite = false;
 
 		public List<TileInput> currentTiles;
 		public List<TileInput> propagatedTileInputs = new();
@@ -25,15 +24,19 @@ namespace HelloWorld.Editor
 		public void Initialize(List<TileInput> value)
 		{
 			allTiles.Clear();
+			allTiles.AddRange(value);
 			currentTiles.Clear();
 			currentTiles.AddRange(value);
-			allTiles.AddRange(value);
 			propagatedTileInputs.Clear();
-			isDefinite = false;
-			entropy = currentTiles.Count;
+			entropy = allTiles.Count;
+			selectedTile = null;
+			selectedTileID = -1;
+			totalWeight = 0f;
+			cumulutativeWeight = 0f;
+			randomChoice = 0f;
 		}
 
-		public void SelectTile()
+		public void SelectRandomTile()
 		{
 			totalWeight = 0f;
 			cumulutativeWeight = 0f;
@@ -63,25 +66,25 @@ namespace HelloWorld.Editor
 			currentTiles.Add(selectedTile);
 
 			selectedTileID = selectedTile.id;
-			isDefinite = true;
 			entropy = 1;
-
-			//Debug.Log("Selected Cell: " + xIndex + " " + yIndex
-			//  + ", Selected Tile: " + selectedTile + ", ID: " + selectedTile.id);
 		}
 
-		public void SelectTile(TileInput tileInput)
+		public void SelectFixedTile()
 		{
-			selectedTileID = tileInput.id;
-			selectedTile = tileInput;
-			Instantiate(tileInput.gameObject, transform);
+			if (!IsFixed())
+			{
+				Debug.Log("Tile not fixed");
+				return;
+			}
+			selectedTileID = fixedTile.id;
+			selectedTile = fixedTile;
+			Instantiate(fixedTile.gameObject, transform);
 			currentTiles.Clear();
 			currentTiles.Add(selectedTile);
-			isDefinite = true;
 			entropy = 1;
 		}
 
-		public void Propagate(List<TileInput> compatibleTiles)
+		public void PropagateWith(List<TileInput> compatibleTiles)
 		{
 			propagatedTileInputs.Clear();
 			foreach (var item in compatibleTiles)
@@ -99,27 +102,34 @@ namespace HelloWorld.Editor
 			entropy = currentTiles.Count;
 		}
 
-		public bool IsCellNotConflict()
-		{
-			if (currentTiles.Count > 0)
-				return true;
-			else
-				return false;
-		}
-
 		public void ResetAndInitializeCell(List<TileInput> value)
 		{
-			for (int i = 0; i < transform.childCount; i++)
+			for (int i = transform.childCount - 1; i >= 0; i--)
 			{
+				if (i > 0)
+					Debug.Log(transform.childCount);
 				DestroyImmediate(transform.GetChild(i).gameObject);
 			}
-
 			Initialize(value);
 		}
 
 		public bool IsNotDefiniteState()
 		{
-			if (!isDefinite)
+			if (selectedTile == null)
+				return true;
+			else
+				return false;
+		}
+
+		public bool IsFixed()
+		{
+			if (fixedTile != null) return true;
+			else return false;
+		}
+
+		public bool IsCellNotConflict()
+		{
+			if (currentTiles.Count > 0)
 				return true;
 			else
 				return false;

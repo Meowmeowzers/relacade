@@ -1,5 +1,5 @@
 # Relacade / Hello World
-A prototype program to procedurally generate tile based game levels in Unity Engine using my own implementation of WaveFunctionCollapse algorithm.
+A prototype program to procedurally generate tile based game levels in Unity Engine using own implementation of WaveFunctionCollapse algorithm.
 
 ## How to install
 1. Copy this link.
@@ -29,7 +29,8 @@ Choose the "Add package from git URL..." option.
 
 ## Update
 - 2024/2 
-	- Now uses weighted random choice instead of randomly choosing tiles. This gives more control to the final output.
+	- Now using weighted random choice instead of randomly choosing tiles.
+	- Can set fixed tiles.
 	- No need to create input tile assets.
 	- UI improvements
 	- Can now modify height and width of tile grid.
@@ -40,10 +41,10 @@ Choose the "Add package from git URL..." option.
 	- Initial
 
 ## Issues
-- UI problems(Ease of access, janky, flow, serialization, data persistence, inconsistency)
+- UI problems
 
 ## Notes
-- A very simple implementation. Simple tiled model. No rotations. No backtracking
+- A simple implementation. Simple tiled model. No rotations. No backtracking. Simple entropy
 - Doesn't use Unity tilemap.
 
 ## Related Sources:

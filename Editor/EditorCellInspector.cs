@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,14 +11,14 @@ namespace HelloWorld.Editor
 		private SerializedProperty yIndex;
 		private SerializedProperty entropy;
 		private SerializedProperty selectedID;
-		private SerializedProperty isDefinite;
 		private SerializedProperty fixTile;
-		private	TileInput selectedTileObject;
-		private bool isControlShown = false;
+		private TileInput selectedTileObject;
+		private bool isControlShown = true;
 		private bool isInfoShown = false;
 
 		private Texture2D tilePreview;
 		private Texture2D tempPreview;
+		private Vector2 scroll = Vector2.zero;
 
 		private void OnEnable()
 		{
@@ -28,7 +27,6 @@ namespace HelloWorld.Editor
 			yIndex = serializedObject.FindProperty("yIndex");
 			entropy = serializedObject.FindProperty("entropy");
 			selectedID = serializedObject.FindProperty("selectedTileID");
-			isDefinite = serializedObject.FindProperty("isDefinite");
 			fixTile = serializedObject.FindProperty("fixedTile");
 			selectedTileObject = inspected.selectedTile;
 			serializedObject.Update();
@@ -40,17 +38,17 @@ namespace HelloWorld.Editor
 
 			// Preview
 			StartHorizontalCentered();
-			if (selectedTileObject != null)
+			if (selectedTileObject == null && !inspected.IsFixed())
 			{
-				if (inspected.fixedTile != null)
+				GUILayout.Label("No Selected Tile", GUILayout.Width(100), GUILayout.Height(100));
+			}
+			else
+			{
+				if (inspected.IsFixed())
 					tilePreview = AssetPreview.GetAssetPreview(inspected.fixedTile.gameObject);
 				else
 					tilePreview = AssetPreview.GetAssetPreview(selectedTileObject.gameObject);
 				GUILayout.Label(tilePreview, GUILayout.Width(100), GUILayout.Height(100));
-			}
-			else 
-			{
-				GUILayout.Label("", GUILayout.Width(100), GUILayout.Height(100));
 			}
 			EndHorizontalCentered();
 
@@ -58,8 +56,7 @@ namespace HelloWorld.Editor
 			StartHorizontalCentered();
 			if (selectedTileObject != null)
 				GUILayout.Label(selectedTileObject.tileName, EditorStyles.boldLabel, GUILayout.ExpandWidth(false));
-			else
-				GUILayout.Label("No Selected Tile", EditorStyles.boldLabel, GUILayout.ExpandWidth(false));
+
 			EndHorizontalCentered();
 
 			GUILayout.Space(5);
@@ -77,30 +74,6 @@ namespace HelloWorld.Editor
 
 			EditorGUI.EndDisabledGroup();
 
-			// More controls
-			isControlShown = EditorGUILayout.Foldout(isControlShown, "Control", true, EditorStyles.foldout);
-			if (isControlShown)
-			{
-
-				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Fixed Tile", GUILayout.Width(70));
-				EditorGUI.BeginDisabledGroup(true);
-				EditorGUILayout.PropertyField(fixTile,GUIContent.none);
-				EditorGUI.EndDisabledGroup();
-				if (GUILayout.Button("Clear"))
-				{
-					fixTile.objectReferenceValue = null;
-				}
-				EditorGUILayout.EndHorizontal();
-
-
-				for(int i = 0; i < inspected.allTiles.Count; i++)
-				{
-					FixedTileButton(inspected.allTiles[i]);
-				}
-
-			}
-
 			// More info
 			isInfoShown = EditorGUILayout.Foldout(isInfoShown, "Info", true, EditorStyles.foldout);
 			if (isInfoShown)
@@ -112,13 +85,36 @@ namespace HelloWorld.Editor
 				EditorGUILayout.BeginVertical();
 				EditorGUILayout.PropertyField(entropy);
 				EditorGUILayout.PropertyField(selectedID);
-				EditorGUILayout.PropertyField(isDefinite);
+				EditorGUILayout.Toggle("Definite", !inspected.IsNotDefiniteState());
 				//EditorGUILayout.PropertyField(entropy);
 				EditorGUILayout.EndVertical();
 
 				EditorGUI.EndDisabledGroup();
 
 				EditorGUI.indentLevel--;
+			}
+
+			// More controls
+			isControlShown = EditorGUILayout.Foldout(isControlShown, "Control", true, EditorStyles.foldout);
+			if (isControlShown)
+			{
+				EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Fixed Tile", GUILayout.Width(70));
+				EditorGUI.BeginDisabledGroup(true);
+				EditorGUILayout.PropertyField(fixTile, GUIContent.none);
+				EditorGUI.EndDisabledGroup();
+				if (GUILayout.Button("Clear"))
+				{
+					fixTile.objectReferenceValue = null;
+				}
+				EditorGUILayout.EndHorizontal();
+
+				scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(300));
+				for (int i = 0; i < inspected.allTiles.Count; i++)
+				{
+					FixedTileButton(inspected.allTiles[i]);
+				}
+				EditorGUILayout.EndScrollView();
 			}
 
 			serializedObject.ApplyModifiedProperties();
@@ -148,6 +144,5 @@ namespace HelloWorld.Editor
 			GUILayout.FlexibleSpace();
 			EditorGUILayout.EndHorizontal();
 		}
-
 	}
 }
