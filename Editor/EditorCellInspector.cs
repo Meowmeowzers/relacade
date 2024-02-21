@@ -40,21 +40,29 @@ namespace HelloWorld.Editor
 
 			// Preview
 			StartHorizontalCentered();
-			if (selectedTileObject.gameObject != null)
+			if (selectedTileObject != null)
 			{
 				if (inspected.fixedTile != null)
 					tilePreview = AssetPreview.GetAssetPreview(inspected.fixedTile.gameObject);
 				else
 					tilePreview = AssetPreview.GetAssetPreview(selectedTileObject.gameObject);
-
 				GUILayout.Label(tilePreview, GUILayout.Width(100), GUILayout.Height(100));
+			}
+			else 
+			{
+				GUILayout.Label("", GUILayout.Width(100), GUILayout.Height(100));
 			}
 			EndHorizontalCentered();
 
 			// Tile name
 			StartHorizontalCentered();
-			GUILayout.Label(selectedTileObject.tileName, EditorStyles.boldLabel, GUILayout.ExpandWidth(false));
+			if (selectedTileObject != null)
+				GUILayout.Label(selectedTileObject.tileName, EditorStyles.boldLabel, GUILayout.ExpandWidth(false));
+			else
+				GUILayout.Label("No Selected Tile", EditorStyles.boldLabel, GUILayout.ExpandWidth(false));
 			EndHorizontalCentered();
+
+			GUILayout.Space(5);
 
 			// Main info
 			EditorGUI.BeginDisabledGroup(true);

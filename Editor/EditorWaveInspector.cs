@@ -23,6 +23,13 @@ namespace HelloWorld.Editor
 		private bool isdead = false; // Used to suppress null reference error on destroy
 		private bool isMoreShown = false;
 
+		[Range(2, 80)]
+		private int tempX = 1;
+		[Range(2, 80)]
+		private int tempY = 1;
+		[Min(1)]
+		private float tempCellSize = 1f;
+
 		private void OnEnable()
 		{
 			tileGrid = target as EditorWave;
@@ -35,6 +42,10 @@ namespace HelloWorld.Editor
 
 			serializedTileInputs.isExpanded = false;
 			serializedObject.Update();
+
+			tempX = serializedSizeX.intValue;
+			tempY = serializedSizeY.intValue;
+			tempCellSize = serializedTileSize.floatValue;
 		}
 
 		public override void OnInspectorGUI()
@@ -46,35 +57,43 @@ namespace HelloWorld.Editor
 			if (tileGrid.IsDone())
 			{
 				EditorGUILayout.PropertyField(serializedTileSet, tileSetLabel);
-				EditorGUILayout.PropertyField(serializedSizeX, gridSizeXLabel);
-				EditorGUILayout.PropertyField(serializedSizeY, gridSizeYLabel);
-				EditorGUILayout.PropertyField(serializedTileSize, cellSizeLabel);
+
+				tempX = EditorGUILayout.IntSlider(gridSizeXLabel, tempX, 2, 80);
+				tempY = EditorGUILayout.IntSlider(gridSizeYLabel, tempY, 2, 80);
+				tempCellSize = EditorGUILayout.FloatField(cellSizeLabel, tempCellSize);
+				tileGrid.CheckIfSameSize(tempX, tempY, tempCellSize);
 
 				EditorGUILayout.BeginHorizontal();
-				if (GUILayout.Button("Initialize", GUILayout.Height(25)))
+				if (tileGrid.IsInitialized())
 				{
-					Reload();
-					tileGrid.EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
-					if (tileGrid.IsDone())
+					if (GUILayout.Button("Generate", GUILayout.Height(25)))
 					{
-						tileGrid.RemoveGridCells();
-						tileGrid.InitializeWave();
+						Debug.Log("asdf");
+						//Reload();
+						//if (tileGrid.IsDone())
+						//{
+						//	tileGrid.RemoveGridCells();
+						//	tileGrid.InitializeWaveAndStart();
+						//}
+					}
+					if (GUILayout.Button("Clear", GUILayout.Height(25)))
+					{
+						Debug.Log("asdf");
+						//tileGrid.Stop();
+						//tileGrid.ClearCells();
 					}
 				}
-				if (GUILayout.Button("Generate", GUILayout.Height(25)))
+				else
 				{
-					Reload();
-					tileGrid.EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
-					if (tileGrid.IsDone())
+					if (GUILayout.Button("Initialize", GUILayout.Height(25)))
 					{
-						tileGrid.RemoveGridCells();
-						tileGrid.InitializeWave();
+						Reload();
+						if (!tileGrid.IsInitialized())
+						{
+							tileGrid.SetSize(tempX, tempY, tempCellSize);
+							tileGrid.InitializeWave();
+						}
 					}
-				}
-				if (GUILayout.Button("Clear", GUILayout.Height(25)))
-				{
-					tileGrid.Stop();
-					tileGrid.ClearCells();
 				}
 				EditorGUILayout.EndHorizontal();
 				EditorGUILayout.BeginHorizontal();
@@ -101,9 +120,6 @@ namespace HelloWorld.Editor
 				EditorGUILayout.EndVertical();
 
 			}
-
-
-
 
 			isMoreShown = EditorGUILayout.Foldout(isMoreShown, "More", true, EditorStyles.foldout);
 			if (isMoreShown)
@@ -135,16 +151,17 @@ namespace HelloWorld.Editor
 		{
 			if (serializedTileSet.objectReferenceValue != null)
 			{
-				SerializedObject scriptableListObject = new(serializedTileSet.objectReferenceValue);
-
-				SerializedProperty scriptableObjectListProperty = scriptableListObject.FindProperty("allInputTiles");
+				SerializedObject tileSetObject = new(serializedTileSet.objectReferenceValue);
+				SerializedProperty allTiles = tileSetObject.FindProperty("allInputTiles");
+				SerializedProperty tile;
 
 				serializedTileInputs.ClearArray();
-				for (int i = 0; i < scriptableObjectListProperty.arraySize; i++)
+
+				for (int i = 0; i < allTiles.arraySize; i++)
 				{
-					SerializedProperty elementProperty = scriptableObjectListProperty.GetArrayElementAtIndex(i);
+					tile = allTiles.GetArrayElementAtIndex(i);
 					serializedTileInputs.InsertArrayElementAtIndex(i);
-					serializedTileInputs.GetArrayElementAtIndex(i).objectReferenceValue = elementProperty.objectReferenceValue;
+					serializedTileInputs.GetArrayElementAtIndex(i).objectReferenceValue = tile.objectReferenceValue;
 				}
 				serializedObject.ApplyModifiedProperties();
 			}

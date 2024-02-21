@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEditor;
+
 
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
@@ -35,11 +37,12 @@ namespace HelloWorld.Editor
 		private readonly EditorWaitForSeconds editorWait = new(0f);
 
 		private bool isDone = true;
+		private bool isInitialized = false;
 
 		public enum LookDirection
 		{ UP, DOWN, LEFT, RIGHT };
 
-		public void InitializeWave()
+		public void InitializeWaveAndStart()
 		{
 			if (allTileInputs.Count != 0)
 			{
@@ -68,6 +71,67 @@ namespace HelloWorld.Editor
 			}
 		}
 
+		public void InitializeWave()
+		{
+			if (allTileInputs.Count != 0 &&	tileInputSet != null &&	isDone)
+			{
+				RemoveGridCells();
+				Debug.Log("initwave");
+
+				Vector3 pos;
+				EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
+				gridCell = new EditorCell[tileSizeX, tileSizeY];
+
+				for (int y = 0; y < tileSizeY; y++)
+				{
+					for (int x = 0; x < tileSizeX; x++)
+					{
+						pos = new(tileSize * x - (tileSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (tileSizeY * tileSize / 2 - .5f) + transform.position.y);
+
+						tempGameObject = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
+
+						gridCell[x, y] = tempGameObject.GetComponent<EditorCell>();
+						gridCell[x, y].xIndex = x;
+						gridCell[x, y].yIndex = y;
+						gridCell[x, y].Initialize(allTileInputs);
+					}
+				}
+				isInitialized = true;
+			}
+			else
+			{
+				Debug.LogWarning("Tile set is empty...");
+			}
+		}
+
+		public void SetSize(int x, int y, float size)
+		{
+			if (!isDone) return;
+
+			tileSizeX = x;
+			tileSizeY = y;
+			tileSize = size;
+		}
+
+		public bool CheckIfSameSize(int tempX, int tempY, float tempCellSize)
+		{
+			if (tempX != tileSizeX || tempY != tileSizeY || tempCellSize != tileSize)
+			{
+				isInitialized = false;
+				return false;
+			}
+			else
+			{
+				isInitialized = true;
+				return true;
+			}
+		}
+
+		public bool IsInitialized()
+		{
+			return isInitialized;
+		}
+
 		private IEnumerator CollapseWave()
 		{
 			isDone = false;
@@ -92,7 +156,7 @@ namespace HelloWorld.Editor
 					isDone = true;
 					Debug.LogWarning("Conflict on cell " + x + " " + y);
 					//Stop();
-					//ResetWave();
+					//ResetWaveAndStart();
 					yield break;
 				}
 
@@ -219,11 +283,11 @@ namespace HelloWorld.Editor
 			return lowestEntropyCellsSelected;
 		}
 
-		public void ResetWave()
+		public void ResetWaveAndStart()
 		{
 			Debug.Log("Resetting Wave...");
 			ResetAllCells();
-			InitializeWave();
+			InitializeWaveAndStart();
 		}
 
 		public void RemoveGridCells()
@@ -232,28 +296,6 @@ namespace HelloWorld.Editor
 			foreach (var item in cell)
 			{
 				DestroyImmediate(item.gameObject);
-			}
-		}
-
-		private void CreateGridCellsAndInitialize()
-		{
-			gridCell = new EditorCell[tileSizeX, tileSizeY];
-			if (gridCellObject != null)
-			{
-				Vector3 pos;
-				for (int y = 0; y < tileSizeY; y++)
-				{
-					for (int x = 0; x < tileSizeX; x++)
-					{
-						pos = new(tileSize * x - (tileSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (tileSizeY * tileSize / 2 - .5f) + transform.position.y);
-
-						tempGameObject = Instantiate(gridCellObject, pos, Quaternion.identity, transform);
-						gridCell[x, y] = tempGameObject.GetComponent<EditorCell>();
-						gridCell[x, y].xIndex = x;
-						gridCell[x, y].yIndex = y;
-						gridCell[x, y].Initialize(allTileInputs);
-					}
-				}
 			}
 		}
 
