@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace HelloWorld.Editor
 		private bool isInfoShown = false;
 
 		private Texture2D tilePreview;
-		private Texture2D fixedTilePreview;
+		private Texture2D tempPreview;
 
 		private void OnEnable()
 		{
@@ -42,7 +43,7 @@ namespace HelloWorld.Editor
 			if (selectedTileObject.gameObject != null)
 			{
 				if (inspected.fixedTile != null)
-					fixedTilePreview = AssetPreview.GetAssetPreview(inspected.fixedTile.gameObject);
+					tilePreview = AssetPreview.GetAssetPreview(inspected.fixedTile.gameObject);
 				else
 					tilePreview = AssetPreview.GetAssetPreview(selectedTileObject.gameObject);
 
@@ -59,11 +60,12 @@ namespace HelloWorld.Editor
 			EditorGUI.BeginDisabledGroup(true);
 
 			StartHorizontalCentered();
-			EditorGUILayout.LabelField("X", EditorStyles.whiteLabel, GUILayout.Width(30));
+			EditorGUILayout.LabelField("X", EditorStyles.whiteLabel, GUILayout.Width(20));
 			EditorGUILayout.PropertyField(xIndex, GUIContent.none);
-			EditorGUILayout.LabelField("Y", EditorStyles.whiteLabel, GUILayout.Width(30));
+			EditorGUILayout.LabelField("Y", EditorStyles.whiteLabel, GUILayout.Width(20));
 			EditorGUILayout.PropertyField(yIndex, GUIContent.none);
 			EndHorizontalCentered();
+			EditorGUILayout.ToggleLeft("Fixed Constraint", fixTile.objectReferenceValue != null);
 
 			EditorGUI.EndDisabledGroup();
 
@@ -71,18 +73,24 @@ namespace HelloWorld.Editor
 			isControlShown = EditorGUILayout.Foldout(isControlShown, "Control", true, EditorStyles.foldout);
 			if (isControlShown)
 			{
-				EditorGUI.indentLevel++;
-
-				EditorGUI.BeginDisabledGroup(true);
 
 				EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField("Fixed Tile", GUILayout.Width(70));
+				EditorGUI.BeginDisabledGroup(true);
 				EditorGUILayout.PropertyField(fixTile,GUIContent.none);
+				EditorGUI.EndDisabledGroup();
+				if (GUILayout.Button("Clear"))
+				{
+					fixTile.objectReferenceValue = null;
+				}
 				EditorGUILayout.EndHorizontal();
 
-				EditorGUI.EndDisabledGroup();
 
-				EditorGUI.indentLevel--;
+				for(int i = 0; i < inspected.allTiles.Count; i++)
+				{
+					FixedTileButton(inspected.allTiles[i]);
+				}
+
 			}
 
 			// More info
@@ -106,6 +114,19 @@ namespace HelloWorld.Editor
 			}
 
 			serializedObject.ApplyModifiedProperties();
+		}
+
+		private void FixedTileButton(TileInput tileInput)
+		{
+			tempPreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
+
+			EditorGUILayout.BeginHorizontal(GUILayout.Height(50));
+			GUILayout.Label(tempPreview, GUILayout.Height(50), GUILayout.Width(50));
+			if (GUILayout.Button(tileInput.tileName, GUILayout.Height(50)))
+			{
+				fixTile.objectReferenceValue = tileInput;
+			}
+			EditorGUILayout.EndHorizontal();
 		}
 
 		private static void StartHorizontalCentered()

@@ -11,8 +11,9 @@ namespace HelloWorld.Editor
 		public int selectedTileID;
 		[SerializeField] private bool isDefinite = false;
 
-		public List<TileInput> tileInputs;
+		public List<TileInput> currentTiles;
 		public List<TileInput> propagatedTileInputs = new();
+		public List<TileInput> allTiles;
 
 		public TileInput selectedTile;
 		public TileInput fixedTile;
@@ -23,11 +24,13 @@ namespace HelloWorld.Editor
 
 		public void Initialize(List<TileInput> value)
 		{
-			tileInputs.Clear();
-			tileInputs.AddRange(value);
+			allTiles.Clear();
+			currentTiles.Clear();
+			currentTiles.AddRange(value);
+			allTiles.AddRange(value);
 			propagatedTileInputs.Clear();
 			isDefinite = false;
-			entropy = tileInputs.Count;
+			entropy = currentTiles.Count;
 		}
 
 		public void SelectTile()
@@ -35,14 +38,14 @@ namespace HelloWorld.Editor
 			totalWeight = 0f;
 			cumulutativeWeight = 0f;
 
-			foreach (var tile in tileInputs)
+			foreach (var tile in currentTiles)
 			{
 				totalWeight += tile.weight;
 			}
 
 			randomChoice = Random.Range(0f, totalWeight);
 
-			foreach (var tile in tileInputs)
+			foreach (var tile in currentTiles)
 			{
 				cumulutativeWeight += tile.weight;
 				if (cumulutativeWeight >= randomChoice)
@@ -56,8 +59,8 @@ namespace HelloWorld.Editor
 				Instantiate(selectedTile.gameObject, transform);
 			}
 
-			tileInputs.Clear();
-			tileInputs.Add(selectedTile);
+			currentTiles.Clear();
+			currentTiles.Add(selectedTile);
 
 			selectedTileID = selectedTile.id;
 			isDefinite = true;
@@ -72,8 +75,8 @@ namespace HelloWorld.Editor
 			selectedTileID = tileInput.id;
 			selectedTile = tileInput;
 			Instantiate(tileInput.gameObject, transform);
-			tileInputs.Clear();
-			tileInputs.Add(selectedTile);
+			currentTiles.Clear();
+			currentTiles.Add(selectedTile);
 			isDefinite = true;
 			entropy = 1;
 		}
@@ -83,7 +86,7 @@ namespace HelloWorld.Editor
 			propagatedTileInputs.Clear();
 			foreach (var item in compatibleTiles)
 			{
-				foreach (var itemid in tileInputs)
+				foreach (var itemid in currentTiles)
 				{
 					if (itemid.id == item.id)
 					{
@@ -91,14 +94,14 @@ namespace HelloWorld.Editor
 					}
 				}
 			}
-			tileInputs.Clear();
-			tileInputs.AddRange(propagatedTileInputs);
-			entropy = tileInputs.Count;
+			currentTiles.Clear();
+			currentTiles.AddRange(propagatedTileInputs);
+			entropy = currentTiles.Count;
 		}
 
 		public bool IsCellNotConflict()
 		{
-			if (tileInputs.Count > 0)
+			if (currentTiles.Count > 0)
 				return true;
 			else
 				return false;

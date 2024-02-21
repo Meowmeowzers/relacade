@@ -63,7 +63,7 @@ namespace HelloWorld.Editor
 			}
 			else
 			{
-				Debug.LogWarning("Input tiles are empty...");
+				Debug.LogWarning("Tile set is empty...");
 			}
 		}
 
