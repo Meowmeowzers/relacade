@@ -1,11 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 
-// I think this can now be combined with the other one
-// Having mutual option makes them both the same, revise
 namespace HelloWorld.Editor
 {
-	public class ReceiveConstraintsWindow : EditorWindow
+	public class MirrorConstraintsWindow : EditorWindow
 	{
 		private static SerializedProperty set;
 		private static SerializedObject tile;
@@ -28,8 +26,8 @@ namespace HelloWorld.Editor
 
 		public static void OpenWindow(SerializedObject newTile, SerializedProperty newSet)
 		{
-			ReceiveConstraintsWindow window = (ReceiveConstraintsWindow)GetWindow(typeof(ReceiveConstraintsWindow));
-			window.titleContent = new GUIContent("Receive Constraints");
+			MirrorConstraintsWindow window = (MirrorConstraintsWindow)GetWindow(typeof(MirrorConstraintsWindow));
+			window.titleContent = new GUIContent("Mirror Constraints");
 			window.minSize = new(330, 500);
 			window.maxSize = new(330, 1080);
 			tile = newTile;
@@ -66,7 +64,7 @@ namespace HelloWorld.Editor
 			EditorGUILayout.EndHorizontal();
 			if (showHelp)
 				EditorGUILayout.HelpBox(
-					"Check the tiles you want to mark this tile as compatible with." +
+					"Check the tiles you want to be compatible with each other." +
 					"\n\nClick the preview image on the left side of a row to preview the tile side by side",
 					MessageType.Info);
 			EditorGUILayout.Space();
@@ -181,10 +179,10 @@ namespace HelloWorld.Editor
 
 					if (item != null)
 					{
-						togglesArray[i][0] = tileInput.compatibleTop.Contains(item);
-						togglesArray[i][1] = tileInput.compatibleBottom.Contains(item);
-						togglesArray[i][2] = tileInput.compatibleLeft.Contains(item);
-						togglesArray[i][3] = tileInput.compatibleRight.Contains(item);
+						togglesArray[i][0] = item.compatibleTop.Contains(tileInput) && tileInput.compatibleBottom.Contains(item);
+						togglesArray[i][1] = item.compatibleBottom.Contains(tileInput) && tileInput.compatibleTop.Contains(item);
+						togglesArray[i][2] = item.compatibleLeft.Contains(tileInput) && tileInput.compatibleRight.Contains(item);
+						togglesArray[i][3] = item.compatibleRight.Contains(tileInput) && tileInput.compatibleLeft.Contains(item);
 					}
 				}
 			}
@@ -219,63 +217,78 @@ namespace HelloWorld.Editor
 			AssetDatabase.Refresh();
 		}
 
-		private void UpdateTile(TileInput targetTile, TileInput tileToReceiveFrom, bool isCompatible, int index)
+		private void UpdateTile(TileInput currentTile, TileInput otherTile, bool isCompatible, int index)
 		{// Improve this?
 			switch (index)
 			{
 				case 0:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleTop.Contains(tileToReceiveFrom))
-							targetTile.compatibleTop.Add(tileToReceiveFrom);
+						if (!currentTile.compatibleTop.Contains(otherTile))
+							currentTile.compatibleTop.Add(otherTile);
+						if (!otherTile.compatibleBottom.Contains(currentTile))
+							otherTile.compatibleBottom.Add(currentTile);
 					}
 					else
 					{
-						if (targetTile.compatibleTop.Contains(tileToReceiveFrom))
-							targetTile.compatibleTop.Remove(tileToReceiveFrom);
+						if (currentTile.compatibleTop.Contains(otherTile))
+							currentTile.compatibleTop.Remove(otherTile);
+						if (otherTile.compatibleBottom.Contains(currentTile))
+							otherTile.compatibleBottom.Remove(currentTile);
 					}
 					break;
 
 				case 1:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleBottom.Contains(tileToReceiveFrom))
-							targetTile.compatibleBottom.Add(tileToReceiveFrom);
+						if (!currentTile.compatibleBottom.Contains(otherTile))
+							currentTile.compatibleBottom.Add(otherTile);
+						if (!otherTile.compatibleTop.Contains(currentTile))
+							otherTile.compatibleTop.Add(currentTile);
 					}
 					else
 					{
-						if (targetTile.compatibleBottom.Contains(tileToReceiveFrom))
-							targetTile.compatibleBottom.Remove(tileToReceiveFrom);
+						if (currentTile.compatibleBottom.Contains(otherTile))
+							currentTile.compatibleBottom.Remove(otherTile);
+						if (otherTile.compatibleTop.Contains(currentTile))
+							otherTile.compatibleTop.Remove(currentTile);
 					}
 					break;
 
 				case 2:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleLeft.Contains(tileToReceiveFrom))
-							targetTile.compatibleLeft.Add(tileToReceiveFrom);
+						if (!currentTile.compatibleLeft.Contains(otherTile))
+							currentTile.compatibleLeft.Add(otherTile);
+						if (!otherTile.compatibleRight.Contains(currentTile))
+							otherTile.compatibleRight.Add(currentTile);
 					}
 					else
 					{
-						if (targetTile.compatibleLeft.Contains(tileToReceiveFrom))
-							targetTile.compatibleLeft.Remove(tileToReceiveFrom);
+						if (currentTile.compatibleLeft.Contains(otherTile))
+							currentTile.compatibleLeft.Remove(otherTile);
+						if (otherTile.compatibleRight.Contains(currentTile))
+							otherTile.compatibleRight.Remove(currentTile);
 					}
 					break;
 
 				case 3:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleRight.Contains(tileToReceiveFrom))
-							targetTile.compatibleRight.Add(tileToReceiveFrom);
+						if (!currentTile.compatibleRight.Contains(otherTile))
+							currentTile.compatibleRight.Add(otherTile);
+						if (!otherTile.compatibleLeft.Contains(currentTile))
+							otherTile.compatibleLeft.Add(currentTile);
 					}
 					else
 					{
-						if (targetTile.compatibleRight.Contains(tileToReceiveFrom))
-							targetTile.compatibleRight.Remove(tileToReceiveFrom);
+						if (currentTile.compatibleRight.Contains(otherTile))
+							currentTile.compatibleRight.Remove(otherTile);
+						if (otherTile.compatibleLeft.Contains(currentTile))
+							otherTile.compatibleLeft.Remove(currentTile);
 					}
-					break;            
+					break;
 			}
 		}
-
 	}
 }

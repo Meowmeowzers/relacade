@@ -5,7 +5,7 @@ using UnityEngine;
 // Having mutual option makes them both the same, revise
 namespace HelloWorld.Editor
 {
-	public class ReceiveConstraintsWindow : EditorWindow
+	public class SendConstraintsWindow : EditorWindow
 	{
 		private static SerializedProperty set;
 		private static SerializedObject tile;
@@ -28,14 +28,14 @@ namespace HelloWorld.Editor
 
 		public static void OpenWindow(SerializedObject newTile, SerializedProperty newSet)
 		{
-			ReceiveConstraintsWindow window = (ReceiveConstraintsWindow)GetWindow(typeof(ReceiveConstraintsWindow));
-			window.titleContent = new GUIContent("Receive Constraints");
+			SendConstraintsWindow window = (SendConstraintsWindow)GetWindow(typeof(SendConstraintsWindow));
+			window.titleContent = new GUIContent("Send Constraints");
 			window.minSize = new(330, 500);
 			window.maxSize = new(330, 1080);
-			tile = newTile;
 			set = newSet;
-			InitWindow();
+			tile = newTile;
 			CheckExistingTiles();
+			InitWindow();
 			window.Show();
 		}
 
@@ -49,11 +49,20 @@ namespace HelloWorld.Editor
 			listItemLightTexture.SetPixel(0, 0, listItemLightColor);
 			listItemLightTexture.Apply();
 
+			previewTexture = new Texture2D(1, 1);
+			previewTexture.SetPixel(0, 0, listItemLightColor);
+			previewTexture.Apply();
+
+			constraintTexture = new Texture2D(1, 1);
+			constraintTexture.SetPixel(0, 0, Color.black);
+			constraintTexture.Apply();
+
 			listItemStyle.normal.background = listItemTexture;
 			listItemStyle.hover.background = listItemLightTexture;
 
-			previewStyle.padding = new(0, 0, 0, 0); //unused i think
+			previewStyle.padding = new(0,0,0,0); //unused i think
 			previewStyle.margin = new(); //unused i think
+
 		}
 
 		private void OnGUI()
@@ -66,13 +75,12 @@ namespace HelloWorld.Editor
 			EditorGUILayout.EndHorizontal();
 			if (showHelp)
 				EditorGUILayout.HelpBox(
-					"Check the tiles you want to mark this tile as compatible with." +
+					"Check the tiles you want to mark as compatible with this tile." +
 					"\n\nClick the preview image on the left side of a row to preview the tile side by side",
 					MessageType.Info);
 			EditorGUILayout.Space();
 
 			EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(320));
-			GUILayout.FlexibleSpace();
 
 			if (tile != null)
 			{
@@ -87,27 +95,28 @@ namespace HelloWorld.Editor
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.BeginHorizontal();
 						GUILayout.FlexibleSpace();
-						GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+							GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
 						GUILayout.FlexibleSpace();
 						EditorGUILayout.EndHorizontal();
 						EditorGUILayout.BeginHorizontal();
 						GUILayout.FlexibleSpace();
-						GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
-						GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
-						GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+							GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+							GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+							GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
 						GUILayout.FlexibleSpace();
 						EditorGUILayout.EndHorizontal();
 						EditorGUILayout.BeginHorizontal();
 						GUILayout.FlexibleSpace();
-						GUILayout.Label(constraintTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
+							GUILayout.Label(previewTexture, previewStyle, GUILayout.Width(60), GUILayout.Height(60));
 						GUILayout.FlexibleSpace();
 						EditorGUILayout.EndHorizontal();
 						EditorGUILayout.EndVertical();
 					}
 				}
 			}
-			GUILayout.FlexibleSpace();
 			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.Space();
 
 			EditorGUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
@@ -126,36 +135,40 @@ namespace HelloWorld.Editor
 					SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
 					TileInput tileInput = itemProperty.objectReferenceValue as TileInput;
 
-					EditorGUILayout.BeginHorizontal(listItemStyle);
-
 					if (tileInput != null)
 						tilePreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
 					else
 						tilePreview = Texture2D.blackTexture;
 
-					itemName = tileInput != null ? tileInput.tileName : "No tile";
+					itemName = tileInput != null ? tileInput.tileName : "No tileToSend";
 
+					EditorGUILayout.BeginHorizontal(listItemStyle);
 					if (GUILayout.Button(tilePreview, GUILayout.Width(40), GUILayout.Height(40)))
 					{
-						if (tileInput != null)
+						if(tileInput != null)
 							constraintTexture = AssetPreview.GetAssetPreview(tileInput.gameObject);
 						else
 							constraintTexture = Texture2D.blackTexture;
 					}
-					EditorGUILayout.LabelField(itemName, GUILayout.Width(90), GUILayout.Height(30), GUILayout.ExpandWidth(false));
+					EditorGUILayout.LabelField(itemName, GUILayout.Width(90), GUILayout.Height(40), GUILayout.ExpandWidth(false));
+
+					if (togglesArray[i] == null)
+						togglesArray[i] = new bool[4];
 
 					for (int j = 0; j < 4; j++)
 					{
-						if (j != 0) GUILayout.Space(25);
-						togglesArray[i][j] = EditorGUILayout.Toggle(togglesArray[i][j], GUILayout.Width(20), GUILayout.Height(30));
+						if (j != 0)
+							GUILayout.Space(25);
+						togglesArray[i][j] = EditorGUILayout.Toggle(togglesArray[i][j], GUILayout.Width(20), GUILayout.Height(40));
 					}
+
 					EditorGUILayout.EndHorizontal();
 				}
 			}
 
-			EditorGUILayout.Space();
-			EditorGUILayout.EndVertical();
+			GUILayout.EndVertical();
 			EditorGUILayout.EndScrollView();
+			EditorGUILayout.Space();
 
 			if (GUILayout.Button("Apply", GUILayout.Height(40)))
 			{
@@ -174,43 +187,44 @@ namespace HelloWorld.Editor
 
 				for (int i = 0; i < set.arraySize; i++)
 				{
-					SerializedProperty selectedTile = set.GetArrayElementAtIndex(i);
-					TileInput item = selectedTile.objectReferenceValue as TileInput;
+					SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
+					TileInput item = itemProperty.objectReferenceValue as TileInput;
 
 					togglesArray[i] = new bool[4];
 
 					if (item != null)
 					{
-						togglesArray[i][0] = tileInput.compatibleTop.Contains(item);
-						togglesArray[i][1] = tileInput.compatibleBottom.Contains(item);
-						togglesArray[i][2] = tileInput.compatibleLeft.Contains(item);
-						togglesArray[i][3] = tileInput.compatibleRight.Contains(item);
+						togglesArray[i][0] = item.compatibleTop.Contains(tileInput);
+						togglesArray[i][1] = item.compatibleBottom.Contains(tileInput);
+						togglesArray[i][2] = item.compatibleLeft.Contains(tileInput);
+						togglesArray[i][3] = item.compatibleRight.Contains(tileInput);
 					}
 				}
 			}
 		}
+
 		private void ApplyModifications()
 		{
-			SerializedProperty selectedTileToReceiveFrom;
-			TileInput tileToReceiveFrom;
+			SerializedProperty selectedTileProperty;
+			TileInput selectedTile;
 
 			if (tile != null)
 			{
-				TileInput targetTile = tile.targetObject as TileInput;
+				TileInput tileToSend = tile.targetObject as TileInput;
 
 				for (int i = 0; i < set.arraySize; i++)
 				{
-					selectedTileToReceiveFrom = set.GetArrayElementAtIndex(i);
-					tileToReceiveFrom = selectedTileToReceiveFrom.objectReferenceValue as TileInput;
+					selectedTileProperty = set.GetArrayElementAtIndex(i);
+					selectedTile = selectedTileProperty.objectReferenceValue as TileInput;
 
-					if (tileToReceiveFrom == null) continue;
-
+					if (selectedTile == null) continue;
+					
 					for (int j = 0; j < 4; j++)
 					{
-						UpdateTile(targetTile, tileToReceiveFrom, togglesArray[i][j], j);
+						UpdateTile(selectedTile, tileToSend, togglesArray[i][j], j);
 					}
 
-					selectedTileToReceiveFrom.serializedObject.ApplyModifiedProperties();
+					selectedTileProperty.serializedObject.ApplyModifiedProperties();
 				}
 			}
 
@@ -219,63 +233,62 @@ namespace HelloWorld.Editor
 			AssetDatabase.Refresh();
 		}
 
-		private void UpdateTile(TileInput targetTile, TileInput tileToReceiveFrom, bool isCompatible, int index)
+		private void UpdateTile(TileInput tileToModify, TileInput tileToSend, bool isCompatible, int index)
 		{// Improve this?
 			switch (index)
 			{
 				case 0:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleTop.Contains(tileToReceiveFrom))
-							targetTile.compatibleTop.Add(tileToReceiveFrom);
+						if (!tileToModify.compatibleTop.Contains(tileToSend))
+							tileToModify.compatibleTop.Add(tileToSend);
 					}
 					else
 					{
-						if (targetTile.compatibleTop.Contains(tileToReceiveFrom))
-							targetTile.compatibleTop.Remove(tileToReceiveFrom);
+						if (tileToModify.compatibleTop.Contains(tileToSend))
+							tileToModify.compatibleTop.Remove(tileToSend);
 					}
 					break;
 
 				case 1:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleBottom.Contains(tileToReceiveFrom))
-							targetTile.compatibleBottom.Add(tileToReceiveFrom);
+						if (!tileToModify.compatibleBottom.Contains(tileToSend))
+							tileToModify.compatibleBottom.Add(tileToSend);
 					}
 					else
 					{
-						if (targetTile.compatibleBottom.Contains(tileToReceiveFrom))
-							targetTile.compatibleBottom.Remove(tileToReceiveFrom);
+						if (tileToModify.compatibleBottom.Contains(tileToSend))
+							tileToModify.compatibleBottom.Remove(tileToSend);
 					}
 					break;
 
 				case 2:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleLeft.Contains(tileToReceiveFrom))
-							targetTile.compatibleLeft.Add(tileToReceiveFrom);
+						if (!tileToModify.compatibleLeft.Contains(tileToSend))
+							tileToModify.compatibleLeft.Add(tileToSend);
 					}
 					else
 					{
-						if (targetTile.compatibleLeft.Contains(tileToReceiveFrom))
-							targetTile.compatibleLeft.Remove(tileToReceiveFrom);
+						if (tileToModify.compatibleLeft.Contains(tileToSend))
+							tileToModify.compatibleLeft.Remove(tileToSend);
 					}
 					break;
 
 				case 3:
 					if (isCompatible)
 					{
-						if (!targetTile.compatibleRight.Contains(tileToReceiveFrom))
-							targetTile.compatibleRight.Add(tileToReceiveFrom);
+						if (!tileToModify.compatibleRight.Contains(tileToSend))
+							tileToModify.compatibleRight.Add(tileToSend);
 					}
 					else
 					{
-						if (targetTile.compatibleRight.Contains(tileToReceiveFrom))
-							targetTile.compatibleRight.Remove(tileToReceiveFrom);
+						if (tileToModify.compatibleRight.Contains(tileToSend))
+							tileToModify.compatibleRight.Remove(tileToSend);
 					}
-					break;            
+					break;
 			}
 		}
-
 	}
 }
