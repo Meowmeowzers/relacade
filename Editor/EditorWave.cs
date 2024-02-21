@@ -21,6 +21,7 @@ namespace HelloWorld.Editor
 		[Range(2, 80)]
 		public int tileSizeY = 8;
 
+		[Min(1)]
 		public float tileSize = 1f;
 
 		private GameObject gridCellObject;

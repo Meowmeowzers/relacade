@@ -49,46 +49,61 @@ namespace HelloWorld.Editor
 				EditorGUILayout.PropertyField(serializedSizeX, gridSizeXLabel);
 				EditorGUILayout.PropertyField(serializedSizeY, gridSizeYLabel);
 				EditorGUILayout.PropertyField(serializedTileSize, cellSizeLabel);
+
+				EditorGUILayout.BeginHorizontal();
+				if (GUILayout.Button("Initialize", GUILayout.Height(25)))
+				{
+					Reload();
+					tileGrid.EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
+					if (tileGrid.IsDone())
+					{
+						tileGrid.RemoveGridCells();
+						tileGrid.InitializeWave();
+					}
+				}
+				if (GUILayout.Button("Generate", GUILayout.Height(25)))
+				{
+					Reload();
+					tileGrid.EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
+					if (tileGrid.IsDone())
+					{
+						tileGrid.RemoveGridCells();
+						tileGrid.InitializeWave();
+					}
+				}
+				if (GUILayout.Button("Clear", GUILayout.Height(25)))
+				{
+					tileGrid.Stop();
+					tileGrid.ClearCells();
+				}
+				EditorGUILayout.EndHorizontal();
+				EditorGUILayout.BeginHorizontal();
+				shouldFinalize = EditorGUILayout.ToggleLeft("Finalize?", shouldFinalize, GUILayout.Width(70));
+
+				if (shouldFinalize)
+				{
+					if (GUILayout.Button("Finalize", GUILayout.Height(20)))
+					{
+						isdead = true;
+						tileGrid.FinalizeGrid();
+					}
+				}
+				EditorGUILayout.EndHorizontal();
 			}
 			else
 			{
-				EditorGUILayout.BeginVertical(GUILayout.Height(65));
-				EditorGUILayout.HelpBox("Drag mouse here after generation to show back controls", MessageType.Info);
+				EditorGUILayout.BeginVertical();
+				EditorGUILayout.HelpBox("\nGenerating...\n\nDrag mouse here after generation to show back controls\n", MessageType.Info);
+				if (GUILayout.Button("Stop", GUILayout.Height(25)))
+				{
+					tileGrid.Stop();
+				}
 				EditorGUILayout.EndVertical();
+
 			}
 
-			EditorGUILayout.BeginHorizontal();
 
-			if (GUILayout.Button("Generate", GUILayout.Height(25)))
-			{
-				Reload();
-				tileGrid.EnsureGridCellObject(AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab"));
-				if (tileGrid.IsDone())
-				{
-					tileGrid.RemoveGridCells();
-					tileGrid.InitializeWave();
-				}
-			}
-			if (GUILayout.Button("Clear", GUILayout.Height(25)))
-			{
-				tileGrid.Stop();
-				tileGrid.ClearCells();
-			}
-			EditorGUILayout.EndHorizontal();
 
-			EditorGUILayout.BeginHorizontal();
-			shouldFinalize = EditorGUILayout.ToggleLeft("Finalize?", shouldFinalize, GUILayout.Width(70));
-
-			if (shouldFinalize)
-			{
-				if (GUILayout.Button("Finalize", GUILayout.Height(20)))
-				{
-					isdead = true;
-					tileGrid.FinalizeGrid();
-				}
-			}
-
-			EditorGUILayout.EndHorizontal();
 
 			isMoreShown = EditorGUILayout.Foldout(isMoreShown, "More", true, EditorStyles.foldout);
 			if (isMoreShown)
