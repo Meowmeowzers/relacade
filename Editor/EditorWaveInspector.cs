@@ -13,11 +13,13 @@ namespace HelloWorld.Editor
 		private SerializedProperty serializedTileSize;
 		private SerializedProperty serializedTileSet;
 		private SerializedProperty serializedTileInputs;
+		private SerializedProperty serializedFixedTiles;
 		private SerializedProperty serializedHasFixed;
+		private SerializedProperty serializedIsInitialized;
 
-		private GUIContent gridSizeXLabel = new("Grid Size X", "Set the width of the tile grid");
-		private GUIContent gridSizeYLabel = new("Grid Size Y", "Set the height of the tile grid");
-		private GUIContent cellSizeLabel = new("Cell Size", "Set the size of the grid cells");
+		private GUIContent gridSizeXLabel = new("Grid Size X", "Set the width of the tile row");
+		private GUIContent gridSizeYLabel = new("Grid Size Y", "Set the height of the tile row");
+		private GUIContent cellSizeLabel = new("Cell Size", "Set the size of the row cells");
 		private GUIContent tileSetLabel = new("Tile Set");
 		private GUIContent enableFixedTilesLabel = new("Fixed Tiles", "Enable fixed tiles");
 
@@ -25,8 +27,8 @@ namespace HelloWorld.Editor
 		private bool isdead = false; // Used to suppress null reference error on destroy
 		private bool isMoreShown = false;
 
-		[Range(2, 80)] private int tempX = 1;
-		[Range(2, 80)] private int tempY = 1;
+		[Range(2, 80)] private int tempX = 8;
+		[Range(2, 80)] private int tempY = 8;
 		[Min(1)] private float tempCellSize = 1f;
 
 		private void OnEnable()
@@ -38,14 +40,19 @@ namespace HelloWorld.Editor
 			serializedTileSize = serializedObject.FindProperty("tileSize");
 			serializedTileSet = serializedObject.FindProperty("tileInputSet");
 			serializedTileInputs = serializedObject.FindProperty("allTileInputs");
+			serializedFixedTiles = serializedObject.FindProperty("fixedTiles");
 			serializedHasFixed = serializedObject.FindProperty("hasFixed");
+			serializedIsInitialized = serializedObject.FindProperty("isInitialized");
 
 			serializedTileInputs.isExpanded = false;
 			serializedObject.Update();
 
-			tempX = serializedSizeX.intValue;
-			tempY = serializedSizeY.intValue;
-			tempCellSize = serializedTileSize.floatValue;
+			if (tileGrid.IsInitialized())
+			{
+				tempX = serializedSizeX.intValue;
+				tempY = serializedSizeY.intValue;
+				tempCellSize = serializedTileSize.floatValue;
+			}
 		}
 
 		public override void OnInspectorGUI()
@@ -57,13 +64,11 @@ namespace HelloWorld.Editor
 			if (tileGrid.IsDone())
 			{
 				EditorGUILayout.PropertyField(serializedTileSet, tileSetLabel);
-
 				EditorGUI.BeginDisabledGroup(serializedHasFixed.boolValue);
 
 				tempX = EditorGUILayout.IntSlider(gridSizeXLabel, tempX, 2, 80);
 				tempY = EditorGUILayout.IntSlider(gridSizeYLabel, tempY, 2, 80);
 				tempCellSize = EditorGUILayout.FloatField(cellSizeLabel, tempCellSize);
-				tileGrid.CheckIfSameSize(tempX, tempY, tempCellSize);
 
 				EditorGUI.EndDisabledGroup();
 
@@ -72,24 +77,40 @@ namespace HelloWorld.Editor
 				EditorGUILayout.EndHorizontal();
 
 				EditorGUILayout.BeginHorizontal();
-				if (tileGrid.IsInitialized())
+				EditorGUI.BeginDisabledGroup(!tileGrid.IsInitialized());
+				if (GUILayout.Button("Generate", GUILayout.Height(25)))
 				{
-					if (GUILayout.Button("Generate", GUILayout.Height(25)))
+					if (tileGrid.IsDone())
 					{
-						if (tileGrid.IsDone())
-						{
-							tileGrid.ResetCells();
-							if (serializedHasFixed.boolValue)
-								tileGrid.StartCollapseFixedTiles();
-							tileGrid.StartCollapse();
-						}
-					}
-					if (GUILayout.Button("Clear", GUILayout.Height(25)))
-					{
-						tileGrid.ResetCells();
+						tileGrid.StartResetCells();
 						if (serializedHasFixed.boolValue)
 							tileGrid.StartCollapseFixedTiles();
+						tileGrid.StartCollapse();
+						tempX = serializedSizeX.intValue;
+						tempY = serializedSizeY.intValue;
+						tempCellSize = serializedTileSize.floatValue;
 					}
+				}
+				if (GUILayout.Button("Clear", GUILayout.Height(25)))
+				{
+					tileGrid.StartResetCells();
+					if (serializedHasFixed.boolValue)
+						tileGrid.StartCollapseFixedTiles();
+					tempX = serializedSizeX.intValue;
+					tempY = serializedSizeY.intValue;
+					tempCellSize = serializedTileSize.floatValue;
+				}
+				EditorGUI.EndDisabledGroup();
+				if (tileGrid.IsInitialized())
+				{
+					EditorGUI.BeginDisabledGroup(tileGrid.CheckIfSameSize(tempX, tempY, tempCellSize));
+					if (GUILayout.Button("Initialize", GUILayout.Height(25)))
+					{
+						Reload();
+						tileGrid.SetSize(tempX, tempY, tempCellSize);
+						tileGrid.InitializeWave();
+					}
+					EditorGUI.EndDisabledGroup();
 				}
 				else
 				{
@@ -101,7 +122,9 @@ namespace HelloWorld.Editor
 					}
 				}
 				EditorGUILayout.EndHorizontal();
+
 				EditorGUILayout.BeginHorizontal();
+
 				shouldFinalize = EditorGUILayout.ToggleLeft("Finalize?", shouldFinalize, GUILayout.Width(70));
 
 				if (shouldFinalize)
@@ -133,8 +156,7 @@ namespace HelloWorld.Editor
 				EditorGUI.BeginDisabledGroup(true);
 
 				EditorGUILayout.BeginVertical();
-				GUILayout.Label("More info");
-				//EditorGUILayout.PropertyField(entropy);
+				EditorGUILayout.PropertyField(serializedFixedTiles);
 				EditorGUILayout.EndVertical();
 
 				EditorGUI.EndDisabledGroup();

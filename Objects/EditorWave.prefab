@@ -44,8 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a952d33b06dc9974497f45b0a4baab44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileInputSet: {fileID: 0}
+  tileInputSet: {fileID: 11400000, guid: 37b1c9dde58b29d41900a021ee08731d, type: 2}
   allTileInputs: []
-  tileSizeX: 8
-  tileSizeY: 8
+  fixedTiles: []
+  tileSizeX: 0
+  tileSizeY: 0
   tileSize: 1
+  isDone: 1
+  isInitialized: 0
+  hasFixed: 0
+  gridCell:
+    row: []
