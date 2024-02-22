@@ -11,7 +11,7 @@ namespace HelloWorld.Editor
 		public int selectedTileID;
 
 		public List<TileInput> currentTiles;
-		public List<TileInput> propagatedTileInputs = new();
+		public List<TileInput> propagatedTileInputs;
 		public List<TileInput> allTiles;
 
 		public TileInput selectedTile;
@@ -106,8 +106,6 @@ namespace HelloWorld.Editor
 		{
 			for (int i = transform.childCount - 1; i >= 0; i--)
 			{
-				if (i > 0)
-					Debug.Log(transform.childCount);
 				DestroyImmediate(transform.GetChild(i).gameObject);
 			}
 			Initialize(value);
