@@ -5,11 +5,11 @@ using UnityEngine;
 namespace HelloWorld.Editor
 {
 	[Serializable]
-	public class TileInputSet : ScriptableObject
+	public class InputTileSet : ScriptableObject
 	{
 		[HideInInspector]
-		public List<TileInput> allInputTiles = new();
+		public List<InputTile> allInputTiles = new();
 		[HideInInspector]
-		public List<TileInput> tileReferences = new();
+		public List<InputTile> tileReferences = new();
 	}
 }

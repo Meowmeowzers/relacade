@@ -8,7 +8,7 @@ namespace HelloWorld.Editor
 		[MenuItem("Relacade/TileSet Configure")]
 		private static void StartTestWindow()
 		{
-			NewSetUpWindow window = (NewSetUpWindow)GetWindow(typeof(NewSetUpWindow));
+			SetUpWindow window = (SetUpWindow)GetWindow(typeof(SetUpWindow));
 			window.titleContent = new("Configure tile set");
 			window.minSize = new(690, 350);
 			window.Show();

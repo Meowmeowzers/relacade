@@ -14,15 +14,15 @@ namespace HelloWorld.Editor
 {
 	public class EditorWave : MonoBehaviour
 	{
-		public TileInputSet tileInputSet;
-		public List<TileInput> allTileInputs;
+		public InputTileSet inputTileSet;
+		public List<InputTile> inputTiles;
 		public List<EditorCell> fixedTiles;
 
 		[Range(0, 80)]
-		public int tileSizeX = 0;
+		public int gridSizeX = 0;
 
 		[Range(0, 80)]
-		public int tileSizeY = 0;
+		public int gridSizeY = 0;
 
 		[Min(1)]
 		public float tileSize = 1f;
@@ -33,8 +33,7 @@ namespace HelloWorld.Editor
 
 		[SerializeField] private GridSize gridCells; // serializing solves the problem of data persistence (it needs to be serialized? before it can be saved?)
 
-
-		private EditorCell selectedRandomCell;
+		private EditorCell selectedCell;
 		private List<EditorCell> lowestEntropyCells = new();
 		private static GameObject tempGameObject;
 
@@ -46,15 +45,15 @@ namespace HelloWorld.Editor
 
 		public void StartCollapse()
 		{
-			coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(CollapseWave());
+			coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(CCollapseWave());
 		}
 
-		public void StartCollapseFixedTiles()
+		public void StartCollapseFixed()
 		{
 			coroutine = EditorCoroutineUtility.StartCoroutineOwnerless(CollapseFixedTiles());
 		}
 		
-		public void Stop()
+		public void StopCollapse()
 		{
 			if (coroutine != null)
 				EditorCoroutineUtility.StopCoroutine(coroutine);
@@ -65,8 +64,8 @@ namespace HelloWorld.Editor
 		{
 			isInitialized = false;
 
-			if (tileInputSet == null) { Debug.LogWarning("Tile set is missing..."); return; }
-			if (tileInputSet.allInputTiles.Count < 1) { Debug.LogWarning("Tile set is empty. Configure it first."); return; }
+			if (inputTileSet == null) { Debug.LogWarning("Tile set is missing..."); return; }
+			if (inputTileSet.allInputTiles.Count < 1) { Debug.LogWarning("Tile set is empty. Configure it first."); return; }
 
 			if (isDone)
 			{
@@ -75,15 +74,15 @@ namespace HelloWorld.Editor
 
 				Vector3 pos;
 
-				gridCells = new(tileSizeX);
+				gridCells = new(gridSizeX);
 
-				for (int y = 0; y < tileSizeY; y++)
+				for (int y = 0; y < gridSizeY; y++)
 				{
 					gridCells.row.Add(new());
 
-					for (int x = 0; x < tileSizeX; x++)
+					for (int x = 0; x < gridSizeX; x++)
 					{
-						pos = new(tileSize * x - (tileSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (tileSizeY * tileSize / 2 - .5f) + transform.position.y);
+						pos = new(tileSize * x - (gridSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (gridSizeY * tileSize / 2 - .5f) + transform.position.y);
 
 						tempGameObject = new();
 						tempGameObject.transform.parent = transform;
@@ -95,7 +94,7 @@ namespace HelloWorld.Editor
 						gridCells.row[x].column.Add(tempGameObject);
 						gridCells.row[x].column[y].GetComponent<EditorCell>().xIndex = x;
 						gridCells.row[x].column[y].GetComponent<EditorCell>().yIndex = y;
-						gridCells.row[x].column[y].GetComponent<EditorCell>().Initialize(allTileInputs);
+						gridCells.row[x].column[y].GetComponent<EditorCell>().Initialize(inputTiles);
 						EditorUtility.SetDirty(gridCells.row[x].column[y]);
 					}
 				}
@@ -103,7 +102,7 @@ namespace HelloWorld.Editor
 			}
 		}
 
-		private IEnumerator CollapseWave()
+		private IEnumerator CCollapseWave()
 		{
 			isDone = false;
 			
@@ -113,22 +112,22 @@ namespace HelloWorld.Editor
 			{
 				//Observation Phase
 				lowestEntropyCells = GetLowestEntropyCells();
-				selectedRandomCell = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Count)];
+				selectedCell = lowestEntropyCells[UnityEngine.Random.Range(0, lowestEntropyCells.Count)];
 
 				//Collapse Tile
-				if (selectedRandomCell.IsCellNotConflict())
+				if (selectedCell.IsCellNotConflict())
 				{
-					selectedRandomCell.SelectRandomTile();
+					selectedCell.SelectRandomTile();
 				}
 				else
 				{
-					Debug.LogWarning("Conflict on cell " + selectedRandomCell.xIndex + " " + selectedRandomCell.yIndex);
+					Debug.LogWarning("Conflict on cell " + selectedCell.xIndex + " " + selectedCell.yIndex);
 					isDone = true;
 					yield break;
 				}
 
 				//Propagation Phase
-				PropagateConstraints(selectedRandomCell);
+				PropagateConstraints(selectedCell);
 				yield return editorWait;
 			}
 			EditorUtility.SetDirty(gameObject); // to enable saving of modified gameobjects in scene
@@ -151,24 +150,32 @@ namespace HelloWorld.Editor
 			}
 		}
 		
-		public void SetFields(int x, int y, float size, TileInputSet set)
+		public void SetFields(int x, int y, float size, InputTileSet set)
 		{
 			if (!isDone) return;
 
-			tileSizeX = x;
-			tileSizeY = y;
+			gridSizeX = x;
+			gridSizeY = y;
 			tileSize = size;
-			tileInputSet = set;
+			inputTileSet = set;
 		}
 		
-		public void StartResetCells()
+		public void ResetCells()
 		{
-			if (allTileInputs.Count < 1 && isInitialized)
+			if (inputTiles.Count < 1 && isInitialized)
 			{
 				Debug.LogWarning("No tile set or no tiles in tile set");
 				return;
 			}
-			ResetCells();
+
+			for (int x = 0; x < gridSizeX; x++)
+			{
+				for (int y = 0; y < gridSizeY; y++)
+				{
+					if (gridCells.row[x].column[y].GetComponent<EditorCell>())
+						gridCells.row[x].column[y].GetComponent<EditorCell>().ResetAndInitializeCell(inputTiles);
+				}
+			}
 		}
 		
 		public void FinalizeGrid()
@@ -200,11 +207,11 @@ namespace HelloWorld.Editor
 
 		private bool CheckTiles()
 		{
-			foreach (var item in allTileInputs)
+			foreach (var item in inputTiles)
 			{
 				if (item == null)
 				{
-					Stop();
+					StopCollapse();
 					Debug.Log("A tile is null or not configured. Please check again before generating.....");
 					return false;
 				}
@@ -217,20 +224,20 @@ namespace HelloWorld.Editor
 			int x = cell.xIndex;
 			int y = cell.yIndex;
 
-			if (y + 1 > -1 && y + 1 < tileSizeY)
+			if (y + 1 > -1 && y + 1 < gridSizeY)
 				PropagateToCell(x, y, cell.selectedTile, LookDirection.UP);
 
-			if (y - 1 > -1 && y - 1 < tileSizeY)
+			if (y - 1 > -1 && y - 1 < gridSizeY)
 				PropagateToCell(x, y, cell.selectedTile, LookDirection.DOWN);
 
-			if (x + 1 > -1 && x + 1 < tileSizeX)
+			if (x + 1 > -1 && x + 1 < gridSizeX)
 				PropagateToCell(x, y, cell.selectedTile, LookDirection.RIGHT);
 
-			if (x - 1 > -1 && x - 1 < tileSizeX)
+			if (x - 1 > -1 && x - 1 < gridSizeX)
 				PropagateToCell(x, y, cell.selectedTile, LookDirection.LEFT);
 		}
 
-		private void PropagateToCell(int x, int y, TileInput item, LookDirection direction)
+		private void PropagateToCell(int x, int y, InputTile item, LookDirection direction)
 		{
 			switch (direction)
 			{
@@ -274,9 +281,9 @@ namespace HelloWorld.Editor
 			int lowestEntropy = int.MaxValue;
 			int entropy;
 
-			for (int y = 0; y < tileSizeY; y++)
+			for (int y = 0; y < gridSizeY; y++)
 			{
-				for (int x = 0; x < tileSizeX; x++)
+				for (int x = 0; x < gridSizeX; x++)
 				{
 					if (gridCells.row[x].column[y].GetComponent<EditorCell>().IsNotDefiniteState())
 					{
@@ -302,9 +309,9 @@ namespace HelloWorld.Editor
 		{
 			List<EditorCell> fixedCells = new();
 
-			for (int x = 0; x < tileSizeX; x++)
+			for (int x = 0; x < gridSizeX; x++)
 			{
-				for (int y = 0; y < tileSizeY; y++)
+				for (int y = 0; y < gridSizeY; y++)
 				{
 					if (gridCells.row[x].column[y].GetComponent<EditorCell>().IsFixed())
 					{
@@ -324,21 +331,9 @@ namespace HelloWorld.Editor
 			}
 		}
 
-		private void ResetCells()
+		public bool CheckIfSameSize(int tempX, int tempY, float tempCellSize, InputTileSet tempSet)
 		{
-			for (int x = 0; x < tileSizeX; x++)
-			{
-				for (int y = 0; y < tileSizeY; y++)
-				{
-					if (gridCells.row[x].column[y].GetComponent<EditorCell>())
-						gridCells.row[x].column[y].GetComponent<EditorCell>().ResetAndInitializeCell(allTileInputs);
-				}
-			}
-		}
-
-		public bool CheckIfSameSize(int tempX, int tempY, float tempCellSize, TileInputSet tempSet)
-		{
-			if (tempX == tileSizeX && tempY == tileSizeY && tempCellSize == tileSize && tempSet == tileInputSet)
+			if (tempX == gridSizeX && tempY == gridSizeY && tempCellSize == tileSize && tempSet == inputTileSet)
 			{
 				return true;
 			}
@@ -359,11 +354,6 @@ namespace HelloWorld.Editor
 			}
 			return true;
 		}
-
-		//public void CheckCellObject()
-		//{
-		//	gridCellObject = AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorGridCell.prefab");
-		//}
 
 		public bool IsDone()
 		{

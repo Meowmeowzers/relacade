@@ -11,8 +11,8 @@ namespace HelloWorld.Editor
 		private SerializedProperty yIndex;
 		private SerializedProperty entropy;
 		private SerializedProperty selectedID;
-		private SerializedProperty fixTile;
-		private TileInput selectedTileObject;
+		private SerializedProperty fixedTile;
+		private InputTile selectedTileObject;
 		private bool isControlShown = true;
 		private bool isInfoShown = false;
 
@@ -27,7 +27,7 @@ namespace HelloWorld.Editor
 			yIndex = serializedObject.FindProperty("yIndex");
 			entropy = serializedObject.FindProperty("entropy");
 			selectedID = serializedObject.FindProperty("selectedTileID");
-			fixTile = serializedObject.FindProperty("fixedTile");
+			fixedTile = serializedObject.FindProperty("fixedTile");
 			selectedTileObject = inspected.selectedTile;
 			serializedObject.Update();
 		}
@@ -70,7 +70,7 @@ namespace HelloWorld.Editor
 			EditorGUILayout.LabelField("Y", EditorStyles.whiteLabel, GUILayout.Width(20));
 			EditorGUILayout.PropertyField(yIndex, GUIContent.none);
 			EndHorizontalCentered();
-			EditorGUILayout.ToggleLeft("Fixed Constraint", fixTile.objectReferenceValue != null);
+			EditorGUILayout.ToggleLeft("Fixed Constraint", fixedTile.objectReferenceValue != null);
 
 			EditorGUI.EndDisabledGroup();
 
@@ -101,11 +101,11 @@ namespace HelloWorld.Editor
 				EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField("Fixed Tile", GUILayout.Width(70));
 				EditorGUI.BeginDisabledGroup(true);
-				EditorGUILayout.PropertyField(fixTile, GUIContent.none);
+				EditorGUILayout.PropertyField(fixedTile, GUIContent.none);
 				EditorGUI.EndDisabledGroup();
 				if (GUILayout.Button("Clear"))
 				{
-					fixTile.objectReferenceValue = null;
+					fixedTile.objectReferenceValue = null;
 				}
 				EditorGUILayout.EndHorizontal();
 
@@ -120,7 +120,7 @@ namespace HelloWorld.Editor
 			serializedObject.ApplyModifiedProperties();
 		}
 
-		private void FixedTileButton(TileInput tileInput)
+		private void FixedTileButton(InputTile tileInput)
 		{
 			tempPreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
 
@@ -128,7 +128,7 @@ namespace HelloWorld.Editor
 			GUILayout.Label(tempPreview, GUILayout.Height(50), GUILayout.Width(50));
 			if (GUILayout.Button(tileInput.tileName, GUILayout.Height(50)))
 			{
-				fixTile.objectReferenceValue = tileInput;
+				fixedTile.objectReferenceValue = tileInput;
 			}
 			EditorGUILayout.EndHorizontal();
 		}

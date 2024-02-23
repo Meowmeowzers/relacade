@@ -10,24 +10,24 @@ namespace HelloWorld.Editor
 		public int entropy;
 		public int selectedTileID;
 
-		public List<TileInput> currentTiles = new();
-		public List<TileInput> propagatedTileInputs = new();
-		public List<TileInput> allTiles = new();
+		public List<InputTile> currentTiles = new();
+		public List<InputTile> propagatedTiles = new();
+		public List<InputTile> allTiles = new();
 
-		public TileInput selectedTile;
-		public TileInput fixedTile;
+		public InputTile selectedTile;
+		public InputTile fixedTile;
 
 		private float totalWeight = 0f;
 		private float cumulutativeWeight = 0f;
 		private float randomChoice = 0f;
 		
-		public void Initialize(List<TileInput> value)
+		public void Initialize(List<InputTile> value)
 		{
 			allTiles.Clear();
 			allTiles.AddRange(value);
 			currentTiles.Clear();
 			currentTiles.AddRange(value);
-			propagatedTileInputs.Clear();
+			propagatedTiles.Clear();
 			entropy = allTiles.Count;
 			selectedTile = null;
 			selectedTileID = -1;
@@ -84,25 +84,25 @@ namespace HelloWorld.Editor
 			entropy = 1;
 		}
 
-		public void PropagateWith(List<TileInput> compatibleTiles)
+		public void PropagateWith(List<InputTile> compatibleTiles)
 		{
-			propagatedTileInputs.Clear();
+			propagatedTiles.Clear();
 			foreach (var item in compatibleTiles)
 			{
 				foreach (var itemid in currentTiles)
 				{
 					if (itemid.id == item.id)
 					{
-						propagatedTileInputs.Add(item);
+						propagatedTiles.Add(item);
 					}
 				}
 			}
 			currentTiles.Clear();
-			currentTiles.AddRange(propagatedTileInputs);
+			currentTiles.AddRange(propagatedTiles);
 			entropy = currentTiles.Count;
 		}
 
-		public void ResetAndInitializeCell(List<TileInput> value)
+		public void ResetAndInitializeCell(List<InputTile> value)
 		{
 			for (int i = transform.childCount - 1; i >= 0; i--)
 			{

@@ -133,7 +133,7 @@ namespace HelloWorld.Editor
 				for (int i = 0; i < set.arraySize; i++)
 				{
 					SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
-					TileInput tileInput = itemProperty.objectReferenceValue as TileInput;
+					InputTile tileInput = itemProperty.objectReferenceValue as InputTile;
 
 					if (tileInput != null)
 						tilePreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
@@ -181,14 +181,14 @@ namespace HelloWorld.Editor
 		{
 			if (tile != null)
 			{
-				TileInput tileInput = tile.targetObject as TileInput;
+				InputTile tileInput = tile.targetObject as InputTile;
 
 				togglesArray = new bool[set.arraySize][];
 
 				for (int i = 0; i < set.arraySize; i++)
 				{
 					SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
-					TileInput item = itemProperty.objectReferenceValue as TileInput;
+					InputTile item = itemProperty.objectReferenceValue as InputTile;
 
 					togglesArray[i] = new bool[4];
 
@@ -206,16 +206,16 @@ namespace HelloWorld.Editor
 		private void ApplyModifications()
 		{
 			SerializedProperty selectedTileProperty;
-			TileInput selectedTile;
+			InputTile selectedTile;
 
 			if (tile != null)
 			{
-				TileInput tileToSend = tile.targetObject as TileInput;
+				InputTile tileToSend = tile.targetObject as InputTile;
 
 				for (int i = 0; i < set.arraySize; i++)
 				{
 					selectedTileProperty = set.GetArrayElementAtIndex(i);
-					selectedTile = selectedTileProperty.objectReferenceValue as TileInput;
+					selectedTile = selectedTileProperty.objectReferenceValue as InputTile;
 
 					if (selectedTile == null) continue;
 					
@@ -233,7 +233,7 @@ namespace HelloWorld.Editor
 			AssetDatabase.Refresh();
 		}
 
-		private void UpdateTile(TileInput tileToModify, TileInput tileToSend, bool isCompatible, int index)
+		private void UpdateTile(InputTile tileToModify, InputTile tileToSend, bool isCompatible, int index)
 		{// Improve this?
 			switch (index)
 			{

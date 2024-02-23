@@ -124,7 +124,7 @@ namespace HelloWorld.Editor
 				for (int i = 0; i < set.arraySize; i++)
 				{
 					SerializedProperty itemProperty = set.GetArrayElementAtIndex(i);
-					TileInput tileInput = itemProperty.objectReferenceValue as TileInput;
+					InputTile tileInput = itemProperty.objectReferenceValue as InputTile;
 
 					EditorGUILayout.BeginHorizontal(listItemStyle);
 
@@ -168,14 +168,14 @@ namespace HelloWorld.Editor
 		{
 			if (tile != null)
 			{
-				TileInput tileInput = tile.targetObject as TileInput;
+				InputTile tileInput = tile.targetObject as InputTile;
 
 				togglesArray = new bool[set.arraySize][];
 
 				for (int i = 0; i < set.arraySize; i++)
 				{
 					SerializedProperty selectedTile = set.GetArrayElementAtIndex(i);
-					TileInput item = selectedTile.objectReferenceValue as TileInput;
+					InputTile item = selectedTile.objectReferenceValue as InputTile;
 
 					togglesArray[i] = new bool[4];
 
@@ -192,16 +192,16 @@ namespace HelloWorld.Editor
 		private void ApplyModifications()
 		{
 			SerializedProperty selectedTileToReceiveFrom;
-			TileInput tileToReceiveFrom;
+			InputTile tileToReceiveFrom;
 
 			if (tile != null)
 			{
-				TileInput targetTile = tile.targetObject as TileInput;
+				InputTile targetTile = tile.targetObject as InputTile;
 
 				for (int i = 0; i < set.arraySize; i++)
 				{
 					selectedTileToReceiveFrom = set.GetArrayElementAtIndex(i);
-					tileToReceiveFrom = selectedTileToReceiveFrom.objectReferenceValue as TileInput;
+					tileToReceiveFrom = selectedTileToReceiveFrom.objectReferenceValue as InputTile;
 
 					if (tileToReceiveFrom == null) continue;
 
@@ -219,7 +219,7 @@ namespace HelloWorld.Editor
 			AssetDatabase.Refresh();
 		}
 
-		private void UpdateTile(TileInput targetTile, TileInput tileToReceiveFrom, bool isCompatible, int index)
+		private void UpdateTile(InputTile targetTile, InputTile tileToReceiveFrom, bool isCompatible, int index)
 		{// Improve this?
 			switch (index)
 			{

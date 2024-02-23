@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace HelloWorld.Editor
 {
-	public class NewSetUpWindow : EditorWindow
+	public class SetUpWindow : EditorWindow
 	{
-		private TileInputSet selectedInputTileSet;
+		private InputTileSet selectedInputTileSet;
 		private SerializedObject serializedTileSetObject;
 		private SerializedProperty allInput;
 		private SerializedProperty tileReferences;
@@ -21,7 +21,7 @@ namespace HelloWorld.Editor
 		private SerializedProperty compatibleRightList;
 		private Texture2D previewTexture;
 
-		private TileInput tempInputTile;
+		private InputTile tempInputTile;
 		private string assetName = "New Tile Set";
 		private bool[] showCompatibleTiles = { true, true, true, true, true, true };
 		private int selectedTileIndex = 0;
@@ -237,7 +237,7 @@ namespace HelloWorld.Editor
 			GUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.Width(position.width));
 
 			EditorGUILayout.LabelField("Input Tile Set", GUILayout.MaxWidth(80));
-			selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.MaxWidth(200));
+			selectedInputTileSet = (InputTileSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(InputTileSet), false, GUILayout.MaxWidth(200));
 
 			GUILayout.FlexibleSpace();
 
@@ -358,7 +358,7 @@ namespace HelloWorld.Editor
 			{
 				EditorGUILayout.BeginVertical(GUILayout.Width(100));
 				EditorGUILayout.LabelField("Load an input tile set");
-				selectedInputTileSet = (TileInputSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(TileInputSet), false, GUILayout.Height(30));
+				selectedInputTileSet = (InputTileSet)EditorGUILayout.ObjectField(selectedInputTileSet, typeof(InputTileSet), false, GUILayout.Height(30));
 				GUILayout.Space(10);
 				EditorGUILayout.LabelField("or");
 				GUILayout.Space(10);
@@ -470,7 +470,7 @@ namespace HelloWorld.Editor
 			string tempString;
 			for (int i = 0; i < property.arraySize; i++)
 			{
-				tempInputTile = property.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+				tempInputTile = property.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
 				if (tempInputTile != null)
 				{
 					previewTexture = AssetPreview.GetAssetPreview(tempInputTile.gameObject);
@@ -495,14 +495,14 @@ namespace HelloWorld.Editor
 
 			if (GUILayout.Button("Create New Input Tile Set", GUILayout.Height(30)))
 			{
-				ScriptableObject scriptableObject = CreateInstance<TileInputSet>();
+				ScriptableObject scriptableObject = CreateInstance<InputTileSet>();
 				string location = EditorUtility.SaveFilePanelInProject("Create new input tile set", assetName, "asset", "?Insert message?");
 
 				AssetDatabase.CreateAsset(scriptableObject, location);
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 
-				selectedInputTileSet = scriptableObject as TileInputSet;
+				selectedInputTileSet = scriptableObject as InputTileSet;
 			}
 		}
 
@@ -512,7 +512,7 @@ namespace HelloWorld.Editor
 			allTiles.arraySize++;
 			tileReferences.arraySize++;
 
-			TileInput newTileInput = CreateInstance<TileInput>();
+			InputTile newTileInput = CreateInstance<InputTile>();
 			newTileInput.id = allInput.arraySize - 1;
 			newTileInput.tileName = "New Tile" + " " + newTileInput.id;
 			newTileInput.name = selectedInputTileSet.name + "_" + newTileInput.id;
@@ -531,7 +531,7 @@ namespace HelloWorld.Editor
 
 		private void RemoveAndDeleteLastTile(SerializedProperty allTiles)
 		{
-			TileInput tileToDelete = (TileInput)allTiles.GetArrayElementAtIndex(allTiles.arraySize - 1).objectReferenceValue;
+			InputTile tileToDelete = (InputTile)allTiles.GetArrayElementAtIndex(allTiles.arraySize - 1).objectReferenceValue;
 			allTiles.DeleteArrayElementAtIndex(allTiles.arraySize - 1);
 			tileReferences.DeleteArrayElementAtIndex(tileReferences.arraySize - 1);
 
@@ -548,7 +548,7 @@ namespace HelloWorld.Editor
 
 		private void RemoveAndDeleteTile(SerializedProperty allTiles, SerializedProperty tileRef, int index)
 		{
-			TileInput tileToDelete = allTiles.GetArrayElementAtIndex(index).objectReferenceValue as TileInput;
+			InputTile tileToDelete = allTiles.GetArrayElementAtIndex(index).objectReferenceValue as InputTile;
 
 			if (selectedInputTileSet.tileReferences.Contains(tileToDelete))
 			{
@@ -569,11 +569,11 @@ namespace HelloWorld.Editor
 
 		private void RemoveAndDeleteAllTiles(SerializedProperty allTiles, SerializedProperty tileReferences)
 		{
-			TileInput tileToDelete;
+			InputTile tileToDelete;
 
 			for (int i = allInput.arraySize - 1; i >= 0; i--)
 			{
-				tileToDelete = allTiles.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+				tileToDelete = allTiles.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
 				allTiles.DeleteArrayElementAtIndex(i);
 				AssetDatabase.RemoveObjectFromAsset(tileToDelete);
 			}
@@ -611,7 +611,7 @@ namespace HelloWorld.Editor
 			temp.Update();
 		}
 
-		private void ClearAllInputTileConstraintsInDirection(params List<TileInput>[] tileInDirectionList)
+		private void ClearAllInputTileConstraintsInDirection(params List<InputTile>[] tileInDirectionList)
 		{
 			foreach (var set in tileInDirectionList)
 			{
@@ -637,7 +637,7 @@ namespace HelloWorld.Editor
 
 		private void ClearInputTileConstraints()
 		{
-			TileInput item = selectedTileConstraints.targetObject as TileInput;
+			InputTile item = selectedTileConstraints.targetObject as InputTile;
 			if (item == null) return;
 			else
 			{
@@ -665,12 +665,12 @@ namespace HelloWorld.Editor
 			SerializedProperty listProperty = serializedTileSetObject.FindProperty("allInputTiles");
 			if (listProperty != null && listProperty.isArray)
 			{
-				List<TileInput> tileList = GetListFromSerializedProperty(listProperty);
+				List<InputTile> tileList = GetListFromSerializedProperty(listProperty);
 				if (tileList != null)
 				{
 					for (int i = 0; i < tileList.Count; i++)
 					{
-						TileInput tile = tileList[i];
+						InputTile tile = tileList[i];
 						if (tile != null)
 						{
 							tile.id = i;
@@ -713,13 +713,13 @@ namespace HelloWorld.Editor
 
 		private void CleanUpSet()
 		{
-			TileInput tempRef;
+			InputTile tempRef;
 
 			CheckListForNull(allInput);
 
 			for (int i = tileReferences.arraySize - 1; i >= 0; i--)
 			{
-				tempRef = tileReferences.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+				tempRef = tileReferences.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
 				if (!selectedInputTileSet.allInputTiles.Contains(tempRef))
 				{
 					tileReferences.DeleteArrayElementAtIndex(i);
@@ -744,7 +744,7 @@ namespace HelloWorld.Editor
 		}
 		private void CleanUpTileConstraints(SerializedObject selectedTileObject)
 		{
-			TileInput tempRef;
+			InputTile tempRef;
 			SerializedProperty top = selectedTileObject.FindProperty("compatibleTop");
 			SerializedProperty bottom = selectedTileObject.FindProperty("compatibleBottom");
 			SerializedProperty left = selectedTileObject.FindProperty("compatibleLeft");
@@ -752,7 +752,7 @@ namespace HelloWorld.Editor
 
 			for (int i = top.arraySize - 1; i >= 0; i--)
 			{
-				tempRef = top.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+				tempRef = top.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
 				if (!selectedInputTileSet.allInputTiles.Contains(tempRef))
 				{
 					top.DeleteArrayElementAtIndex(i);
@@ -760,7 +760,7 @@ namespace HelloWorld.Editor
 			}
 			for (int i = bottom.arraySize - 1; i >= 0; i--)
 			{
-				tempRef = bottom.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+				tempRef = bottom.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
 				if (!selectedInputTileSet.allInputTiles.Contains(tempRef))
 				{
 					bottom.DeleteArrayElementAtIndex(i);
@@ -768,7 +768,7 @@ namespace HelloWorld.Editor
 			}
 			for (int i = left.arraySize - 1; i >= 0; i--)
 			{
-				tempRef = left.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+				tempRef = left.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
 				if (!selectedInputTileSet.allInputTiles.Contains(tempRef))
 				{
 					left.DeleteArrayElementAtIndex(i);
@@ -776,7 +776,7 @@ namespace HelloWorld.Editor
 			}
 			for (int i = right.arraySize - 1; i >= 0; i--)
 			{
-				tempRef = right.GetArrayElementAtIndex(i).objectReferenceValue as TileInput;
+				tempRef = right.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
 				if (!selectedInputTileSet.allInputTiles.Contains(tempRef))
 				{
 					right.DeleteArrayElementAtIndex(i);
@@ -800,13 +800,13 @@ namespace HelloWorld.Editor
 		}
 
 		// Helper
-		private List<TileInput> GetListFromSerializedProperty(SerializedProperty property)
+		private List<InputTile> GetListFromSerializedProperty(SerializedProperty property)
 		{
-			List<TileInput> list = new();
+			List<InputTile> list = new();
 			for (int i = 0; i < property.arraySize; i++)
 			{
 				SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
-				TileInput element = elementProperty.objectReferenceValue as TileInput;
+				InputTile element = elementProperty.objectReferenceValue as InputTile;
 				list.Add(element);
 			}
 			return list;
