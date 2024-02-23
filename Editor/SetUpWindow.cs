@@ -59,7 +59,7 @@ namespace HelloWorld.Editor
 		private GUIContent gameObjectLabel = new("GameObject", "GameObject to spawn");
 		private GUIContent mirrorLabel = new("Mirror", "Make this tile and the selected tiles be compatible with each other");
 		private GUIContent sendToLabel = new("Send", "Make the selected tiles compatible with this tile");
-		private GUIContent receiveFromLabel = new("Receive", "Make this tile compatible with other tiles");
+		private GUIContent configureFromLabel = new("Configure", "Configure compatible tiles");
 		private GUIContent compatibleTopLabel = new("Compatible Top", "Compatible tiles for adjacent top");
 		private GUIContent compatibleBottomLabel = new("Compatible Bottom", "Compatible tiles for adjacent bottom");
 		private GUIContent compatibleLeftLabel = new("Compatible Left", "Compatible tiles for adjacent left");
@@ -416,15 +416,15 @@ namespace HelloWorld.Editor
 				EditorGUILayout.EndHorizontal();
 
 				EditorGUILayout.BeginHorizontal();
-				if (GUILayout.Button(mirrorLabel, GUILayout.Height(30)))
-				{
-					MirrorConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
-				}
-				if (GUILayout.Button(sendToLabel, GUILayout.Height(30)))
-				{
-					SendConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
-				}
-				if (GUILayout.Button(receiveFromLabel, GUILayout.Height(30)))
+				// if (GUILayout.Button(mirrorLabel, GUILayout.Height(30)))
+				// {
+				// 	MirrorConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
+				// }
+				// if (GUILayout.Button(sendToLabel, GUILayout.Height(30)))
+				// {
+				// 	SendConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
+				// }
+				if (GUILayout.Button(configureFromLabel, GUILayout.Height(30)))
 				{
 					ReceiveConstraintsWindow.OpenWindow(selectedTileConstraints, allInput);
 				}
@@ -578,10 +578,20 @@ namespace HelloWorld.Editor
 				AssetDatabase.RemoveObjectFromAsset(tileToDelete);
 			}
 
+			for (int i = tileReferences.arraySize - 1; i >= 0; i--)
+			{
+				tileToDelete = tileReferences.GetArrayElementAtIndex(i).objectReferenceValue as InputTile;
+				if(tileToDelete != null){
+					tileReferences.DeleteArrayElementAtIndex(i);
+					AssetDatabase.RemoveObjectFromAsset(tileToDelete);
+				}
+			}
+
 			selectedTileConstraints = null;
 			CleanUpSet();
 
 			allTiles.serializedObject.ApplyModifiedProperties();
+			tileReferences.serializedObject.ApplyModifiedProperties();
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
 		}
@@ -680,17 +690,16 @@ namespace HelloWorld.Editor
 							Debug.Log("TileInput element at index " + i + " is null");
 						}
 					}
-
 					serializedTileSetObject.ApplyModifiedProperties();
 				}
 				else
 				{
-					Debug.Log("Unable to retrieve List<TileInput> from serialized allTiles");
+					Debug.Log("Unable to retrieve List<InputTile> from serialized allTiles");
 				}
 			}
 			else
 			{
-				Debug.Log("List<TileInput> allTiles is null or not a list");
+				Debug.Log("List<InputTile> allTiles is null or not a list");
 			}
 		}
 
@@ -723,7 +732,8 @@ namespace HelloWorld.Editor
 				if (!selectedInputTileSet.allInputTiles.Contains(tempRef))
 				{
 					tileReferences.DeleteArrayElementAtIndex(i);
-					AssetDatabase.RemoveObjectFromAsset(tempRef);
+					if(tempRef != null)
+						AssetDatabase.RemoveObjectFromAsset(tempRef);
 				}
 			}
 			serializedTileSetObject.ApplyModifiedProperties();

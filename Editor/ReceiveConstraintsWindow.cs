@@ -12,6 +12,7 @@ namespace HelloWorld.Editor
 		private Vector2 scrollPosition;
 
 		private static bool[][] togglesArray;
+		private bool isMirrored = false;
 		private bool showHelp = false;
 
 		private static Texture2D tilePreview;
@@ -21,7 +22,8 @@ namespace HelloWorld.Editor
 		private static GUIStyle previewStyle = new();
 		private static Color listItemColor = new(0.18f, 0.18f, 0.18f, 1f);
 		private static Color listItemLightColor = new(0.2f, 0.2f, 0.2f, 1f);
-		private string itemName = "";
+		private GUIContent isMirroredLabel = new("Mirror", "Apply mirrored modifications to the selected tiles");
+		private string tempItemName = "";
 
 		static Texture2D previewTexture;
 		static Texture2D constraintTexture;
@@ -61,6 +63,7 @@ namespace HelloWorld.Editor
 			GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
 
 			EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
+			isMirrored = EditorGUILayout.ToggleLeft(isMirroredLabel, isMirrored, GUILayout.ExpandWidth(false), GUILayout.MaxWidth(60));
 			GUILayout.FlexibleSpace();
 			if (GUILayout.Button("Help", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false))) showHelp = !showHelp;
 			EditorGUILayout.EndHorizontal();
@@ -133,7 +136,7 @@ namespace HelloWorld.Editor
 					else
 						tilePreview = Texture2D.blackTexture;
 
-					itemName = tileInput != null ? tileInput.tileName : "No tile";
+					tempItemName = tileInput != null ? tileInput.tileName : "No tile";
 
 					if (GUILayout.Button(tilePreview, GUILayout.Width(40), GUILayout.Height(40)))
 					{
@@ -142,7 +145,7 @@ namespace HelloWorld.Editor
 						else
 							constraintTexture = Texture2D.blackTexture;
 					}
-					EditorGUILayout.LabelField(itemName, GUILayout.Width(90), GUILayout.Height(30), GUILayout.ExpandWidth(false));
+					EditorGUILayout.LabelField(tempItemName, GUILayout.Width(90), GUILayout.Height(30), GUILayout.ExpandWidth(false));
 
 					for (int j = 0; j < 4; j++)
 					{
@@ -228,11 +231,15 @@ namespace HelloWorld.Editor
 					{
 						if (!targetTile.compatibleTop.Contains(tileToReceiveFrom))
 							targetTile.compatibleTop.Add(tileToReceiveFrom);
+						if (isMirrored && !tileToReceiveFrom.compatibleBottom.Contains(targetTile))
+                            tileToReceiveFrom.compatibleBottom.Add(targetTile);
 					}
 					else
 					{
 						if (targetTile.compatibleTop.Contains(tileToReceiveFrom))
 							targetTile.compatibleTop.Remove(tileToReceiveFrom);
+						if (isMirrored && tileToReceiveFrom.compatibleBottom.Contains(targetTile))
+                            tileToReceiveFrom.compatibleBottom.Remove(targetTile);
 					}
 					break;
 
@@ -241,11 +248,15 @@ namespace HelloWorld.Editor
 					{
 						if (!targetTile.compatibleBottom.Contains(tileToReceiveFrom))
 							targetTile.compatibleBottom.Add(tileToReceiveFrom);
+						if (isMirrored && !tileToReceiveFrom.compatibleTop.Contains(targetTile))
+                            tileToReceiveFrom.compatibleTop.Add(targetTile);
 					}
 					else
 					{
 						if (targetTile.compatibleBottom.Contains(tileToReceiveFrom))
 							targetTile.compatibleBottom.Remove(tileToReceiveFrom);
+						if (isMirrored && tileToReceiveFrom.compatibleTop.Contains(targetTile))
+                            tileToReceiveFrom.compatibleTop.Remove(targetTile);
 					}
 					break;
 
@@ -254,11 +265,15 @@ namespace HelloWorld.Editor
 					{
 						if (!targetTile.compatibleLeft.Contains(tileToReceiveFrom))
 							targetTile.compatibleLeft.Add(tileToReceiveFrom);
+						if (isMirrored && !tileToReceiveFrom.compatibleRight.Contains(targetTile))
+                            tileToReceiveFrom.compatibleRight.Add(targetTile);
 					}
 					else
 					{
 						if (targetTile.compatibleLeft.Contains(tileToReceiveFrom))
 							targetTile.compatibleLeft.Remove(tileToReceiveFrom);
+						if (isMirrored && tileToReceiveFrom.compatibleRight.Contains(targetTile))
+                            tileToReceiveFrom.compatibleRight.Remove(targetTile);
 					}
 					break;
 
@@ -267,11 +282,15 @@ namespace HelloWorld.Editor
 					{
 						if (!targetTile.compatibleRight.Contains(tileToReceiveFrom))
 							targetTile.compatibleRight.Add(tileToReceiveFrom);
+						if (isMirrored && !tileToReceiveFrom.compatibleLeft.Contains(targetTile))
+                            tileToReceiveFrom.compatibleLeft.Add(targetTile);
 					}
 					else
 					{
 						if (targetTile.compatibleRight.Contains(tileToReceiveFrom))
 							targetTile.compatibleRight.Remove(tileToReceiveFrom);
+						if (isMirrored && tileToReceiveFrom.compatibleLeft.Contains(targetTile))
+                            tileToReceiveFrom.compatibleLeft.Remove(targetTile);
 					}
 					break;            
 			}
