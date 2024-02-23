@@ -25,7 +25,6 @@ namespace HelloWorld.Editor
 
 		private bool shouldFinalize = false;
 		private bool isdead = false; // Used to suppress null reference error on destroy
-		private bool isMoreShown = false;
 
 		[Range(2, 80)] private int tempX = 8;
 		[Range(2, 80)] private int tempY = 8;

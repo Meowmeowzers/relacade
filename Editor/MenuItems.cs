@@ -17,17 +17,8 @@ namespace HelloWorld.Editor
 		[MenuItem("Relacade/Create WaveGrid", priority = 1)]
 		private static void CreateWave()
 		{
-			GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorWave.prefab");
-
-			if (prefab != null)
-			{
-				GameObject prefabInstance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-				prefabInstance.name = prefab.name + " (Instance)";
-			}
-			else
-			{
-				Debug.LogWarning("Corrupt package....");
-			}
+			GameObject gameObject = new("WaveGrid");
+			gameObject.AddComponent<EditorWave>();
 		}
 	}
 }

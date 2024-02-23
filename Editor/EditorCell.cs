@@ -10,9 +10,9 @@ namespace HelloWorld.Editor
 		public int entropy;
 		public int selectedTileID;
 
-		public List<TileInput> currentTiles;
-		public List<TileInput> propagatedTileInputs;
-		public List<TileInput> allTiles;
+		public List<TileInput> currentTiles = new();
+		public List<TileInput> propagatedTileInputs = new();
+		public List<TileInput> allTiles = new();
 
 		public TileInput selectedTile;
 		public TileInput fixedTile;
@@ -20,7 +20,7 @@ namespace HelloWorld.Editor
 		private float totalWeight = 0f;
 		private float cumulutativeWeight = 0f;
 		private float randomChoice = 0f;
-
+		
 		public void Initialize(List<TileInput> value)
 		{
 			allTiles.Clear();

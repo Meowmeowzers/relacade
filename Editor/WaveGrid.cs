@@ -5,11 +5,11 @@ using UnityEngine;
 namespace HelloWorld.Editor
 {
 	[Serializable]
-	public class GridRow
+	public class GridSize
 	{
 		[SerializeField] public List<GridColumn> row;
 
-		public GridRow(int rows)
+		public GridSize(int rows)
 		{
 			row = new List<GridColumn>(rows);
 			
