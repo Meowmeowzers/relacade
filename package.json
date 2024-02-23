@@ -20,8 +20,8 @@
   	],
 	"samples": [
 		{
-			"displayName": "Sample Tile Set",
-			"description": "A pre configured tile set",
+			"displayName": "Sample TileSet",
+			"description": "A pre configured tile set.",
 			"path": "Samples~/TileSetSample"
 		}
 	],
