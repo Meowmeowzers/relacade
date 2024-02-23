@@ -138,19 +138,22 @@ namespace HelloWorld.Editor
 
 			foreach (var cell in fixedTiles)
 			{
+				if (!cell.IsNotDefiniteState()) continue;
+
 				cell.SelectFixedTile();
 				PropagateConstraints(cell);
 				yield return editorWait;
 			}
 		}
 		
-		public void SetSize(int x, int y, float size)
+		public void SetFields(int x, int y, float size, TileInputSet set)
 		{
 			if (!isDone) return;
 
 			tileSizeX = x;
 			tileSizeY = y;
 			tileSize = size;
+			tileInputSet = set;
 		}
 		
 		public void StartResetCells()
@@ -327,9 +330,9 @@ namespace HelloWorld.Editor
 			}
 		}
 
-		public bool CheckIfSameSize(int tempX, int tempY, float tempCellSize)
+		public bool CheckIfSameSize(int tempX, int tempY, float tempCellSize, TileInputSet tempSet)
 		{
-			if (tempX == tileSizeX && tempY == tileSizeY && tempCellSize == tileSize)
+			if (tempX == tileSizeX && tempY == tileSizeY && tempCellSize == tileSize && tempSet == tileInputSet)
 			{
 				return true;
 			}

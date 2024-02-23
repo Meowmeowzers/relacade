@@ -5,7 +5,7 @@ namespace HelloWorld.Editor
 {
 	public class MenuItems : EditorWindow
 	{
-		[MenuItem("Relacade/Configure Input TileSet")]
+		[MenuItem("Relacade/TileSet Configure")]
 		private static void StartTestWindow()
 		{
 			NewSetUpWindow window = (NewSetUpWindow)GetWindow(typeof(NewSetUpWindow));
@@ -14,18 +14,18 @@ namespace HelloWorld.Editor
 			window.Show();
 		}
 
-		[MenuItem("Relacade/Create Input Tile Set", priority = 1)]
+		[MenuItem("Relacade/Create Tile Set", priority = 1)]
 		private static void CreateTileSetConfiguration()
 		{
 			ScriptableObject scriptableObject = CreateInstance<TileInputSet>();
-			string savePath = EditorUtility.SaveFilePanelInProject("Save tile input set", "Input Tile Set", "asset", "Choose a location to save the Tile Set Configuration.");
+			string savePath = EditorUtility.SaveFilePanelInProject("Save tile set", "InputTileSet", "asset", "Choose a location to save the Tile Set asset.");
 			if (string.IsNullOrEmpty(savePath)) return;
 			AssetDatabase.CreateAsset(scriptableObject, savePath);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
 		}
 
-		[MenuItem("Relacade/Create WaveTileGrid Object", priority = 1)]
+		[MenuItem("Relacade/Create WaveGrid Object", priority = 1)]
 		private static void CreateWave()
 		{
 			GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/EditorWave.prefab");
@@ -37,7 +37,7 @@ namespace HelloWorld.Editor
 			}
 			else
 			{
-				Debug.LogWarning("Prefab not found....");
+				Debug.LogWarning("Corrupt package....");
 			}
 		}
 
