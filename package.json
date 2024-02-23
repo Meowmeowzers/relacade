@@ -1,26 +1,33 @@
 {
-  "name": "com.gatozhanya.relacade",
-  "version": "0.12.2",
-  "displayName": "Relacade",
-  "description": "A prototype level generator for tile based levels using the WaveFunctionCollapse algorithm",
-  "unity": "2021.2",
-  "unityRelease": "12f1",
-  "documentationUrl": "https://#/",
-  "changelogUrl": "https://#",
-  "licensesUrl": "https://#",
-  "dependencies": {
+	"name": "com.gatozhanya.relacade",
+	"version": "0.12.3",
+	"displayName": "Relacade",
+	"description": "A prototype level generator for tile based levels using the WaveFunctionCollapse algorithm",
+	"unity": "2021.2",
+	"unityRelease": "12f1",
+	"documentationUrl": "https://#/",
+	"changelogUrl": "https://#",
+	"licensesUrl": "https://#",
+	"dependencies": {
 		"com.unity.editorcoroutines": "1.0.0"
- },
- "keywords": [
-  "wave function collapse",
-	"procedural generation",
-	"tile-based levels",
-	"level generator",
-	"level design"
-  ],
-  "author": {
-    "name": "GatoZhanya",
-    "email": "leolaureta123@gmail.com",
-    "url": "https://github.com/Meowmeowzers"
-  }
+	},
+ 	"keywords": [
+  		"wave function collapse",
+		"procedural generation",
+		"tile-based levels",
+		"level generator",
+		"level design"
+  	],
+	"samples": [
+		{
+			"displayName": "Sample Tile Set",
+			"description": "A pre configured tile set",
+			"path": "Samples~/TileSetSample"
+		}
+	],
+	"author": {
+		"name": "GatoZhanya",
+		"email": "leolaureta123@gmail.com",
+		"url": "https://github.com/Meowmeowzers"
+  	}
 }
