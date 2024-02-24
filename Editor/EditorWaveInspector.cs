@@ -33,7 +33,7 @@ namespace HelloWorld.Editor
 
 		EditorCell tempCell;
 		Texture2D tempPreview;
-
+		
 		private void OnEnable()
 		{
 			tileGrid = target as EditorWave;
@@ -139,21 +139,6 @@ namespace HelloWorld.Editor
 					}
 				}
 				EditorGUILayout.EndHorizontal();
-
-				//if (serializedHasFixed.boolValue)
-				//{
-				//	EditorGUI.indentLevel++;
-
-				//	EditorGUI.BeginDisabledGroup(true);
-
-				//	EditorGUILayout.BeginVertical();
-				//	//FixedTileList();
-				//	EditorGUILayout.EndVertical();
-
-				//	EditorGUI.EndDisabledGroup();
-
-				//	EditorGUI.indentLevel--;
-				//}
 			}
 			else
 			{
@@ -218,11 +203,6 @@ namespace HelloWorld.Editor
 					EditorGUILayout.BeginVertical();
 							GUILayout.Label(tempPreview, GUILayout.Width(50), GUILayout.Height(50));
 					EditorGUILayout.EndVertical();
-
-
-					//EditorGUILayout.BeginHorizontal(GUILayout.Height(50));
-					//	EditorGUILayout.EndHorizontal();
-
 				EditorGUILayout.EndHorizontal();
 			}
 			tileProperty.serializedObject.ApplyModifiedProperties();

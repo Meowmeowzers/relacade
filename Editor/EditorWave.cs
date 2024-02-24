@@ -73,7 +73,7 @@ namespace HelloWorld.Editor
 				hasFixed = false;
 
 				Vector3 pos;
-
+				GameObject cellPrefab;
 				gridCells = new(gridSizeX);
 
 				for (int y = 0; y < gridSizeY; y++)
@@ -84,13 +84,9 @@ namespace HelloWorld.Editor
 					{
 						pos = new(tileSize * x - (gridSizeX * tileSize / 2 - .5f) + transform.position.x, tileSize * y - (gridSizeY * tileSize / 2 - .5f) + transform.position.y);
 
-						tempGameObject = new();
-						tempGameObject.transform.parent = transform;
-						tempGameObject.transform.position = pos;
-						tempGameObject.transform.rotation = Quaternion.identity;
-						tempGameObject.name = "GridCell";
-						tempGameObject.AddComponent<EditorCell>();
+						cellPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Packages/com.gatozhanya.relacade/Objects/GridCell.prefab");
 
+						tempGameObject = Instantiate(cellPrefab, pos, Quaternion.identity, transform);
 						gridCells.row[x].column.Add(tempGameObject);
 						gridCells.row[x].column[y].GetComponent<EditorCell>().xIndex = x;
 						gridCells.row[x].column[y].GetComponent<EditorCell>().yIndex = y;

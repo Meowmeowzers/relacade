@@ -2,7 +2,7 @@
 	"name": "com.gatozhanya.relacade",
 	"version": "0.12.8",
 	"displayName": "Relacade",
-	"description": "A prototype level generator for tile based levels using the WaveFunctionCollapse algorithm",
+	"description": "A custom package for Unity Engine to procedurally generate 2D tile based game levels using own simple implementation of WaveFunctionCollapse algorithm.",
 	"unity": "2021.2",
 	"unityRelease": "12f1",
 	"documentationUrl": "https://#/",
