@@ -15,6 +15,7 @@ namespace HelloWorld.Editor
 		private InputTile selectedTileObject;
 		private bool isControlShown = true;
 		private bool isInfoShown = false;
+		private bool isSelectShown = false;
 
 		private Texture2D tilePreview;
 		private Texture2D tempPreview;
@@ -94,8 +95,28 @@ namespace HelloWorld.Editor
 				EditorGUI.indentLevel--;
 			}
 
-			// More controls
-			isControlShown = EditorGUILayout.Foldout(isControlShown, "Control", true, EditorStyles.foldout);
+			// Select tile controls
+			isSelectShown = EditorGUILayout.Foldout(isSelectShown, "Select Tile", true, EditorStyles.foldout);
+			if (isSelectShown)
+			{
+				EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Change current tile");
+				EditorGUILayout.EndHorizontal();
+				if (GUILayout.Button("Clear"))
+				{
+					inspected.RemoveTile();
+				}
+
+				scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(300));
+				for (int i = 0; i < inspected.allTiles.Count; i++)
+				{
+					ChangeTileButton(inspected.allTiles[i]);
+				}
+				EditorGUILayout.EndScrollView();
+			}
+
+			// Fixed Tile controls
+			isControlShown = EditorGUILayout.Foldout(isControlShown, "Fixed Tile", true, EditorStyles.foldout);
 			if (isControlShown)
 			{
 				EditorGUILayout.BeginHorizontal();
@@ -129,6 +150,19 @@ namespace HelloWorld.Editor
 			if (GUILayout.Button(tileInput.tileName, GUILayout.Height(50)))
 			{
 				fixedTile.objectReferenceValue = tileInput;
+			}
+			EditorGUILayout.EndHorizontal();
+		}
+
+		private void ChangeTileButton(InputTile tileInput)
+		{
+			tempPreview = AssetPreview.GetAssetPreview(tileInput.gameObject);
+
+			EditorGUILayout.BeginHorizontal(GUILayout.Height(50));
+			GUILayout.Label(tempPreview, GUILayout.Height(50), GUILayout.Width(50));
+			if (GUILayout.Button(tileInput.tileName, GUILayout.Height(50)))
+			{
+				inspected.ChangeTile(tileInput);
 			}
 			EditorGUILayout.EndHorizontal();
 		}

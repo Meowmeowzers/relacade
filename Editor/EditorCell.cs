@@ -84,6 +84,17 @@ namespace HelloWorld.Editor
 			entropy = 1;
 		}
 
+		public void ChangeTile(InputTile tile){
+			RemoveTile();
+			Instantiate(tile.gameObject, transform.position, Quaternion.identity, transform);
+		}
+
+		public void RemoveTile(){
+			for (int i = transform.childCount - 1; i >= 0; i--)
+			{
+				DestroyImmediate(transform.GetChild(i).gameObject);
+			}
+		}
 		public void PropagateWith(List<InputTile> compatibleTiles)
 		{
 			propagatedTiles.Clear();
@@ -104,10 +115,7 @@ namespace HelloWorld.Editor
 
 		public void ResetAndInitializeCell(List<InputTile> value)
 		{
-			for (int i = transform.childCount - 1; i >= 0; i--)
-			{
-				DestroyImmediate(transform.GetChild(i).gameObject);
-			}
+			RemoveTile();
 			Initialize(value);
 		}
 
